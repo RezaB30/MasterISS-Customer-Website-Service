@@ -264,6 +264,12 @@
   <data name="DownloadNoiseMargin" xml:space="preserve">
     <value>Download Noise Margin</value>
   </data>
+  <data name="EArchiveMailBody" xml:space="preserve">
+    <value>Your {0} dated invoice is attached. We wish you a nice day.</value>
+  </data>
+  <data name="EArchiveMailSubject" xml:space="preserve">
+    <value>Invoice information with date {0}</value>
+  </data>
   <data name="EArchivePDF" xml:space="preserve">
     <value>E-Arşiv PDF'i</value>
   </data>

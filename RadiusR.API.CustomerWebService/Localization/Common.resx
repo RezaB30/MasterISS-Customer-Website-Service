@@ -267,6 +267,12 @@
   <data name="DownloadUploadMargin" xml:space="preserve">
     <value>Upload Noise Margin</value>
   </data>
+  <data name="EArchiveMailBody" xml:space="preserve">
+    <value>{0} tarihli faturanız ekte yer almaktadır. İyi günler dileriz.</value>
+  </data>
+  <data name="EArchiveMailSubject" xml:space="preserve">
+    <value>{0} tarihli fatura bilgisi</value>
+  </data>
   <data name="EArchivePDF" xml:space="preserve">
     <value>E-Archive PDF</value>
   </data>

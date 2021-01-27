@@ -201,6 +201,14 @@ namespace RadiusR.API.CustomerWebService
                 ErrorMessage = new RezaB.Data.Localization.LocalizedList<ErrorCodes, ErrorMessages>().GetDisplayText((int)ErrorCodes.SupportRequestNotFound, CreateCulture(culture))
             };
         }
+        public static ServiceResponse CustomerMailNotFound(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)ErrorCodes.CustomerMailNotFound,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<ErrorCodes, ErrorMessages>().GetDisplayText((int)ErrorCodes.CustomerMailNotFound, CreateCulture(culture))
+            };
+        }
         private static CultureInfo CreateCulture(string cultureName)
         {
             var currentCulture = CultureInfo.InvariantCulture;

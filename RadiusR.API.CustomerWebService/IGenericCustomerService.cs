@@ -141,5 +141,7 @@ namespace RadiusR.API.CustomerWebService
         CustomerServiceSaveClientAttachmentResponse SaveClientAttachment(CustomerServiceSaveClientAttachmentRequest request);
         [OperationContract]
         CustomerServiceGetClientPDFFormResponse GetClientPDFForm(CustomerServiceBaseRequest request);
+        [OperationContract]
+        CustomerServiceEArchivePDFMailResponse EArchivePDFMail(CustomerServiceEArchivePDFRequest request);
     }
 }

@@ -88,6 +88,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customer e-mail address not found..
+        /// </summary>
+        public static string CustomerMailNotFound {
+            get {
+                return ResourceManager.GetString("CustomerMailNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-archive pdf not found.
         /// </summary>
         public static string EArchivePDFNotFound {

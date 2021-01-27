@@ -126,6 +126,9 @@
   <data name="CardInformationNotFound" xml:space="preserve">
     <value>Card information is not found</value>
   </data>
+  <data name="CustomerMailNotFound" xml:space="preserve">
+    <value>Customer e-mail address not found.</value>
+  </data>
   <data name="EArchivePDFNotFound" xml:space="preserve">
     <value>E-archive pdf not found</value>
   </data>

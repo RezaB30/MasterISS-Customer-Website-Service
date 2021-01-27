@@ -960,16 +960,12 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                         {
-
-
                             EArchivePDFResponse = null,
                             ResponseMessage = CommonResponse.EArchivePDFNotFound(request.Culture)
                         };
                     }
                     return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                     {
-
-
                         EArchivePDFResponse = new EArchivePDFResponse()
                         {
                             FileContent = response.PDFData,
@@ -1644,9 +1640,7 @@ namespace RadiusR.API.CustomerWebService
                 Errorslogger.Error(ex, $" message : {ex.Message}");
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
-
                     ValueNamePairList = null,
-
                     ResponseMessage = CommonResponse.InternalException(request.Culture)
                 };
             }
@@ -4464,6 +4458,103 @@ namespace RadiusR.API.CustomerWebService
                     GetClientPDFFormResult = null,
                     ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
 
+                };
+            }
+        }
+        public CustomerServiceEArchivePDFMailResponse EArchivePDFMail(CustomerServiceEArchivePDFRequest request)
+        {
+            var password = new ServiceSettings().GetUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+            try
+            {
+                using (var db = new RadiusR.DB.RadiusREntities())
+                {
+                    if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                    {
+                        Errorslogger.Error($"EArchivePDF unauthorize error. User : {request.Username}");
+                        return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.UnauthorizedResponse(request),
+                            EArchivePDFMailResponse = null,
+                        };
+                    }
+                    var dbBill = db.Bills.Find(request.EArchivePDFParameters.BillId);
+                    if (dbBill == null || dbBill.EBill == null || dbBill.EBill.EBillType != (short)EBillType.EArchive)
+                    {
+                        Errorslogger.Error($"EArchivePDF -> Bill not found. Bill Id : {request.EArchivePDFParameters.BillId} . User : {request.Username}");
+                        return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                        {
+                            EArchivePDFMailResponse = null,
+                            ResponseMessage = CommonResponse.BillsNotFoundException(request.Culture)
+                        };
+                    }
+                    if (dbBill.Subscription.ID != request.EArchivePDFParameters.SubscriptionId)
+                    {
+                        Errorslogger.Error($"EArchivePDF -> Bill id and subscription id not match. Bill Id : {request.EArchivePDFParameters.BillId} - Subscription Id : {request.EArchivePDFParameters.SubscriptionId}. User : {request.Username}");
+                        return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                        {
+                            EArchivePDFMailResponse = null,
+                            ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
+                        };
+                    }
+                    var serviceClient = new RezaB.NetInvoice.Wrapper.NetInvoiceClient(AppSettings.EBillCompanyCode, AppSettings.EBillApiUsername, AppSettings.EBillApiPassword);
+                    var response = serviceClient.GetEArchivePDF(dbBill.EBill.ReferenceNo);
+                    if (response.PDFData == null)
+                    {
+                        return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                        {
+                            EArchivePDFMailResponse = null,
+                            ResponseMessage = CommonResponse.EArchivePDFNotFound(request.Culture)
+                        };
+                    }
+                    if (string.IsNullOrEmpty(dbBill.Subscription.Customer.Email))
+                    {
+                        return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                        {
+                            EArchivePDFMailResponse = null,
+                            ResponseMessage = CommonResponse.CustomerMailNotFound(request.Culture)
+                        };
+                    }
+                    var fileStream = new MemoryStream(response.PDFData);
+                    List<RezaB.Mailing.MailFileAttachment> attachments = new List<RezaB.Mailing.MailFileAttachment>();
+                    attachments.Add(new RezaB.Mailing.MailFileAttachment()
+                    {
+                        Content = fileStream,
+                        ContentType = "application/pdf",
+                        FileName = Localization.Common.EArchivePDFFileName + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
+                    });
+                    RezaB.Mailing.Client.MailClient client = new RezaB.Mailing.Client.MailClient(EmailSettings.SMTPEmailHost, EmailSettings.SMTPEMailPort, false, EmailSettings.SMTPEmailAddress, EmailSettings.SMTPEmailPassword);
+                    client.SendMail(new RezaB.Mailing.StandardMailMessage(new System.Net.Mail.MailAddress(EmailSettings.SMTPEmailAddress, EmailSettings.SMTPEmailDisplayName),
+                        new string[] { dbBill.Subscription.Customer.Email },
+                        null,
+                        null,
+                        string.Format(Localization.Common.EArchiveMailSubject, dbBill.IssueDate.ToString("dd-MM-yyyy")),
+                        string.Format(Localization.Common.EArchiveMailBody, dbBill.IssueDate.ToString("dd-MM-yyyy")),
+                        RezaB.Mailing.MailBodyType.Text,
+                        attachments));
+                    return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                    {
+                        EArchivePDFMailResponse = true,
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                Errorslogger.Error(ex, $" message : {ex.Message}");
+                return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                {
+                    ResponseMessage = CommonResponse.NullObjectException(request.Culture),
+                    EArchivePDFMailResponse = null,
+                };
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.Error(ex, $" message : {ex.Message}");
+                return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
+                {
+                    ResponseMessage = CommonResponse.InternalException(request.Culture),
+                    EArchivePDFMailResponse = null,
                 };
             }
         }

@@ -100,6 +100,9 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="OpenPop, Version=2.0.6.1120, Culture=neutral, PublicKeyToken=6bdb97f144b7efc8, processorArchitecture=MSIL">
+      <HintPath>..\packages\OpenPop.NET.2.0.6.1120\lib\net40\OpenPop.dll</HintPath>
+    </Reference>
     <Reference Include="RadiusR.Address, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.Address.1.0.0\lib\net452\RadiusR.Address.dll</HintPath>
     </Reference>
@@ -177,6 +180,9 @@
     </Reference>
     <Reference Include="RezaB.Files.Local, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.Files.Local.1.0.1\lib\net472\RezaB.Files.Local.dll</HintPath>
+    </Reference>
+    <Reference Include="RezaB.Mailing, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.Mailing.1.0.1\lib\net452\RezaB.Mailing.dll</HintPath>
     </Reference>
     <Reference Include="RezaB.NetInvoice, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.NetInvoice.1.0.0\lib\net452\RezaB.NetInvoice.dll</HintPath>

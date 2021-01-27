@@ -31,6 +31,7 @@ namespace RadiusR.API.CustomerWebService.Enums
         SpecialOfferError = 17,
         TariffNotFound = 18,
         SupportRequestNotFound = 19,
+        CustomerMailNotFound = 20,
         InternalServerError = 199,
         Failed = 200
     }

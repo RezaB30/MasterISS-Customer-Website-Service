@@ -32,4 +32,15 @@ namespace RadiusR.API.CustomerWebService.Responses.Payment
             set { Data = value; }
         }
     }
+    [DataContract]
+    public partial class CustomerServiceEArchivePDFMailResponse : BaseResponse<bool?, SHA1>
+    {
+        public CustomerServiceEArchivePDFMailResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
+        [DataMember]
+        public bool? EArchivePDFMailResponse
+        {
+            get { return Data; }
+            set { Data = value; }
+        }
+    }
 }

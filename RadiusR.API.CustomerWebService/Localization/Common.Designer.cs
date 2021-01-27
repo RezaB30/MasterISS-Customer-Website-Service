@@ -511,6 +511,24 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} tarihli faturanız ekte yer almaktadır. İyi günler dileriz..
+        /// </summary>
+        public static string EArchiveMailBody {
+            get {
+                return ResourceManager.GetString("EArchiveMailBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} tarihli fatura bilgisi.
+        /// </summary>
+        public static string EArchiveMailSubject {
+            get {
+                return ResourceManager.GetString("EArchiveMailSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-Archive PDF.
         /// </summary>
         public static string EArchivePDF {

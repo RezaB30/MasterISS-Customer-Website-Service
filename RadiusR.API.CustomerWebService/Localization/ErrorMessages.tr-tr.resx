@@ -126,6 +126,9 @@
   <data name="CardInformationNotFound" xml:space="preserve">
     <value>Kart bilgisi bulunamadı</value>
   </data>
+  <data name="CustomerMailNotFound" xml:space="preserve">
+    <value>Müşterinin kayıtlı e-posta adresi bulunmamaktadır.</value>
+  </data>
   <data name="EArchivePDFNotFound" xml:space="preserve">
     <value>E-arşiv pdf bulunamadı</value>
   </data>
