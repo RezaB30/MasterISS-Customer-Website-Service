@@ -3,6 +3,7 @@ using RadiusR.API.CustomerWebService.Enums;
 using RadiusR.API.CustomerWebService.Localization;
 using RadiusR.DB.Utilities.Billing;
 using RezaB.API.WebService;
+using RezaB.API.WebService.NLogExtentions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,8 +26,8 @@ namespace RadiusR.API.CustomerWebService
         }
         public static ServiceResponse UnauthorizedResponse(BaseRequest<SHA1> request)
         {
-            Logger Errorslogger = LogManager.GetLogger("Errors");
-            Errorslogger.Error($"Unauthorize error. User : {request.Username}");
+            WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
+            Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
             return new ServiceResponse()
             {
                 ErrorCode = (int)ErrorCodes.AuthenticationFailed,

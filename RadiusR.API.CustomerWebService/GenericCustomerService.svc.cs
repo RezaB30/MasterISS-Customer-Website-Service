@@ -18,6 +18,7 @@ using RadiusR.SMS;
 using RadiusR.SystemLogs;
 using RadiusR.VPOS;
 using RezaB.API.WebService;
+using RezaB.API.WebService.NLogExtentions;
 using RezaB.Data.Localization;
 using RezaB.TurkTelekom.WebServices;
 using RezaB.TurkTelekom.WebServices.Address;
@@ -42,7 +43,7 @@ namespace RadiusR.API.CustomerWebService
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class GenericCustomerService : IGenericCustomerService
     {
-        Logger Errorslogger = LogManager.GetLogger("Errors");
+        WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
         readonly RadiusR.Address.AddressManager AddressClient = new RadiusR.Address.AddressManager();
         public CustomerServiceActivateAutomaticPaymentResponse ActivateAutomaticPayment(CustomerServiceActivateAutomaticPaymentRequest request)
         {
@@ -52,7 +53,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceActivateAutomaticPaymentResponse(passwordHash, request)
                     {
                         IsSuccess = null,
@@ -93,7 +94,8 @@ namespace RadiusR.API.CustomerWebService
                     var response = client.GetCards(currentCustomer);
                     if (response.InternalException != null)
                     {
-                        Errorslogger.Warn(response.InternalException, "Error calling 'GetCards' from MobilExpress client");
+                        Errorslogger.LogException(request.Username, response.InternalException);
+                        //Errorslogger.Warn(response.InternalException, "Error calling 'GetCards' from MobilExpress client");
                         return new CustomerServiceActivateAutomaticPaymentResponse(passwordHash, request)
                         {
                             IsSuccess = false,
@@ -102,7 +104,8 @@ namespace RadiusR.API.CustomerWebService
                     }
                     if (response.Response.ResponseCode != RezaB.API.MobilExpress.Response.ResponseCodes.Success)
                     {
-                        Errorslogger.Warn($"Error calling 'GetCards' from MobilExpress client . Message : {response.Response.ErrorMessage}{Environment.NewLine} Subscription Id : {request.ActivateAutomaticPaymentParameters.SubscriptionId}{Environment.NewLine} Card Token : {request.ActivateAutomaticPaymentParameters.CardToken}");
+                        Errorslogger.LogException(request.Username, new Exception($"Error calling 'GetCards' from MobilExpress client . Message : {response.Response.ErrorMessage}{Environment.NewLine} Subscription Id : {request.ActivateAutomaticPaymentParameters.SubscriptionId}{Environment.NewLine} Card Token : {request.ActivateAutomaticPaymentParameters.CardToken}"));
+                        //Errorslogger.Warn($"Error calling 'GetCards' from MobilExpress client . Message : {response.Response.ErrorMessage}{Environment.NewLine} Subscription Id : {request.ActivateAutomaticPaymentParameters.SubscriptionId}{Environment.NewLine} Card Token : {request.ActivateAutomaticPaymentParameters.CardToken}");
                         return new CustomerServiceActivateAutomaticPaymentResponse(passwordHash, request)
                         {
                             IsSuccess = false,
@@ -139,7 +142,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceActivateAutomaticPaymentResponse(passwordHash, request)
                 {
                     IsSuccess = null,
@@ -155,7 +158,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"Add card unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAddCardResponse(passwordHash, request)
                     {
                         IsSuccess = null,
@@ -233,7 +236,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceAddCardResponse(passwordHash, request)
                 {
 
@@ -252,7 +255,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"AddCardSMSCheck unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAddCardSMSValidationResponse(passwordHash, request)
                     {
 
@@ -280,6 +283,7 @@ namespace RadiusR.API.CustomerWebService
                     smsClient.SendSubscriberSMS(dbSubscription, SMSType.MobilExpressAddRemoveCard, new Dictionary<string, object>() {
                         { SMSParamaterRepository.SMSParameterNameCollection.SMSCode, smsCode }
                     });
+                    Errorslogger.LogInfo(request.Username, $"AddCardSMSCode : {smsCode}");
                     //CacheManager.GenerateKey(request.Username, request.SubscriptionParameters.SubscriptionId.ToString(), smsCode, CacheTypes.AddCardSMSValidation, new TimeSpan(0, 15, 0));
                     return new CustomerServiceAddCardSMSValidationResponse(passwordHash, request)
                     {
@@ -292,7 +296,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceAddCardSMSValidationResponse(passwordHash, request)
                 {
 
@@ -311,6 +315,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAuthenticationSMSConfirmResponse(passwordHash, request)
                     {
 
@@ -391,7 +396,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceBillPayableAmountResponse(passwordHash, request)
                     {
 
@@ -402,13 +408,12 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.BillPayableAmountParameters.SubscriptionId == null)
                 {
-                    Errorslogger.Debug($"Subscription is null.");
+                    Errorslogger.LogException(request.Username, new Exception("Subscription is null"));
+                    //Errorslogger.Debug($"Subscription is null.");
                     return new CustomerServiceBillPayableAmountResponse(passwordHash, request)
                     {
-
                         ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
                         PayableAmount = null,
-
                     };
                 }
                 using (var db = new RadiusREntities())
@@ -417,13 +422,12 @@ namespace RadiusR.API.CustomerWebService
                     // pre-paid sub
                     if (!dbSubscription.HasBilling)
                     {
-                        Errorslogger.Debug($"HasBilling calling false. Subscription Id : {request.BillPayableAmountParameters.SubscriptionId}");
+                        //Errorslogger.Debug($"HasBilling calling false. Subscription Id : {request.BillPayableAmountParameters.SubscriptionId}");
+                        Errorslogger.LogException(request.Username, new Exception($"HasBilling calling false. Subscription Id : {request.BillPayableAmountParameters.SubscriptionId}"));
                         return new CustomerServiceBillPayableAmountResponse(passwordHash, request)
                         {
-
                             ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                             PayableAmount = dbSubscription.GetSubscriberPackageExtentionUnitPrice(),
-
                         };
                     }
                     // billed sub
@@ -459,7 +463,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceBillPayableAmountResponse(passwordHash, request)
                 {
 
@@ -478,7 +482,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"CanHaveQuotaSale unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"CanHaveQuotaSale unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceCanHaveQuotaSaleResponse(passwordHash, request)
                     {
 
@@ -521,7 +526,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceCanHaveQuotaSaleResponse(passwordHash, request)
                 {
 
@@ -540,7 +545,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($" unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($" unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceChangeSubClientResponse(passwordHash, request)
                     {
 
@@ -609,7 +615,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceChangeSubClientResponse(passwordHash, request)
                 {
 
@@ -630,7 +636,8 @@ namespace RadiusR.API.CustomerWebService
                 {
                     if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                     {
-                        Errorslogger.Error($"ConnectionStatus unauthorize error. User : {request.Username}");
+                        //Errorslogger.Error($"ConnectionStatus unauthorize error. User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                         return new CustomerServiceConnectionStatusResponse(passwordHash, request)
                         {
 
@@ -642,12 +649,11 @@ namespace RadiusR.API.CustomerWebService
                     var Subscription = db.Subscriptions.Find(request.SubscriptionParameters.SubscriptionId);
                     if (Subscription == null)
                     {
-                        Errorslogger.Error($"ConnectionStatus -> subscription is not found . User : {request.Username}");
+                        //Errorslogger.Error($"ConnectionStatus -> subscription is not found . User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception($"ConnectionStatus -> subscription is not found"));
                         return new CustomerServiceConnectionStatusResponse(passwordHash, request)
                         {
-
                             GetCustomerConnectionStatusResponse = null,
-
                             ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture)
                         };
                     }
@@ -700,7 +706,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceConnectionStatusResponse(passwordHash, request)
                 {
 
@@ -711,7 +717,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceConnectionStatusResponse(passwordHash, request)
                 {
 
@@ -737,7 +743,8 @@ namespace RadiusR.API.CustomerWebService
                         var PassiveSubscriptions = dbClients.Where(s => s.State == (short)CustomerState.Cancelled && !s.Bills.Where(b => b.BillStatusID == (short)BillState.Unpaid).Any()).ToList();
                         if (PassiveSubscriptions.Count() == dbClients.Count())
                         {
-                            Errorslogger.Error($"CustomerAuthentication -> cancelled . CustomerCode : {request.AuthenticationParameters.CustomerCode} . User : {request.Username}");
+                            Errorslogger.LogException(request.Username, new Exception($"CustomerAuthentication -> cancelled . CustomerCode : {request.AuthenticationParameters.CustomerCode} ."));
+                            //Errorslogger.Error($"CustomerAuthentication -> cancelled . CustomerCode : {request.AuthenticationParameters.CustomerCode} . User : {request.Username}");
                             return new CustomerServiceCustomerAuthenticationResponse(passwordHash, request)
                             {
                                 CustomerAuthenticationResponse = null,
@@ -770,40 +777,36 @@ namespace RadiusR.API.CustomerWebService
                         }
                         else
                         {
-                            Errorslogger.Error($"CustomerAuthentication -> Subscription is not found. CustomerCode : {request.AuthenticationParameters.CustomerCode} . User : {request.Username}");
+                            Errorslogger.LogException(request.Username, new Exception($"CustomerAuthentication -> Subscription is not found. CustomerCode : {request.AuthenticationParameters.CustomerCode}."));
+                            //Errorslogger.Error($"CustomerAuthentication -> Subscription is not found. CustomerCode : {request.AuthenticationParameters.CustomerCode} . User : {request.Username}");
                             return new CustomerServiceCustomerAuthenticationResponse(passwordHash, request)
                             {
-
                                 CustomerAuthenticationResponse = null,
                                 ResponseMessage = CommonResponse.ClientNotFound(request.Culture),
-
                             };
                         }
                     }
-                    Errorslogger.Error($"CustomerAuthentication unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"CustomerAuthentication unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceCustomerAuthenticationResponse(passwordHash, request)
                     {
-
                         CustomerAuthenticationResponse = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
-
                     };
                 }
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceCustomerAuthenticationResponse(passwordHash, request)
                 {
-
                     CustomerAuthenticationResponse = null,
-
                     ResponseMessage = CommonResponse.NullObjectException(request.Culture)
                 };
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceCustomerAuthenticationResponse(passwordHash, request)
                 {
 
@@ -822,6 +825,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceDeactivateAutomaticPaymentResponse(passwordHash, request)
                     {
 
@@ -873,7 +877,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $"subscription id : {request.SubscriptionParameters.SubscriptionId}{Environment.NewLine} {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceDeactivateAutomaticPaymentResponse(passwordHash, request)
                 {
 
@@ -922,7 +926,8 @@ namespace RadiusR.API.CustomerWebService
                 {
                     if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                     {
-                        Errorslogger.Error($"EArchivePDF unauthorize error. User : {request.Username}");
+                        //Errorslogger.Error($"EArchivePDF unauthorize error. User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                         return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                         {
 
@@ -934,24 +939,22 @@ namespace RadiusR.API.CustomerWebService
                     var dbBill = db.Bills.Find(request.EArchivePDFParameters.BillId);
                     if (dbBill == null || dbBill.EBill == null || dbBill.EBill.EBillType != (short)EBillType.EArchive)
                     {
-                        Errorslogger.Error($"EArchivePDF -> Bill not found. Bill Id : {request.EArchivePDFParameters.BillId} . User : {request.Username}");
+                        //Errorslogger.Error($"EArchivePDF -> Bill not found. Bill Id : {request.EArchivePDFParameters.BillId} . User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception($"EArchivePDF -> Bill not found. Bill Id : {request.EArchivePDFParameters.BillId} ."));
                         return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                         {
-
                             EArchivePDFResponse = null,
-
                             ResponseMessage = CommonResponse.BillsNotFoundException(request.Culture)
                         };
                     }
                     if (dbBill.Subscription.ID != request.EArchivePDFParameters.SubscriptionId)
                     {
-                        Errorslogger.Error($"EArchivePDF -> Bill id and subscription id not match. Bill Id : {request.EArchivePDFParameters.BillId} - Subscription Id : {request.EArchivePDFParameters.SubscriptionId}. User : {request.Username}");
+                        //Errorslogger.Error($"EArchivePDF -> Bill id and subscription id not match. Bill Id : {request.EArchivePDFParameters.BillId} - Subscription Id : {request.EArchivePDFParameters.SubscriptionId}. User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception($"EArchivePDF -> Bill id and subscription id not match. Bill Id : {request.EArchivePDFParameters.BillId} - Subscription Id : {request.EArchivePDFParameters.SubscriptionId}."));
                         return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                         {
-
                             EArchivePDFResponse = null,
                             ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
-
                         };
                     }
                     var serviceClient = new RezaB.NetInvoice.Wrapper.NetInvoiceClient(AppSettings.EBillCompanyCode, AppSettings.EBillApiUsername, AppSettings.EBillApiPassword);
@@ -978,7 +981,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.NullObjectException(request.Culture),
@@ -987,7 +990,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
@@ -1004,7 +1007,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGenericAppSettingsResponse(passwordHash, request)
                     {
                         GenericAppSettings = null,
@@ -1029,7 +1033,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGenericAppSettingsResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
@@ -1050,13 +1054,12 @@ namespace RadiusR.API.CustomerWebService
                         var dbClient = db.Subscriptions.Find(request.SubscriptionParameters.SubscriptionId);
                         if (dbClient == null)
                         {
-                            Errorslogger.Error($"GetCustomerBills -> subscription is not found. Id : {request.SubscriptionParameters.SubscriptionId}. User : {request.Username}");
+                            //Errorslogger.Error($"GetCustomerBills -> subscription is not found. Id : {request.SubscriptionParameters.SubscriptionId}. User : {request.Username}");
+                            Errorslogger.LogException(request.Username, new Exception($"Subscription Id : {request.SubscriptionParameters.SubscriptionId}."));
                             return new CustomerServiceGetCustomerBillsResponse(passwordHash, request)
                             {
-
                                 GetCustomerBillsResponse = null,
                                 ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
-
                             };
                         }
                         var firstUnpaidBill = dbClient.Bills.Where(bill => bill.BillStatusID == (short)BillState.Unpaid).OrderBy(bill => bill.IssueDate).FirstOrDefault();
@@ -1091,7 +1094,8 @@ namespace RadiusR.API.CustomerWebService
 
                         };
                     }
-                    Errorslogger.Error($"GetCustomerBills unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"GetCustomerBills unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGetCustomerBillsResponse(passwordHash, request)
                     {
 
@@ -1103,7 +1107,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerBillsResponse(passwordHash, request)
                 {
 
@@ -1114,7 +1118,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerBillsResponse(passwordHash, request)
                 {
 
@@ -1137,7 +1141,8 @@ namespace RadiusR.API.CustomerWebService
                         var dbClient = db.Subscriptions.Find(request.SubscriptionParameters.SubscriptionId);
                         if (dbClient == null)
                         {
-                            Errorslogger.Error($"GetCustomerInfo -> subscription is not found. Id : {request.SubscriptionParameters.SubscriptionId}. User : {request.Username}");
+                            Errorslogger.LogException(request.Username, new Exception($"Subscription Id : {request.SubscriptionParameters.SubscriptionId}."));
+                            //Errorslogger.Error($"GetCustomerInfo -> subscription is not found. Id : {request.SubscriptionParameters.SubscriptionId}. User : {request.Username}");
                             return new CustomerServiceGetCustomerInfoResponse(passwordHash, request)
                             {
 
@@ -1173,7 +1178,8 @@ namespace RadiusR.API.CustomerWebService
                             }
                         };
                     }
-                    Errorslogger.Error($"GetCustomerInfo unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"GetCustomerInfo unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGetCustomerInfoResponse(passwordHash, request)
                     {
 
@@ -1185,7 +1191,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerInfoResponse(passwordHash, request)
                 {
 
@@ -1196,7 +1202,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerInfoResponse(passwordHash, request)
                 {
 
@@ -1245,7 +1251,8 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                 }
-                Errorslogger.Error($"GetCustomerSpecialOffers unauthorize error. User : {request.Username}");
+                //Errorslogger.Error($"GetCustomerSpecialOffers unauthorize error. User : {request.Username}");
+                Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                 return new CustomerServiceGetCustomerSpecialOffersResponse(passwordHash, request)
                 {
 
@@ -1256,7 +1263,8 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                //Errorslogger.LogException(request.Username, ex);
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerSpecialOffersResponse(passwordHash, request)
                 {
 
@@ -1267,7 +1275,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerSpecialOffersResponse(passwordHash, request)
                 {
 
@@ -1333,7 +1341,8 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                 }
-                Errorslogger.Error($"GetCustomerTariffAndTrafficInfo unauthorize error. User : {request.Username}");
+                //Errorslogger.Error($"GetCustomerTariffAndTrafficInfo unauthorize error. User : {request.Username}");
+                Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                 return new CustomerServiceGetCustomerTariffAndTrafficInfoResponse(passwordHash, request)
                 {
 
@@ -1344,7 +1353,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerTariffAndTrafficInfoResponse(passwordHash, request)
                 {
 
@@ -1355,7 +1364,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerTariffAndTrafficInfoResponse(passwordHash, request)
                 {
 
@@ -1373,7 +1382,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"GetSupportDetailMessages unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"GetSupportDetailMessages unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSupportDetailMessagesResponse(passwordHash, request)
                     {
 
@@ -1384,12 +1394,11 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.SupportDetailMessagesParameters.SubscriptionId == null || request.SupportDetailMessagesParameters.SupportId == null)
                 {
-                    Errorslogger.Error($"GetSupportDetailMessages -> has null objects. [{request.SupportDetailMessagesParameters.SubscriptionId},{request.SupportDetailMessagesParameters.SupportId}] . User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception($"has null objects. [{request.SupportDetailMessagesParameters.SubscriptionId},{request.SupportDetailMessagesParameters.SupportId}]"));
+                    //Errorslogger.Error($"GetSupportDetailMessages -> has null objects. [{request.SupportDetailMessagesParameters.SubscriptionId},{request.SupportDetailMessagesParameters.SupportId}] . User : {request.Username}");
                     return new CustomerServiceSupportDetailMessagesResponse(passwordHash, request)
                     {
-
                         SupportDetailMessagesResponse = null,
-
                         ResponseMessage = CommonResponse.NullObjectException(request.Culture),
                     };
                 }
@@ -1400,9 +1409,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new CustomerServiceSupportDetailMessagesResponse(passwordHash, request)
                         {
-
                             ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-
                             SupportDetailMessagesResponse = new SupportDetailMessagesResponse()
                             {
                                 CustomerApprovalDate = SupportProgress.CustomerApprovalDate,
@@ -1435,9 +1442,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new CustomerServiceSupportDetailMessagesResponse(passwordHash, request)
                         {
-
                             ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-
                             SupportDetailMessagesResponse = new SupportDetailMessagesResponse(),
                         };
                     }
@@ -1445,23 +1450,19 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSupportDetailMessagesResponse(passwordHash, request)
                 {
-
                     SupportDetailMessagesResponse = null,
-
                     ResponseMessage = CommonResponse.NullObjectException(request.Culture)
                 };
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSupportDetailMessagesResponse(passwordHash, request)
                 {
-
                     SupportDetailMessagesResponse = null,
-
                     ResponseMessage = CommonResponse.InternalException(request.Culture)
                 };
             }
@@ -1474,7 +1475,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"GetSupportList unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"GetSupportList unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGetCustomerSupportListResponse(passwordHash, request)
                     {
 
@@ -1512,7 +1514,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerSupportListResponse(passwordHash, request)
                 {
 
@@ -1523,7 +1525,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerSupportListResponse(passwordHash, request)
                 {
 
@@ -1559,7 +1561,8 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                 }
-                Errorslogger.Error($"GetSupportSubTypes unauthorize error. User : {request.Username}");
+                //Errorslogger.Error($"GetSupportSubTypes unauthorize error. User : {request.Username}");
+                Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -1570,7 +1573,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -1581,7 +1584,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -1615,7 +1618,8 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                 }
-                Errorslogger.Error($"GetSupportTypes unauthorize error. User : {request.Username}");
+                //Errorslogger.Error($"GetSupportTypes unauthorize error. User : {request.Username}");
+                Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -1626,7 +1630,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -1637,7 +1641,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
                     ValueNamePairList = null,
@@ -1653,7 +1657,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"GetVPOSForm unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"GetVPOSForm unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceVPOSFormResponse(passwordHash, request)
                     {
 
@@ -1667,12 +1672,11 @@ namespace RadiusR.API.CustomerWebService
                     var dbSubscription = db.Subscriptions.Find(request.VPOSFormParameters.SubscriptionId);
                     if (dbSubscription == null)
                     {
-                        Errorslogger.Error($"GetVPOSForm -> Subscription is not found. subscriptionId : {request.VPOSFormParameters.SubscriptionId} . User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception($"Subscription is not found. subscriptionId : {request.VPOSFormParameters.SubscriptionId}."));
+                        //Errorslogger.Error($"GetVPOSForm -> Subscription is not found. subscriptionId : {request.VPOSFormParameters.SubscriptionId} . User : {request.Username}");
                         return new CustomerServiceVPOSFormResponse(passwordHash, request)
                         {
-
                             ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
-
                             VPOSFormResponse = null,
                         };
                     }
@@ -1680,10 +1684,8 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new CustomerServiceVPOSFormResponse(passwordHash, request)
                         {
-
                             VPOSFormResponse = null,
                             ResponseMessage = CommonResponse.NullObjectException(request.Culture),
-
                         };
                     }
                     var VPOSModel = VPOSManager.GetVPOSModel(
@@ -1699,15 +1701,13 @@ namespace RadiusR.API.CustomerWebService
                         {
                             HtmlForm = htmlForm,
                         },
-
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-
                     };
                 }
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceVPOSFormResponse(passwordHash, request)
                 {
 
@@ -1725,7 +1725,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"PayBills unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"PayBills unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServicePayBillsResponse(passwordHash, request)
                     {
 
@@ -1797,12 +1798,11 @@ namespace RadiusR.API.CustomerWebService
                     {
                         if (request.PayBillsParameters.BillIds == null)
                         {
-                            Errorslogger.Error($"PayBills -> Bills are empty. User : {request.Username}");
+                            //Errorslogger.Error($"PayBills -> Bills are empty. User : {request.Username}");
+                            Errorslogger.LogException(request.Username, new Exception($"Bills are empty"));
                             return new CustomerServicePayBillsResponse(passwordHash, request)
                             {
-
                                 PayBillsResponse = null,
-
                                 ResponseMessage = CommonResponse.BillsNotFoundException(request.Culture)
                             };
                         }
@@ -1842,7 +1842,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServicePayBillsResponse(passwordHash, request)
                 {
                     PayBillsResponse = null,
@@ -1859,7 +1859,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServicePaymentTypeListResponse(passwordHash, request)
                     {
 
@@ -1879,7 +1880,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServicePaymentTypeListResponse(passwordHash, request)
                 {
 
@@ -1898,7 +1899,8 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"QuotaPackageList unauthorize error. User : {request.Username}");
+                    //Errorslogger.Error($"QuotaPackageList unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceQuotaPackagesResponse(passwordHash, request)
                     {
 
@@ -1931,7 +1933,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceQuotaPackagesResponse(passwordHash, request)
                 {
 
@@ -1950,7 +1952,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"QuotaSale unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceQuotaSaleResponse(passwordHash, request)
                     {
 
@@ -1964,7 +1966,8 @@ namespace RadiusR.API.CustomerWebService
                     var dbSubscription = db.Subscriptions.Find(request.QuotaSaleParameters.SubscriptionId);
                     if (dbSubscription == null)
                     {
-                        Errorslogger.Error($"QuotaSale -> Subscriber is not found. Id : {request.QuotaSaleParameters.SubscriptionId} . User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception($"Subscription Id : {request.QuotaSaleParameters.SubscriptionId}."));
+                        //Errorslogger.Error($"QuotaSale -> Subscriber is not found. Id : {request.QuotaSaleParameters.SubscriptionId} . User : {request.Username}");
                         return new CustomerServiceQuotaSaleResponse(passwordHash, request)
                         {
                             IsQuotaSale = false,
@@ -2039,7 +2042,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceQuotaSaleResponse(passwordHash, request)
                 {
 
@@ -2058,7 +2061,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"RegisteredCardList unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceRegisteredCardsResponse(passwordHash, request)
                     {
 
@@ -2078,12 +2081,11 @@ namespace RadiusR.API.CustomerWebService
                     var response = client.GetCards(dbCustomer);
                     if (response.InternalException != null)
                     {
-                        Errorslogger.Error(response.InternalException, $"RegisteredCardList is exception . User : {request.Username}");
+                        //Errorslogger.Error(response.InternalException, $"RegisteredCardList is exception . User : {request.Username}");
+                        Errorslogger.LogException(request.Username, response.InternalException);
                         return new CustomerServiceRegisteredCardsResponse(passwordHash, request)
                         {
-
                             RegisteredCardList = null,
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.Common.GeneralError)
                         };
                     }
@@ -2091,12 +2093,11 @@ namespace RadiusR.API.CustomerWebService
                     {
                         if (response.Response.ResponseCode != RezaB.API.MobilExpress.Response.ResponseCodes.CardNotFound && response.Response.ResponseCode != RezaB.API.MobilExpress.Response.ResponseCodes.CustomerNotFound)
                         {
-                            Errorslogger.Error($"RegisteredCardList is exception -> {response.Response.ErrorMessage} . User : {request.Username}");
+                            //Errorslogger.Error($"RegisteredCardList is exception -> {response.Response.ErrorMessage} . User : {request.Username}");
+                            Errorslogger.LogException(request.Username, new Exception($"RegisteredCardList is exception -> {response.Response.ErrorMessage}."));
                             return new CustomerServiceRegisteredCardsResponse(passwordHash, request)
                             {
-
                                 RegisteredCardList = null,
-
                                 ResponseMessage = CommonResponse.FailedResponse(request.Culture, response.Response.ErrorMessage)
                             };
                         }
@@ -2105,7 +2106,6 @@ namespace RadiusR.API.CustomerWebService
                             RegisteredCardList = null,
                             ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                         };
-
                     }
                     else
                     {
@@ -2117,8 +2117,6 @@ namespace RadiusR.API.CustomerWebService
                                 HasAutoPayments = false,
                                 Token = cl.CardToken,
                             }).ToArray(),
-
-
                             ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                         };
                     }
@@ -2126,7 +2124,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceRegisteredCardsResponse(passwordHash, request)
                 {
 
@@ -2145,7 +2143,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"Remove Card unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceRemoveCardResponse(passwordHash, request)
                     {
 
@@ -2156,11 +2154,10 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.RemoveCardParameters.SubscriptionId == null)
                 {
-                    Errorslogger.Error($"Calling 'RemoveCard' some parameters are null value. Parameters : [{request.RemoveCardParameters.SubscriptionId}] ");
+                    //Errorslogger.Error($"Calling 'RemoveCard' some parameters are null value. Parameters : [{request.RemoveCardParameters.SubscriptionId}] ");
+                    Errorslogger.LogException(request.Username, new Exception($"Calling 'RemoveCard' some parameters are null value. Parameters : [{request.RemoveCardParameters.SubscriptionId}] "));
                     return new CustomerServiceRemoveCardResponse(passwordHash, request)
                     {
-
-
                         IsSuccess = false,
                         ResponseMessage = CommonResponse.NullObjectException(request.Culture)
                     };
@@ -2199,22 +2196,20 @@ namespace RadiusR.API.CustomerWebService
                     var cards = client.GetCards(dbCustomer);
                     if (cards.InternalException != null)
                     {
-                        Errorslogger.Warn(cards.InternalException, "Error calling 'GetCards' from MobilExpress client");
+                        //Errorslogger.Warn(cards.InternalException, "Error calling 'GetCards' from MobilExpress client");
+                        Errorslogger.LogException(request.Username, cards.InternalException);
                         return new CustomerServiceRemoveCardResponse(passwordHash, request)
                         {
-
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.Common.GeneralError),
                             IsSuccess = false,
                         };
                     }
                     if (cards.Response.ResponseCode != RezaB.API.MobilExpress.Response.ResponseCodes.Success)
                     {
-                        Errorslogger.Warn("Error calling 'GetCards' from MobilExpress client");
+                        //Errorslogger.Warn("Error calling 'GetCards' from MobilExpress client");
+                        Errorslogger.LogException(request.Username, new Exception("Error calling 'GetCards' from MobilExpress client"));
                         return new CustomerServiceRemoveCardResponse(passwordHash, request)
                         {
-
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, cards.Response.ErrorMessage),
                             IsSuccess = false,
                         };
@@ -2225,22 +2220,20 @@ namespace RadiusR.API.CustomerWebService
                     var response = client.DeleteCard(dbCustomer, request.RemoveCardParameters.CardToken);
                     if (response.InternalException != null)
                     {
-                        Errorslogger.Warn(response.InternalException, "Error calling 'DeleteCard' from MobilExpress client");
+                        //Errorslogger.Warn(response.InternalException, "Error calling 'DeleteCard' from MobilExpress client");
+                        Errorslogger.LogException(request.Username, response.InternalException);
                         return new CustomerServiceRemoveCardResponse(passwordHash, request)
                         {
-
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.Common.GeneralError),
                             IsSuccess = false,
                         };
                     }
                     if (response.Response.ResponseCode != RezaB.API.MobilExpress.Response.ResponseCodes.Success)
                     {
-                        Errorslogger.Warn($"Error calling 'DeleteCard' from MobilExpress client. Message : {response.Response.ErrorMessage} , Code : {response.Response.ResponseCode}");
+                        Errorslogger.LogException(request.Username, new Exception($"Error calling 'DeleteCard' from MobilExpress client. Message : {response.Response.ErrorMessage} , Code : {response.Response.ResponseCode}"));
+                        //Errorslogger.Warn($"Error calling 'DeleteCard' from MobilExpress client. Message : {response.Response.ErrorMessage} , Code : {response.Response.ResponseCode}");
                         return new CustomerServiceRemoveCardResponse(passwordHash, request)
                         {
-
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, response.Response.ErrorMessage),
                             IsSuccess = false,
                         };
@@ -2250,8 +2243,6 @@ namespace RadiusR.API.CustomerWebService
                     db.SaveChanges();
                     return new CustomerServiceRemoveCardResponse(passwordHash, request)
                     {
-
-
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                         IsSuccess = true
                     };
@@ -2259,13 +2250,11 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceRemoveCardResponse(passwordHash, request)
                 {
-
                     IsSuccess = false,
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
-
                 };
             }
         }
@@ -2278,7 +2267,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"Unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceRemoveCardSMSValidationResponse(passwordHash, request)
                     {
 
@@ -2304,6 +2293,8 @@ namespace RadiusR.API.CustomerWebService
                     smsClient.SendSubscriberSMS(dbSubscription, SMSType.MobilExpressAddRemoveCard, new Dictionary<string, object>() {
                         { SMSParamaterRepository.SMSParameterNameCollection.SMSCode, smsCode }
                     });
+                    //Errorslogger.Info($"Remove credit card sms code : {smsCode}");
+                    Errorslogger.LogInfo(request.Username, $"Remove credit card sms code : {smsCode}");
                     return new CustomerServiceRemoveCardSMSValidationResponse(passwordHash, request)
                     {
                         SMSCode = smsCode,
@@ -2313,7 +2304,8 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}{Environment.NewLine} - Subscription Id : {request.RemoveCardSMSCheckParameters.SubscriptionId}{Environment.NewLine} - Card Token : {request.RemoveCardSMSCheckParameters.CardToken}");
+                Errorslogger.LogException(request.Username, ex);
+                //Errorslogger.Error(ex, $" message : {ex.Message}{Environment.NewLine} - Subscription Id : {request.RemoveCardSMSCheckParameters.SubscriptionId}{Environment.NewLine} - Card Token : {request.RemoveCardSMSCheckParameters.CardToken}");
                 return new CustomerServiceRemoveCardSMSValidationResponse(passwordHash, request)
                 {
                     SMSCode = null,
@@ -2321,7 +2313,6 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
-
         public CustomerServiceAutoPaymentListResponse AutoPaymentList(CustomerServiceAutoPaymentListRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
@@ -2330,9 +2321,9 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAutoPaymentListResponse(passwordHash, request)
                     {
-
                         AutoPaymentListResult = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
                     };
@@ -2341,9 +2332,7 @@ namespace RadiusR.API.CustomerWebService
                 {
                     return new CustomerServiceAutoPaymentListResponse(passwordHash, request)
                     {
-
                         AutoPaymentListResult = null,
-
                         ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture)
                     };
                 }
@@ -2381,7 +2370,8 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}{Environment.NewLine} - Subscription Id : {request.AutoPaymentListParameters.SubscriptionId}{Environment.NewLine}");
+                Errorslogger.LogException(request.Username, ex);
+                //Errorslogger.Error(ex, $" message : {ex.Message}{Environment.NewLine} - Subscription Id : {request.AutoPaymentListParameters.SubscriptionId}{Environment.NewLine}");
                 return new CustomerServiceAutoPaymentListResponse(passwordHash, request)
                 {
 
@@ -2400,7 +2390,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"Unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSendSubscriberSMSResponse(passwordHash, request)
                     {
 
@@ -2480,12 +2470,11 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" - subscription Id : {request.SendSubscriberSMS.SubscriptionId}  message : {ex.Message}");
+                //Errorslogger.Error(ex, $" - subscription Id : {request.SendSubscriberSMS.SubscriptionId}  message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSendSubscriberSMSResponse(passwordHash, request)
                 {
-
                     SendSubscriberSMSResponse = false,
-
                     ResponseMessage = CommonResponse.InternalException(request.Culture, ex)
                 };
             }
@@ -2499,7 +2488,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"SendSupportMessage unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                     {
 
@@ -2510,12 +2499,11 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.SendSupportMessageParameters.SubscriptionId == null || request.SendSupportMessageParameters.SupportId == null)
                 {
-                    Errorslogger.Error($"SendSupportMessage have null objects [{request.SendSupportMessageParameters.SupportId},{request.SendSupportMessageParameters.SubscriptionId}]. User : {request.Username}");
+                    //Errorslogger.Error($"SendSupportMessage have null objects [{request.SendSupportMessageParameters.SupportId},{request.SendSupportMessageParameters.SubscriptionId}]. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception($"SendSupportMessage have null objects [{request.SendSupportMessageParameters.SupportId},{request.SendSupportMessageParameters.SubscriptionId}]."));
                     return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                     {
-
                         SendSupportMessageResponse = null,
-
                         ResponseMessage = CommonResponse.NullObjectException(request.Culture),
                     };
                 }
@@ -2669,7 +2657,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.NullObjectException(request.Culture),
@@ -2678,7 +2666,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                 {
                     SendSupportMessageResponse = null,
@@ -2695,7 +2683,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"SubscriptionBasicInfo unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSubscriptionBasicInformationResponse(passwordHash, request)
                     {
                         SubscriptionBasicInformationResponse = null,
@@ -2750,7 +2738,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSubscriptionBasicInformationResponse(passwordHash, request)
                 {
 
@@ -2769,7 +2757,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceHasActiveRequestResponse(passwordHash, request)
                     {
 
@@ -2798,7 +2786,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceHasActiveRequestResponse(passwordHash, request)
                 {
 
@@ -2817,7 +2805,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
-                    Errorslogger.Error($"SupportRegister unauthorize error. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSupportRegisterResponse(passwordHash, request)
                     {
 
@@ -2828,12 +2816,11 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.SupportRegisterParameters.RequestTypeId == null || request.SupportRegisterParameters.SubRequestTypeId == null || request.SupportRegisterParameters.SubscriptionId == null)
                 {
-                    Errorslogger.Error($"SupportRegister have null objects [{request.SupportRegisterParameters.RequestTypeId},{request.SupportRegisterParameters.SubRequestTypeId},{request.SupportRegisterParameters.SubscriptionId}]. User : {request.Username}");
+                    //Errorslogger.Error($"SupportRegister have null objects [{request.SupportRegisterParameters.RequestTypeId},{request.SupportRegisterParameters.SubRequestTypeId},{request.SupportRegisterParameters.SubscriptionId}]. User : {request.Username}");
+                    Errorslogger.LogException(request.Username, new Exception($"SupportRegister have null objects [{request.SupportRegisterParameters.RequestTypeId},{request.SupportRegisterParameters.SubRequestTypeId},{request.SupportRegisterParameters.SubscriptionId}]."));
                     return new CustomerServiceSupportRegisterResponse(passwordHash, request)
                     {
-
                         SupportRegisterResponse = null,
-
                         ResponseMessage = CommonResponse.NullObjectException(request.Culture),
                     };
                 }
@@ -2841,9 +2828,7 @@ namespace RadiusR.API.CustomerWebService
                 {
                     return new CustomerServiceSupportRegisterResponse(passwordHash, request)
                     {
-
                         SupportRegisterResponse = null,
-
                         ResponseMessage = CommonResponse.HasActiveRequest(request.Culture)
                     };
                 }
@@ -2884,7 +2869,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSupportRegisterResponse(passwordHash, request)
                 {
                     SupportRegisterResponse = null,
@@ -2893,7 +2878,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSupportRegisterResponse(passwordHash, request)
                 {
                     SupportRegisterResponse = null,
@@ -2910,10 +2895,9 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSupportStatusResponse(passwordHash, request)
                     {
-
-
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
                         SupportStatusResponse = null,
                     };
@@ -2962,7 +2946,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSupportStatusResponse(passwordHash, request)
                 {
                     SupportStatusResponse = null,
@@ -2979,10 +2963,9 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServicePaymentSystemLogResponse(passwordHash, request)
                     {
-
-
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
                         PaymentSystemLogResult = false,
                     };
@@ -3022,7 +3005,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServicePaymentSystemLogResponse(passwordHash, request)
                 {
                     PaymentSystemLogResult = null,
@@ -3039,10 +3022,9 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceMobilexpressPayBillResponse(passwordHash, request)
                     {
-
-
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
                         MobilexpressPayBillResult = false,
                     };
@@ -3076,12 +3058,10 @@ namespace RadiusR.API.CustomerWebService
                     var response = client.PayBill(dbCustomer, payableAmount, token);
                     if (response.InternalException != null)
                     {
-                        Errorslogger.Warn(response.InternalException, "Error calling 'DeleteCard' from MobilExpress client");
-
+                        //Errorslogger.Warn(response.InternalException, "Error calling 'DeleteCard' from MobilExpress client");
+                        Errorslogger.LogException(request.Username, response.InternalException);
                         return new CustomerServiceMobilexpressPayBillResponse(passwordHash, request)
                         {
-
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, response.InternalException.Message),
                             MobilexpressPayBillResult = false,
                         };
@@ -3090,8 +3070,6 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new CustomerServiceMobilexpressPayBillResponse(passwordHash, request)
                         {
-
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, response.Response.ErrorMessage),
                             MobilexpressPayBillResult = false,
                         };
@@ -3115,7 +3093,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceMobilexpressPayBillResponse(passwordHash, request)
                 {
 
@@ -3134,6 +3112,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceVPOSErrorParameterNameResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
@@ -3151,7 +3130,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceVPOSErrorParameterNameResponse(passwordHash, request)
                 {
 
@@ -3174,6 +3153,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceExistingCustomerRegisterResponse(passwordHash, request)
                     {
                         KeyValuePairs = null,
@@ -3274,7 +3254,8 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, "Error Null Reference Exception");
+                Errorslogger.LogException(request.Username, ex);
+                //Errorslogger.Error(ex, "Error Null Reference Exception");
                 return new CustomerServiceExistingCustomerRegisterResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.NullObjectException(request.Culture),
@@ -3283,7 +3264,8 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, "Error Get new customer register");
+                Errorslogger.LogException(request.Username, ex);
+                //Errorslogger.Error(ex, "Error Get new customer register");
                 return new CustomerServiceExistingCustomerRegisterResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
@@ -3300,6 +3282,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
@@ -3320,7 +3303,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
                     ValueNamePairList = null,
@@ -3337,6 +3320,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
@@ -3357,7 +3341,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 //Errorslogger.Error(ex, "Error Get Provinces");
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
@@ -3377,6 +3361,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
@@ -3408,7 +3393,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
                     ValueNamePairList = null,
@@ -3426,6 +3411,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
@@ -3457,7 +3443,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -3476,6 +3462,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
@@ -3506,7 +3493,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -3525,6 +3512,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
 
@@ -3558,7 +3546,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -3577,10 +3565,9 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
-
-
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
                     };
@@ -3610,7 +3597,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -3629,10 +3616,9 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
                     {
-
-
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
                     };
@@ -3662,7 +3648,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
 
@@ -3681,10 +3667,9 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAddressDetailsResponse(passwordHash, request)
                     {
-
-
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
                         AddressDetailsResponse = null
                     };
@@ -3728,7 +3713,7 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
 
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceAddressDetailsResponse(passwordHash, request)
                 {
 
@@ -3746,6 +3731,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceExternalTariffResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
@@ -3777,7 +3763,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceExternalTariffResponse(passwordHash, request)
                 {
                     ExternalTariffList = null,
@@ -3795,6 +3781,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceServiceAvailabilityResponse(passwordHash, request)
                     {
                         ServiceAvailabilityResponse = null,
@@ -3869,7 +3856,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceServiceAvailabilityResponse(passwordHash, request)
                 {
                     ServiceAvailabilityResponse = null,
@@ -3886,6 +3873,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGetCustomerFileResponse(password, request)
                     {
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
@@ -3932,7 +3920,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetCustomerFileResponse(passwordHash, request)
                 {
                     CustomerFiles = null,
@@ -3950,6 +3938,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGetClientAttachmentResponse(password, request)
                     {
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
@@ -4002,7 +3991,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetClientAttachmentResponse(passwordHash, request)
                 {
                     GetClientAttachment = null,
@@ -4064,7 +4053,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServicGetSupportAttachmentListResponse(passwordHash, request)
                 {
                     GetSupportAttachmentList = null,
@@ -4132,7 +4121,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetSupportAttachmentResponse(passwordHash, request)
                 {
                     GetSupportAttachment = null,
@@ -4190,7 +4179,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
                 {
                     SaveSupportAttachmentResult = false,
@@ -4231,7 +4220,8 @@ namespace RadiusR.API.CustomerWebService
                             var PassiveSubscriptions = dbClients.Where(s => s.State == (short)CustomerState.Cancelled && !s.Bills.Where(b => b.BillStatusID == (short)BillState.Unpaid).Any()).ToList();
                             if (PassiveSubscriptions.Count() == dbClients.Count())
                             {
-                                Errorslogger.Error($"CustomerAuthentication -> cancelled . CustomerCode : {request.AuthenticationWithPasswordParameters.CustomerCode} . User : {request.Username}");
+                                Errorslogger.LogException(request.Username, new Exception($"CustomerAuthentication -> cancelled . CustomerCode : {request.AuthenticationWithPasswordParameters.CustomerCode} ."));
+                                //Errorslogger.Error($"CustomerAuthentication -> cancelled . CustomerCode : {request.AuthenticationWithPasswordParameters.CustomerCode} . User : {request.Username}");
                                 return new CustomerServiceCustomerAuthenticationWithPasswordResponse(passwordHash, request)
                                 {
                                     AuthenticationWithPasswordResult = null,
@@ -4277,7 +4267,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceCustomerAuthenticationWithPasswordResponse(passwordHash, request)
                 {
                     AuthenticationWithPasswordResult = null,
@@ -4334,7 +4324,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceHasClientPreRegisterResponse(passwordHash, request)
                 {
                     HasClientPreRegister = null,
@@ -4388,7 +4378,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSaveClientAttachmentResponse(passwordHash, request)
                 {
                     SaveClientAttachmentResult = false,
@@ -4425,7 +4415,8 @@ namespace RadiusR.API.CustomerWebService
                     var createdPDF = RadiusR.PDFForms.PDFWriter.GetContractPDF(db, request.SubscriptionParameters.SubscriptionId.Value, CultureInfo.CreateSpecificCulture(request.Culture));
                     if (createdPDF.InternalException != null)
                     {
-                        Errorslogger.Error($" pdf create is failed. exception is : {createdPDF.InternalException}");
+                        Errorslogger.LogException(request.Username, new Exception($" pdf create is failed. exception is : {createdPDF.InternalException}"));
+                        //Errorslogger.Error($" pdf create is failed. exception is : {createdPDF.InternalException}");
                         return new CustomerServiceGetClientPDFFormResponse(passwordHash, request)
                         {
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture),
@@ -4452,7 +4443,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceGetClientPDFFormResponse(passwordHash, request)
                 {
                     GetClientPDFFormResult = null,
@@ -4471,7 +4462,8 @@ namespace RadiusR.API.CustomerWebService
                 {
                     if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                     {
-                        Errorslogger.Error($"EArchivePDF unauthorize error. User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception("unauthorize error."));
+                        //Errorslogger.Error($"EArchivePDF unauthorize error. User : {request.Username}");
                         return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
                         {
                             ResponseMessage = CommonResponse.UnauthorizedResponse(request),
@@ -4481,7 +4473,8 @@ namespace RadiusR.API.CustomerWebService
                     var dbBill = db.Bills.Find(request.EArchivePDFParameters.BillId);
                     if (dbBill == null || dbBill.EBill == null || dbBill.EBill.EBillType != (short)EBillType.EArchive)
                     {
-                        Errorslogger.Error($"EArchivePDF -> Bill not found. Bill Id : {request.EArchivePDFParameters.BillId} . User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception($"EArchivePDF -> Bill not found. Bill Id : {request.EArchivePDFParameters.BillId}."));
+                        //Errorslogger.Error($"EArchivePDF -> Bill not found. Bill Id : {request.EArchivePDFParameters.BillId} . User : {request.Username}");
                         return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
                         {
                             EArchivePDFMailResponse = null,
@@ -4490,7 +4483,8 @@ namespace RadiusR.API.CustomerWebService
                     }
                     if (dbBill.Subscription.ID != request.EArchivePDFParameters.SubscriptionId)
                     {
-                        Errorslogger.Error($"EArchivePDF -> Bill id and subscription id not match. Bill Id : {request.EArchivePDFParameters.BillId} - Subscription Id : {request.EArchivePDFParameters.SubscriptionId}. User : {request.Username}");
+                        Errorslogger.LogException(request.Username, new Exception($"EArchivePDF -> Bill id and subscription id not match. Bill Id : {request.EArchivePDFParameters.BillId} - Subscription Id : {request.EArchivePDFParameters.SubscriptionId}."));
+                        //Errorslogger.Error($"EArchivePDF -> Bill id and subscription id not match. Bill Id : {request.EArchivePDFParameters.BillId} - Subscription Id : {request.EArchivePDFParameters.SubscriptionId}. User : {request.Username}");
                         return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
                         {
                             EArchivePDFMailResponse = null,
@@ -4541,7 +4535,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (NullReferenceException ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.NullObjectException(request.Culture),
@@ -4550,7 +4544,7 @@ namespace RadiusR.API.CustomerWebService
             }
             catch (Exception ex)
             {
-                Errorslogger.Error(ex, $" message : {ex.Message}");
+                Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
