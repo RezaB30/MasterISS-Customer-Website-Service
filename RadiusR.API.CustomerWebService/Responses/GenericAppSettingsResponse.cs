@@ -19,6 +19,12 @@ namespace RadiusR.API.CustomerWebService.Responses
         public long FileMaxCount { get; set; }
         [DataMember]
         public long FileMaxSize { get; set; }
+        [DataMember]
+        public string RecaptchaClientKey { get; set; }
+        [DataMember]
+        public string RecaptchaServerKey { get; set; }
+        [DataMember]
+        public bool UseGoogleRecaptcha { get; set; }
     }
     [DataContract]
     public partial class CustomerServiceGenericAppSettingsResponse : BaseResponse<GenericAppSettingsResponse, SHA1>

@@ -979,6 +979,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your customer website operation password is {0}..
+        /// </summary>
+        public static string OperationSMS {
+            get {
+                return ResourceManager.GetString("OperationSMS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optional.
         /// </summary>
         public static string Optional {

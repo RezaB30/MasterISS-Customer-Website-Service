@@ -16,13 +16,12 @@ namespace RadiusR.API.CustomerWebService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
     [ServiceContract]
-    public interface IGenericCustomerService
+    public interface IGenericCustomerService : RadiusR.API.TelekomInfrastructureService.ITelekomInfrastructureService
     {
         [OperationContract]
         string GetKeyFragment(string username);
         [OperationContract]
         CustomerServiceGetCustomerInfoResponse GetCustomerInfo(CustomerServiceBaseRequest request);
-
         [OperationContract]
         CustomerServiceGetCustomerBillsResponse GetCustomerBills(CustomerServiceBaseRequest request);
         [OperationContract]
@@ -102,27 +101,9 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         CustomerServiceExistingCustomerRegisterResponse ExistingCustomerRegister(CustomerServiceExistingCustomerRegisterRequest request);
         [OperationContract]
-        CustomerServiceNameValuePair CommitmentLengthList(CustomerServiceCommitmentLengthsRequest request);
+        CustomerServiceNameValuePair CommitmentLengthList(CustomerServiceCommitmentLengthsRequest request);        
         [OperationContract]
-        CustomerServiceNameValuePair GetProvinces(CustomerServiceProvincesRequest request);
-        [OperationContract]
-        CustomerServiceNameValuePair GetProvinceDistricts(CustomerServiceNameValuePairRequest request);
-        [OperationContract]
-        CustomerServiceNameValuePair GetDistrictRuralRegions(CustomerServiceNameValuePairRequest request);
-        [OperationContract]
-        CustomerServiceNameValuePair GetRuralRegionNeighbourhoods(CustomerServiceNameValuePairRequest request);
-        [OperationContract]
-        CustomerServiceNameValuePair GetNeighbourhoodStreets(CustomerServiceNameValuePairRequest request);
-        [OperationContract]
-        CustomerServiceNameValuePair GetStreetBuildings(CustomerServiceNameValuePairRequest request);
-        [OperationContract]
-        CustomerServiceNameValuePair GetBuildingApartments(CustomerServiceNameValuePairRequest request);
-        [OperationContract]
-        CustomerServiceAddressDetailsResponse GetApartmentAddress(CustomerServiceAddressDetailsRequest request);
-        [OperationContract]
-        CustomerServiceExternalTariffResponse ExternalTariffList(CustomerServiceExternalTariffRequest request);
-        [OperationContract]
-        CustomerServiceServiceAvailabilityResponse ServiceAvailability(CustomerServiceServiceAvailabilityRequest request);
+        CustomerServiceExternalTariffResponse ExternalTariffList(CustomerServiceExternalTariffRequest request);        
         [OperationContract]
         CustomerServiceGetCustomerFileResponse GetCustomerFiles(CustomerServiceBaseRequest request);
         [OperationContract]
@@ -143,5 +124,9 @@ namespace RadiusR.API.CustomerWebService
         CustomerServiceGetClientPDFFormResponse GetClientPDFForm(CustomerServiceBaseRequest request);
         [OperationContract]
         CustomerServiceEArchivePDFMailResponse EArchivePDFMail(CustomerServiceEArchivePDFRequest request);
+        [OperationContract]
+        CustomerServiceChangeClientInfoResponse ChangeClientInfoSMSCheck(CustomerServiceChangeClientInfoRequest request);
+        [OperationContract]
+        CustomerServiceChangeClientInfoConfirmResponse ChangeClientInfoConfirm(CustomerServiceChangeClientInfoConfirmRequest request);
     }
 }

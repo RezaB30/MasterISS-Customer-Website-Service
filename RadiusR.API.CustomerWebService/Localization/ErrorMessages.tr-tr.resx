@@ -126,6 +126,9 @@
   <data name="CardInformationNotFound" xml:space="preserve">
     <value>Kart bilgisi bulunamadı</value>
   </data>
+  <data name="ContactPhoneNoNotFound" xml:space="preserve">
+    <value>Telefon Numarası Bulunamadı</value>
+  </data>
   <data name="CustomerMailNotFound" xml:space="preserve">
     <value>Müşterinin kayıtlı e-posta adresi bulunmamaktadır.</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="PaidTypeNull" xml:space="preserve">
     <value>SubscriptionPaidType boş olamaz</value>
+  </data>
+  <data name="PaymentPermissionNotFound" xml:space="preserve">
+    <value>Ödeme yetkiniz bulunmamaktadır</value>
   </data>
   <data name="QuotaNotFound" xml:space="preserve">
     <value>Kota bilgisi bulunamadı</value>

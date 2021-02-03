@@ -88,6 +88,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contact phone no not found.
+        /// </summary>
+        public static string ContactPhoneNoNotFound {
+            get {
+                return ResourceManager.GetString("ContactPhoneNoNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer e-mail address not found..
         /// </summary>
         public static string CustomerMailNotFound {
@@ -210,6 +219,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         public static string PaidTypeNull {
             get {
                 return ResourceManager.GetString("PaidTypeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You don&apos;t have payment permission.
+        /// </summary>
+        public static string PaymentPermissionNotFound {
+            get {
+                return ResourceManager.GetString("PaymentPermissionNotFound", resourceCulture);
             }
         }
         

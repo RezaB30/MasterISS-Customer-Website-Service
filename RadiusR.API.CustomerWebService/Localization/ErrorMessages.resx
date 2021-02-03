@@ -126,6 +126,9 @@
   <data name="CardInformationNotFound" xml:space="preserve">
     <value>Card information is not found</value>
   </data>
+  <data name="ContactPhoneNoNotFound" xml:space="preserve">
+    <value>Contact phone no not found</value>
+  </data>
   <data name="CustomerMailNotFound" xml:space="preserve">
     <value>Customer e-mail address not found.</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="PaidTypeNull" xml:space="preserve">
     <value>SubscriptionPaidType is required</value>
+  </data>
+  <data name="PaymentPermissionNotFound" xml:space="preserve">
+    <value>You don't have payment permission</value>
   </data>
   <data name="QuotaNotFound" xml:space="preserve">
     <value>Quota information not found</value>

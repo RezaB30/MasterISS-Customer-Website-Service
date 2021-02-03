@@ -210,6 +210,23 @@ namespace RadiusR.API.CustomerWebService
                 ErrorMessage = new RezaB.Data.Localization.LocalizedList<ErrorCodes, ErrorMessages>().GetDisplayText((int)ErrorCodes.CustomerMailNotFound, CreateCulture(culture))
             };
         }
+        //PARTNER EXTRA ERROR MESSAGES
+        public static ServiceResponse PaymentPermissionNotFound(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.PaymentPermissionNotFound,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.PaymentPermissionNotFound, CreateCulture(culture))
+            };
+        }
+        public static ServiceResponse NotEnoughCredit(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.NotEnoughCredit,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.NotEnoughCredit, CreateCulture(culture))
+            };
+        }
         private static CultureInfo CreateCulture(string cultureName)
         {
             var currentCulture = CultureInfo.InvariantCulture;

@@ -203,21 +203,19 @@ namespace RadiusR.API.CustomerWebService
 
                     if (response.InternalException != null)
                     {
+                        Errorslogger.LogException(request.Username, response.InternalException);
                         return new CustomerServiceAddCardResponse(passwordHash, request)
                         {
-
                             IsSuccess = false,
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.Common.GeneralError)
                         };
                     }
                     if (response.Response.ResponseCode != RezaB.API.MobilExpress.Response.ResponseCodes.Success)
                     {
+                        Errorslogger.LogException(request.Username, new Exception(response.Response.ErrorMessage + "-" + response.Response.ResponseCode.ToString()));
                         return new CustomerServiceAddCardResponse(passwordHash, request)
                         {
-
                             IsSuccess = false,
-
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture, response.Response.ErrorMessage)
                         };
                     }
@@ -228,8 +226,6 @@ namespace RadiusR.API.CustomerWebService
                     return new CustomerServiceAddCardResponse(passwordHash, request)
                     {
                         IsSuccess = true,
-
-
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                     };
                 }
@@ -258,9 +254,7 @@ namespace RadiusR.API.CustomerWebService
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAddCardSMSValidationResponse(passwordHash, request)
                     {
-
                         SMSCode = null,
-
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
                     };
                 }
@@ -268,8 +262,6 @@ namespace RadiusR.API.CustomerWebService
                 {
                     return new CustomerServiceAddCardSMSValidationResponse(passwordHash, request)
                     {
-
-
                         ResponseMessage = CommonResponse.MobilexpressIsDeactive(request.Culture),
                         SMSCode = null
                     };
@@ -280,14 +272,13 @@ namespace RadiusR.API.CustomerWebService
                     var rand = new Random();
                     var smsCode = rand.Next(100000, 1000000).ToString();
                     var smsClient = new SMSService();
-                    smsClient.SendSubscriberSMS(dbSubscription, SMSType.MobilExpressAddRemoveCard, new Dictionary<string, object>() {
+                    var smsResponse = smsClient.SendSubscriberSMS(dbSubscription, SMSType.MobilExpressAddRemoveCard, new Dictionary<string, object>() {
                         { SMSParamaterRepository.SMSParameterNameCollection.SMSCode, smsCode }
                     });
-                    Errorslogger.LogInfo(request.Username, $"AddCardSMSCode : {smsCode}");
+                    Errorslogger.LogInfo(request.Username, $"SubscriptionID : {dbSubscription.ID} - AddCardSMSCode : {smsCode} - SMSText : {smsResponse?.Text} - SMSType : {smsResponse?.SMSTypeID}");
                     //CacheManager.GenerateKey(request.Username, request.SubscriptionParameters.SubscriptionId.ToString(), smsCode, CacheTypes.AddCardSMSValidation, new TimeSpan(0, 15, 0));
                     return new CustomerServiceAddCardSMSValidationResponse(passwordHash, request)
                     {
-
                         SMSCode = smsCode,
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
@@ -346,8 +337,7 @@ namespace RadiusR.API.CustomerWebService
                             return new CustomerServiceAuthenticationSMSConfirmResponse(passwordHash, request)
                             {
                                 AuthenticationSMSConfirmResponse = null,
-
-                                ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.Common.SMSPasswordWrong),
+                                ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.Common.ResourceManager.GetString("SMSPasswordWrong", CultureInfo.CreateSpecificCulture(request.Culture))),
 
                             };
                         }
@@ -1019,6 +1009,9 @@ namespace RadiusR.API.CustomerWebService
                 var MobilexpressIsActive = MobilExpressSettings.MobilExpressIsActive;
                 var maxFileCount = RadiusR.DB.CustomerWebsiteSettings.MaxSupportAttachmentPerRequest;
                 var maxFileSize = CustomerWebsiteSettings.MaxSupportAttachmentSize;
+                var recaptchaSiteKey = CustomerWebsiteSettings.CustomerWebsiteRecaptchaClientKey;
+                var recaptchaSecretKey = CustomerWebsiteSettings.CustomerWebsiteRecaptchaServerKey;
+                var useGoogleRecaptcha = CustomerWebsiteSettings.CustomerWebsiteUseGoogleRecaptcha;
                 return new CustomerServiceGenericAppSettingsResponse(passwordHash, request)
                 {
                     GenericAppSettings = new GenericAppSettingsResponse()
@@ -1027,6 +1020,9 @@ namespace RadiusR.API.CustomerWebService
                         FileMaxSize = maxFileSize,
                         HasAnyTelekomDomains = HasCache,
                         MobilExpressIsActive = MobilexpressIsActive,
+                        RecaptchaClientKey = recaptchaSiteKey,
+                        RecaptchaServerKey = recaptchaSecretKey,
+                        UseGoogleRecaptcha = useGoogleRecaptcha
                     },
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                 };
@@ -3312,7 +3308,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceNameValuePair GetProvinces(CustomerServiceProvincesRequest request)
+        public TelekomInfrastructureService.CustomerServiceNameValuePair GetProvinces(TelekomInfrastructureService.CustomerServiceProvincesRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3321,20 +3317,20 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
                     };
                 }
                 var result = AddressClient.GetProvinces();
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
-                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new ValueNamePair()
+                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new TelekomInfrastructureService.ValueNamePair()
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<ValueNamePair>(),
+                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3343,7 +3339,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 Errorslogger.LogException(request.Username, ex);
                 //Errorslogger.Error(ex, "Error Get Provinces");
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
                     ValueNamePairList = null,
@@ -3353,7 +3349,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceNameValuePair GetProvinceDistricts(CustomerServiceNameValuePairRequest request)
+        public TelekomInfrastructureService.CustomerServiceNameValuePair GetProvinceDistricts(TelekomInfrastructureService.CustomerServiceNameValuePairRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3362,7 +3358,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
@@ -3370,7 +3366,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.ItemCode == null)
                 {
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
 
                         ValueNamePairList = null,
@@ -3379,14 +3375,14 @@ namespace RadiusR.API.CustomerWebService
                     };
                 }
                 var result = AddressClient.GetProvinceDistricts(request.ItemCode.Value);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
-                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new ValueNamePair()
+                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new TelekomInfrastructureService.ValueNamePair()
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<ValueNamePair>(),
+                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3394,7 +3390,7 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
                     ValueNamePairList = null,
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
@@ -3403,7 +3399,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceNameValuePair GetDistrictRuralRegions(CustomerServiceNameValuePairRequest request)
+        public TelekomInfrastructureService.CustomerServiceNameValuePair GetDistrictRuralRegions(TelekomInfrastructureService.CustomerServiceNameValuePairRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3412,7 +3408,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
@@ -3420,7 +3416,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.ItemCode == null)
                 {
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
 
                         ValueNamePairList = null,
@@ -3429,14 +3425,14 @@ namespace RadiusR.API.CustomerWebService
                     };
                 }
                 var result = AddressClient.GetDistrictRuralRegions(request.ItemCode.Value);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
-                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new ValueNamePair()
+                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new TelekomInfrastructureService.ValueNamePair()
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<ValueNamePair>(),
+                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3444,7 +3440,7 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
                     ValueNamePairList = null,
@@ -3454,7 +3450,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceNameValuePair GetRuralRegionNeighbourhoods(CustomerServiceNameValuePairRequest request)
+        public TelekomInfrastructureService.CustomerServiceNameValuePair GetRuralRegionNeighbourhoods(TelekomInfrastructureService.CustomerServiceNameValuePairRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3463,7 +3459,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
@@ -3471,7 +3467,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.ItemCode == null)
                 {
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.NullObjectException(request.Culture),
@@ -3479,14 +3475,14 @@ namespace RadiusR.API.CustomerWebService
                     };
                 }
                 var result = AddressClient.GetRuralRegionNeighbourhoods(request.ItemCode.Value);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
-                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new ValueNamePair()
+                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new TelekomInfrastructureService.ValueNamePair()
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<ValueNamePair>(),
+                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3494,7 +3490,7 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
                     ValueNamePairList = null,
@@ -3504,7 +3500,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceNameValuePair GetNeighbourhoodStreets(CustomerServiceNameValuePairRequest request)
+        public TelekomInfrastructureService.CustomerServiceNameValuePair GetNeighbourhoodStreets(TelekomInfrastructureService.CustomerServiceNameValuePairRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3513,7 +3509,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
 
 
@@ -3523,7 +3519,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.ItemCode == null)
                 {
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
 
                         ValueNamePairList = null,
@@ -3532,14 +3528,14 @@ namespace RadiusR.API.CustomerWebService
                     };
                 }
                 var result = AddressClient.GetNeighbourhoodStreets(request.ItemCode.Value);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
-                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new ValueNamePair()
+                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new TelekomInfrastructureService.ValueNamePair()
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<ValueNamePair>(),
+                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3547,7 +3543,7 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
                     ValueNamePairList = null,
@@ -3557,7 +3553,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceNameValuePair GetStreetBuildings(CustomerServiceNameValuePairRequest request)
+        public TelekomInfrastructureService.CustomerServiceNameValuePair GetStreetBuildings(TelekomInfrastructureService.CustomerServiceNameValuePairRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3566,7 +3562,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
@@ -3574,7 +3570,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.ItemCode == null)
                 {
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
 
                         ValueNamePairList = null,
@@ -3583,14 +3579,14 @@ namespace RadiusR.API.CustomerWebService
                     };
                 }
                 var result = AddressClient.GetStreetBuildings(request.ItemCode.Value);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
-                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new ValueNamePair()
+                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new TelekomInfrastructureService.ValueNamePair()
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<ValueNamePair>(),
+                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3598,7 +3594,7 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
                     ValueNamePairList = null,
@@ -3608,7 +3604,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceNameValuePair GetBuildingApartments(CustomerServiceNameValuePairRequest request)
+        public TelekomInfrastructureService.CustomerServiceNameValuePair GetBuildingApartments(TelekomInfrastructureService.CustomerServiceNameValuePairRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3617,7 +3613,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
                         ValueNamePairList = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
@@ -3625,7 +3621,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.ItemCode == null)
                 {
-                    return new CustomerServiceNameValuePair(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                     {
 
                         ValueNamePairList = null,
@@ -3634,14 +3630,14 @@ namespace RadiusR.API.CustomerWebService
                     };
                 }
                 var result = AddressClient.GetBuildingApartments(request.ItemCode.Value);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
 
-                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new ValueNamePair()
+                    ValueNamePairList = result.ErrorOccured == false ? result.Data.Select(p => new TelekomInfrastructureService.ValueNamePair()
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<ValueNamePair>(),
+                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3649,17 +3645,15 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceNameValuePair(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
                 {
-
                     ValueNamePairList = null,
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
-
                 };
             }
         }
 
-        public CustomerServiceAddressDetailsResponse GetApartmentAddress(CustomerServiceAddressDetailsRequest request)
+        public TelekomInfrastructureService.CustomerServiceAddressDetailsResponse GetApartmentAddress(TelekomInfrastructureService.CustomerServiceAddressDetailsRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3668,7 +3662,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceAddressDetailsResponse(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceAddressDetailsResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request),
                         AddressDetailsResponse = null
@@ -3676,7 +3670,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 if (request.BBK == null)
                 {
-                    return new CustomerServiceAddressDetailsResponse(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceAddressDetailsResponse(passwordHash, request)
                     {
 
                         AddressDetailsResponse = null,
@@ -3685,10 +3679,10 @@ namespace RadiusR.API.CustomerWebService
                     };
                 }
                 var result = AddressClient.GetApartmentAddress(request.BBK.Value);
-                return new CustomerServiceAddressDetailsResponse(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceAddressDetailsResponse(passwordHash, request)
                 {
 
-                    AddressDetailsResponse = new AddressDetailsResponse()
+                    AddressDetailsResponse = new TelekomInfrastructureService.AddressDetailsResponse()
                     {
                         AddressNo = result.Data.AddressNo,
                         AddressText = result.Data.AddressText,
@@ -3714,12 +3708,10 @@ namespace RadiusR.API.CustomerWebService
             {
 
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceAddressDetailsResponse(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceAddressDetailsResponse(passwordHash, request)
                 {
-
                     AddressDetailsResponse = null,
                     ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
-
                 };
             }
         }
@@ -3773,7 +3765,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceServiceAvailabilityResponse ServiceAvailability(CustomerServiceServiceAvailabilityRequest request)
+        public TelekomInfrastructureService.CustomerServiceServiceAvailabilityResponse ServiceAvailability(TelekomInfrastructureService.CustomerServiceServiceAvailabilityRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -3782,7 +3774,7 @@ namespace RadiusR.API.CustomerWebService
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
-                    return new CustomerServiceServiceAvailabilityResponse(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceServiceAvailabilityResponse(passwordHash, request)
                     {
                         ServiceAvailabilityResponse = null,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
@@ -3819,13 +3811,13 @@ namespace RadiusR.API.CustomerWebService
                     var speedFiber = HasInfrastructureFiber ? availabFiber.Data.Description.DSLMaxSpeed.Value : 0;
                     AddressServiceClient addressServiceClient = new AddressServiceClient(domain.TelekomCredential.XDSLWebServiceUsernameInt, domain.TelekomCredential.XDSLWebServicePassword);
                     var address = addressServiceClient.GetAddressFromCode(Convert.ToInt64(request.ServiceAvailabilityParameters.bbk));
-                    return new CustomerServiceServiceAvailabilityResponse(passwordHash, request)
+                    return new TelekomInfrastructureService.CustomerServiceServiceAvailabilityResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                        ServiceAvailabilityResponse = new ServiceAvailabilityResponse()
+                        ServiceAvailabilityResponse = new TelekomInfrastructureService.ServiceAvailabilityResponse()
                         {
                             address = address.InternalException == null ? address.Data.AddressText : "-",
-                            ADSL = new ServiceAvailabilityResponse.ADSLInfo()
+                            ADSL = new TelekomInfrastructureService.ServiceAvailabilityResponse.ADSLInfo()
                             {
                                 HasInfrastructureAdsl = HasInfrastructureAdsl,
                                 AdslDistance = availabAdsl.InternalException == null ? availabAdsl.Data.Description.Distance : null,
@@ -3833,7 +3825,7 @@ namespace RadiusR.API.CustomerWebService
                                 AdslSpeed = availabAdsl.InternalException == null ? availabAdsl.Data.Description.DSLMaxSpeed : null,
                                 AdslSVUID = availabAdsl.InternalException == null ? availabAdsl.Data.Description.SVUID : "-",
                             },
-                            VDSL = new ServiceAvailabilityResponse.VDSLInfo()
+                            VDSL = new TelekomInfrastructureService.ServiceAvailabilityResponse.VDSLInfo()
                             {
                                 HasInfrastructureVdsl = HasInfrastructureVdsl,
                                 VdslDistance = availabVdsl.InternalException == null ? availabVdsl.Data.Description.Distance : null,
@@ -3841,7 +3833,7 @@ namespace RadiusR.API.CustomerWebService
                                 VdslSpeed = availabVdsl.InternalException == null ? availabVdsl.Data.Description.DSLMaxSpeed : null,
                                 VdslSVUID = availabVdsl.InternalException == null ? availabVdsl.Data.Description.SVUID : "-",
                             },
-                            FIBER = new ServiceAvailabilityResponse.FIBERInfo()
+                            FIBER = new TelekomInfrastructureService.ServiceAvailabilityResponse.FIBERInfo()
                             {
                                 HasInfrastructureFiber = HasInfrastructureFiber,
                                 FiberDistance = availabFiber.InternalException == null ? availabFiber.Data.Description.Distance : null,
@@ -3857,14 +3849,13 @@ namespace RadiusR.API.CustomerWebService
             catch (Exception ex)
             {
                 Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceServiceAvailabilityResponse(passwordHash, request)
+                return new TelekomInfrastructureService.CustomerServiceServiceAvailabilityResponse(passwordHash, request)
                 {
                     ServiceAvailabilityResponse = null,
                     ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
                 };
             }
         }
-
         public CustomerServiceGetCustomerFileResponse GetCustomerFiles(CustomerServiceBaseRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
@@ -3929,7 +3920,6 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
-
         public CustomerServiceGetClientAttachmentResponse GetClientAttachment(CustomerServiceGetClientAttachmentRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
@@ -4552,6 +4542,118 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+        public CustomerServiceChangeClientInfoResponse ChangeClientInfoSMSCheck(CustomerServiceChangeClientInfoRequest request)
+        {
+            var password = new ServiceSettings().GetUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+            try
+            {
+                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                {
+                    return new CustomerServiceChangeClientInfoResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.UnauthorizedResponse(request),
+                        ChangeClientInfoResponse = null
+                    };
+                }
+                if (string.IsNullOrEmpty(request.ChangeClientInfoRequest.ContactPhoneNo))
+                {
+                    return new CustomerServiceChangeClientInfoResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.ErrorMessages.ContactPhoneNoNotFound),
+                        ChangeClientInfoResponse = null
+                    };
+                }
+                if (request.ChangeClientInfoRequest.ContactPhoneNo.StartsWith("0"))
+                    request.ChangeClientInfoRequest.ContactPhoneNo = request.ChangeClientInfoRequest.ContactPhoneNo.TrimStart('0');
+                var rand = new Random();
+                var smsCode = rand.Next(100000, 1000000).ToString();
+                SMSService SMS = new SMSService();
+                SMS.SendGenericSMS(request.ChangeClientInfoRequest.ContactPhoneNo, request.Culture, rawText: string.Format(Localization.Common.OperationSMS, smsCode, CustomerWebsiteSettings.OnlinePasswordDuration.Hours));
+                Errorslogger.LogInfo(request.Username, $"Change Client Info SMS Code : {smsCode}");
+                return new CustomerServiceChangeClientInfoResponse(passwordHash, request)
+                {
+                    ChangeClientInfoResponse = new ChangeClientInfoResponse()
+                    {
+                        SMSCode = smsCode
+                    },
+                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                };
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new CustomerServiceChangeClientInfoResponse(passwordHash, request)
+                {
+                    ResponseMessage = CommonResponse.InternalException(request.Culture),
+                    ChangeClientInfoResponse = null,
+                };
+            }
+        }
+        public CustomerServiceChangeClientInfoConfirmResponse ChangeClientInfoConfirm(CustomerServiceChangeClientInfoConfirmRequest request)
+        {
+            var password = new ServiceSettings().GetUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+            try
+            {
+                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                {
+                    return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.UnauthorizedResponse(request),
+                        ChangeClientInfoConfirmResult = null
+                    };
+                }
+                if (request.ChangeClientInfoConfirmRequest.SubscriptionId == null)
+                {
+                    return new CustomerServiceChangeClientInfoConfirmResponse(password, request)
+                    {
+                        ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
+                        ChangeClientInfoConfirmResult = null
+                    };
+                }
+                if (string.IsNullOrEmpty(request.ChangeClientInfoConfirmRequest.ContactPhoneNo))
+                {
+                    return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.ErrorMessages.ContactPhoneNoNotFound),
+                        ChangeClientInfoConfirmResult = null
+                    };
+                }
+                if (request.ChangeClientInfoConfirmRequest.ContactPhoneNo.StartsWith("0"))
+                    request.ChangeClientInfoConfirmRequest.ContactPhoneNo = request.ChangeClientInfoConfirmRequest.ContactPhoneNo.TrimStart('0');
+                using (var db = new RadiusREntities())
+                {
+                    var subscription = db.Subscriptions.Find(request.ChangeClientInfoConfirmRequest.SubscriptionId);
+                    if (subscription == null)
+                    {
+                        return new CustomerServiceChangeClientInfoConfirmResponse(password, request)
+                        {
+                            ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
+                            ChangeClientInfoConfirmResult = null
+                        };
+                    }
+                    subscription.Customer.Email = request.ChangeClientInfoConfirmRequest.Email;
+                    subscription.Customer.ContactPhoneNo = request.ChangeClientInfoConfirmRequest.ContactPhoneNo;
+                    db.SystemLogs.Add(SystemLogProcessor.ChangeCustomer(null, subscription.CustomerID, SystemLogInterface.CustomerWebsite, subscription.SubscriberNo));
+                    db.SaveChanges();
+                    return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                    {
+                        ChangeClientInfoConfirmResult = true,
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                {
+                    ResponseMessage = CommonResponse.InternalException(request.Culture),
+                    ChangeClientInfoConfirmResult = null,
+                };
+            }
+        }
         #region private methods
         private string[] GetRelatedCustomers(Customer[] customers)
         {
@@ -4578,5 +4680,6 @@ namespace RadiusR.API.CustomerWebService
             return relatedCustomers.ToArray();
         }
         #endregion
+
     }
 }

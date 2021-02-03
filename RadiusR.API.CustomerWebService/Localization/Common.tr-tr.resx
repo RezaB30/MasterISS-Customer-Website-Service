@@ -420,6 +420,9 @@
   <data name="OpenRequestAgain" xml:space="preserve">
     <value>Talebi Tekrar Aç</value>
   </data>
+  <data name="OperationSMS" xml:space="preserve">
+    <value>Online işlem merkezi işlem şifreniz {0} 'dir.</value>
+  </data>
   <data name="Optional" xml:space="preserve">
     <value>İsteğe Bağlı</value>
   </data>

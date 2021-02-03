@@ -423,6 +423,9 @@
   <data name="OpenRequestAgain" xml:space="preserve">
     <value>Open Request Again</value>
   </data>
+  <data name="OperationSMS" xml:space="preserve">
+    <value>Your customer website operation password is {0}.</value>
+  </data>
   <data name="Optional" xml:space="preserve">
     <value>Optional</value>
   </data>
