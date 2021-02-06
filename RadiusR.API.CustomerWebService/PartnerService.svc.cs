@@ -21,23 +21,23 @@ namespace RadiusR.API.CustomerWebService
     public class PartnerService : GenericCustomerService, IPartnerService
     {
         WebServiceLogger Errorslogger = new WebServiceLogger("PartnerErrors");
+        WebServiceLogger InComingInfoLogger = new WebServiceLogger("PartnerInComingInfo");
         public PartnerServicePaymentResponse PayBills(PartnerServicePaymentRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
-            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
             try
             {
-                Errorslogger.LogIncomingMessage(request);
+                InComingInfoLogger.LogIncomingMessage(request);
 
                 if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
                 {
                     return new PartnerServicePaymentResponse(passwordHash, request)
                     {
                         PaymentResponse = null,
-                        ResponseMessage = CommonResponse.UnauthorizedResponse(request)
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request)
                     };
                 }
-
                 using (RadiusREntities db = new RadiusREntities())
                 {
                     var dbPartner = db.Partners.FirstOrDefault(p => p.Email == request.Username);
@@ -51,7 +51,6 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PaymentPermissionNotFound(request.Culture)
                         };
                     }
-
                     if (request.PaymentRequest.BillIDs == null || request.PaymentRequest.BillIDs.Count() <= 0)
                     {
                         return new PartnerServicePaymentResponse(passwordHash, request)
@@ -129,6 +128,95 @@ namespace RadiusR.API.CustomerWebService
                 {
                     PaymentResponse = null,
                     ResponseMessage = CommonResponse.InternalException(request.Username)
+                };
+            }
+        }
+        public PartnerServiceAuthenticationResponse Authenticate(PartnerServiceAuthenticationRequest request)
+        {
+            var password = new ServiceSettings().GetUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                {
+                    return new PartnerServiceAuthenticationResponse(passwordHash, request)
+                    {
+                        AuthenticationResponse = new AuthenticationResponse()
+                        {
+                            IsAuthenticated = false
+                        },
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request)
+                    };
+                }
+
+                using (RadiusREntities db = new RadiusREntities())
+                {
+                    var dbPartner = db.Partners.FirstOrDefault(p => p.Email == request.AuthenticationParameters.PartnerUsername);
+
+                    if (!dbPartner.IsActive)
+                    {
+                        return new PartnerServiceAuthenticationResponse(passwordHash, request)
+                        {
+                            AuthenticationResponse = new AuthenticationResponse()
+                            {
+                                IsAuthenticated = false
+                            },
+                            ResponseMessage = CommonResponse.PartnerIsNotActive(request.Culture)
+                        };
+                    }
+
+                    var partnerPasswordHash = dbPartner.Password;
+                    if (!string.IsNullOrEmpty(request.AuthenticationParameters.SubUserEmail))
+                    {
+                        var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(psu => psu.Email == request.AuthenticationParameters.SubUserEmail);
+                        if (dbSubUser == null)
+                        {
+                            return new PartnerServiceAuthenticationResponse(passwordHash, request)
+                            {
+                                AuthenticationResponse = new AuthenticationResponse()
+                                {
+                                    IsAuthenticated = false,
+                                },
+                                ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture)
+                            };
+                        }
+                        partnerPasswordHash = dbSubUser.Password;
+                    }
+                    if (partnerPasswordHash.ToLower() != request.AuthenticationParameters.PartnerPasswordHash.ToLower())
+                    {
+                        Errorslogger.LogException(request.Username, new Exception("Wrong passwordHash"));
+                        return new PartnerServiceAuthenticationResponse(passwordHash, request)
+                        {
+                            AuthenticationResponse = new AuthenticationResponse()
+                            {
+                                IsAuthenticated = false
+                            },
+                            ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request)
+                        };
+                    }
+                    return new PartnerServiceAuthenticationResponse(passwordHash, request)
+                    {
+                        AuthenticationResponse = new AuthenticationResponse()
+                        {
+                            Permissions = dbPartner.PartnerPermissions.Select(pp => new AuthenticationResponse.PermissionResult(pp.Permission, request.Culture)).ToArray(),
+                            IsAuthenticated = true,
+                            UserID = dbPartner.ID,
+                            DisplayName = dbPartner.Title,
+                            SetupServiceUser = dbPartner.CustomerSetupUser?.Username,
+                            SetupServiceHash = dbPartner.CustomerSetupUser?.Password,
+                        },
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceAuthenticationResponse(passwordHash, request)
+                {
+                    AuthenticationResponse = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture)
                 };
             }
         }

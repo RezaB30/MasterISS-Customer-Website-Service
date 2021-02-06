@@ -8,6 +8,7 @@ namespace RadiusR.API.CustomerWebService.Enums
     public enum PartnerErrorCodes
     {
         PaymentPermissionNotFound = 1,
-        NotEnoughCredit = 2
+        NotEnoughCredit = 2,
+        PartnerIsNotActive = 3
     }
 }

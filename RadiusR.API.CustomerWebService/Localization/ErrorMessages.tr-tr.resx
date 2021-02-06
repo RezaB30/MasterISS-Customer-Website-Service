@@ -150,6 +150,9 @@
   <data name="InvalidBillState" xml:space="preserve">
     <value>Geçersiz fatura durumu</value>
   </data>
+  <data name="InvalidOnlinePassword" xml:space="preserve">
+    <value>Geçersiz Şifre </value>
+  </data>
   <data name="InvalidOperation" xml:space="preserve">
     <value>Geçersiz İşlem</value>
   </data>
@@ -165,11 +168,17 @@
   <data name="NullObjectFound" xml:space="preserve">
     <value>Boş parametre hatası</value>
   </data>
+  <data name="OnlinePasswordCantBeNull" xml:space="preserve">
+    <value>Şifre Boş Olamaz</value>
+  </data>
   <data name="OnlyOneGatewayAllowed" xml:space="preserve">
     <value>Yalnızda bir gateway ulaşabilir</value>
   </data>
   <data name="PaidTypeNull" xml:space="preserve">
     <value>SubscriptionPaidType boş olamaz</value>
+  </data>
+  <data name="PartnerIsNotActive" xml:space="preserve">
+    <value>Kullanıcı aktif değil</value>
   </data>
   <data name="PaymentPermissionNotFound" xml:space="preserve">
     <value>Ödeme yetkiniz bulunmamaktadır</value>

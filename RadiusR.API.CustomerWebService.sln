@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadiusR.API.CustomerWebServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadiusR.API.TelekomInfrastructureService", "RadiusR.API.TelekomInfrastructureService\RadiusR.API.TelekomInfrastructureService.csproj", "{592C6B07-BB8B-4D3C-B9E5-8808D1E59CC6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadiusR.API.Test_Unit", "RadiusR.API.Test_Unit\RadiusR.API.Test_Unit.csproj", "{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50EE8943-7FBF-4D2A-AC59-2139B0AD4A21} = {50EE8943-7FBF-4D2A-AC59-2139B0AD4A21}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +26,10 @@ Global
 		{592C6B07-BB8B-4D3C-B9E5-8808D1E59CC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{592C6B07-BB8B-4D3C-B9E5-8808D1E59CC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{592C6B07-BB8B-4D3C-B9E5-8808D1E59CC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

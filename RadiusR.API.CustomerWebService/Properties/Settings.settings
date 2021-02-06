@@ -5,5 +5,8 @@
     <Setting Name="CacheDuration" Type="System.TimeSpan" Scope="Application">
       <Value Profile="(Default)">00:15:00</Value>
     </Setting>
+    <Setting Name="EArchiveDisplayAddress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">noreply@netspeed.com.tr</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

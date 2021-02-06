@@ -15,7 +15,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
         public long[] BillIDs { get; set; }
     }
     [DataContract]
-    public partial class PartnerServicePaymentRequest : BaseRequest<PaymentRequest, SHA1>
+    public partial class PartnerServicePaymentRequest : BaseRequest<PaymentRequest, SHA256>
     {
         [DataMember]
         public PaymentRequest PaymentRequest { get { return Data; } set { Data = value; } }

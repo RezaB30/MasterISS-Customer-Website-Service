@@ -31,5 +31,14 @@ namespace RadiusR.API.CustomerWebService.Properties {
                 return ((global::System.TimeSpan)(this["CacheDuration"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("noreply@netspeed.com.tr")]
+        public string EArchiveDisplayAddress {
+            get {
+                return ((string)(this["EArchiveDisplayAddress"]));
+            }
+        }
     }
 }

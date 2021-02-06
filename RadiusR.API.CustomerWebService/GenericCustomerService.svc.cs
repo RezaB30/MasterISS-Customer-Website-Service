@@ -4508,7 +4508,18 @@ namespace RadiusR.API.CustomerWebService
                         FileName = Localization.Common.EArchivePDFFileName + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
                     });
                     RezaB.Mailing.Client.MailClient client = new RezaB.Mailing.Client.MailClient(EmailSettings.SMTPEmailHost, EmailSettings.SMTPEMailPort, false, EmailSettings.SMTPEmailAddress, EmailSettings.SMTPEmailPassword);
-                    client.SendMail(new RezaB.Mailing.StandardMailMessage(new System.Net.Mail.MailAddress(EmailSettings.SMTPEmailAddress, EmailSettings.SMTPEmailDisplayName),
+                    //var collection = new System.Net.Mail.MailAddressCollection();
+                    //collection.Add(dbBill.Subscription.Customer.Email);
+                    //var mailMessage = new System.Net.Mail.MailMessage(EmailSettings.SMTPEmailDisplayName,
+                    //    dbBill.Subscription.Customer.Email,
+                    //    string.Format(Localization.Common.EArchiveMailSubject, dbBill.IssueDate.ToString("dd-MM-yyyy")),
+                    //    string.Format(Localization.Common.EArchiveMailBody, dbBill.IssueDate.ToString("dd-MM-yyyy")))
+                    //{
+                    //    IsBodyHtml = false,
+                    //};
+                    //mailMessage.Attachments.Add(new System.Net.Mail.Attachment(fileStream, Localization.Common.EArchivePDFFileName + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf", "application/pdf"));
+                    //client.SendMail(new RezaB.Mailing.StandardMailMessage(mailMessage));
+                    client.SendMail(new RezaB.Mailing.StandardMailMessage(new System.Net.Mail.MailAddress(EmailSettings.SMTPEmailDisplayEmail, EmailSettings.SMTPEmailDisplayName),
                         new string[] { dbBill.Subscription.Customer.Email },
                         null,
                         null,
@@ -4636,6 +4647,69 @@ namespace RadiusR.API.CustomerWebService
                     subscription.Customer.Email = request.ChangeClientInfoConfirmRequest.Email;
                     subscription.Customer.ContactPhoneNo = request.ChangeClientInfoConfirmRequest.ContactPhoneNo;
                     db.SystemLogs.Add(SystemLogProcessor.ChangeCustomer(null, subscription.CustomerID, SystemLogInterface.CustomerWebsite, subscription.SubscriberNo));
+                    db.SaveChanges();
+                    return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                    {
+                        ChangeClientInfoConfirmResult = true,
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                {
+                    ResponseMessage = CommonResponse.InternalException(request.Culture),
+                    ChangeClientInfoConfirmResult = null,
+                };
+            }
+        }
+        public CustomerServiceChangeClientInfoConfirmResponse ChangeClientOnlinePassword(CustomerServiceChangeClientOnlinePasswordRequest request)
+        {
+            var password = new ServiceSettings().GetUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+            try
+            {
+                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                {
+                    return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.UnauthorizedResponse(request),
+                        ChangeClientInfoConfirmResult = null
+                    };
+                }
+                if (request.ChangeClientOnlinePasswordParameters.SubscriptionId == null)
+                {
+                    return new CustomerServiceChangeClientInfoConfirmResponse(password, request)
+                    {
+                        ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
+                        ChangeClientInfoConfirmResult = null
+                    };
+                }
+                if (string.IsNullOrEmpty(request.ChangeClientOnlinePasswordParameters.OnlinePassword))
+                {
+                    return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.ErrorMessages.OnlinePasswordCantBeNull),
+                        ChangeClientInfoConfirmResult = null
+                    };
+                }
+                if (request.ChangeClientOnlinePasswordParameters.OnlinePassword.Count() != 6)
+                {
+                    return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, Localization.ErrorMessages.InvalidOnlinePassword),
+                        ChangeClientInfoConfirmResult = null
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    //dbClients.ForEach(client => client.OnlinePassword = randomPassword);
+                    var dbClient = db.Subscriptions.Find(request.ChangeClientOnlinePasswordParameters.SubscriptionId);
+                    var dbClients = dbClient.Customer.Subscriptions.ToList();
+                    dbClients.ForEach(client => client.OnlinePassword = request.ChangeClientOnlinePasswordParameters.OnlinePassword);
+                    db.SystemLogs.Add(SystemLogProcessor.ChangeCustomer(null, dbClient.CustomerID, SystemLogInterface.CustomerWebsite, dbClient.SubscriberNo));
                     db.SaveChanges();
                     return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
                     {

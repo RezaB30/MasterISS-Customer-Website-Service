@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" />
+  <xs:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="PartnerServicePaymentRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q1:BaseRequestOfPaymentRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PaymentRequest" nillable="true" type="tns:PaymentRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServicePaymentRequest" nillable="true" type="tns:PartnerServicePaymentRequest" />
+  <xs:complexType name="PaymentRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:RequestBase">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="BillIDs" nillable="true" type="q2:ArrayOflong" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PaymentRequest" nillable="true" type="tns:PaymentRequest" />
+  <xs:complexType name="RequestBase">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SubUserEmail" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="RequestBase" nillable="true" type="tns:RequestBase" />
+  <xs:complexType name="PartnerServiceAuthenticationRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q3:BaseRequestOfAuthenticationRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AuthenticationParameters" nillable="true" type="tns:AuthenticationRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceAuthenticationRequest" nillable="true" type="tns:PartnerServiceAuthenticationRequest" />
+  <xs:complexType name="AuthenticationRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:RequestBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PartnerPasswordHash" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="PartnerUsername" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AuthenticationRequest" nillable="true" type="tns:AuthenticationRequest" />
+</xs:schema>

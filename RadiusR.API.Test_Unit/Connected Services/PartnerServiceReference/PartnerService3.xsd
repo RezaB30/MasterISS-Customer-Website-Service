@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" />
+  <xs:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" />
+  <xs:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" />
+  <xs:element name="GetProvinces">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q1:CustomerServiceProvincesRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProvincesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetProvincesResult" nillable="true" type="q2:CustomerServiceNameValuePair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProvinceDistricts">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q3:CustomerServiceNameValuePairRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetProvinceDistrictsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetProvinceDistrictsResult" nillable="true" type="q4:CustomerServiceNameValuePair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistrictRuralRegions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q5:CustomerServiceNameValuePairRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetDistrictRuralRegionsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetDistrictRuralRegionsResult" nillable="true" type="q6:CustomerServiceNameValuePair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRuralRegionNeighbourhoods">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q7:CustomerServiceNameValuePairRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRuralRegionNeighbourhoodsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetRuralRegionNeighbourhoodsResult" nillable="true" type="q8:CustomerServiceNameValuePair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNeighbourhoodStreets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q9:CustomerServiceNameValuePairRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetNeighbourhoodStreetsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetNeighbourhoodStreetsResult" nillable="true" type="q10:CustomerServiceNameValuePair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetStreetBuildings">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q11:CustomerServiceNameValuePairRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetStreetBuildingsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetStreetBuildingsResult" nillable="true" type="q12:CustomerServiceNameValuePair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBuildingApartments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q13:CustomerServiceNameValuePairRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBuildingApartmentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetBuildingApartmentsResult" nillable="true" type="q14:CustomerServiceNameValuePair" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetApartmentAddress">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q15:CustomerServiceAddressDetailsRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetApartmentAddressResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q16="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="GetApartmentAddressResult" nillable="true" type="q16:CustomerServiceAddressDetailsResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ServiceAvailability">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q17="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="request" nillable="true" type="q17:CustomerServiceServiceAvailabilityRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ServiceAvailabilityResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q18="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" minOccurs="0" name="ServiceAvailabilityResult" nillable="true" type="q18:CustomerServiceServiceAvailabilityResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetKeyFragment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="username" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetKeyFragmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="GetKeyFragmentResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PayBills">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" minOccurs="0" name="request" nillable="true" type="q19:PartnerServicePaymentRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PayBillsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="PayBillsResult" nillable="true" type="q20:PartnerServicePaymentResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Authenticate">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q21="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" minOccurs="0" name="request" nillable="true" type="q21:PartnerServiceAuthenticationRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AuthenticateResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q22="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="AuthenticateResult" nillable="true" type="q22:PartnerServiceAuthenticationResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

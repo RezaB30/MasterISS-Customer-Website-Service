@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="PartnerService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WSHttpBinding_IPartnerService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" />
+      <xsd:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" />
+      <xsd:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" />
+      <xsd:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd6" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IPartnerService_GetProvinces_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvinces" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetProvinces_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvincesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetProvinceDistricts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvinceDistricts" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetProvinceDistricts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvinceDistrictsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetDistrictRuralRegions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistrictRuralRegions" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetDistrictRuralRegions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistrictRuralRegionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetRuralRegionNeighbourhoods_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRuralRegionNeighbourhoods" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetRuralRegionNeighbourhoods_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRuralRegionNeighbourhoodsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetNeighbourhoodStreets_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNeighbourhoodStreets" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetNeighbourhoodStreets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNeighbourhoodStreetsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetStreetBuildings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStreetBuildings" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetStreetBuildings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStreetBuildingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetBuildingApartments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBuildingApartments" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetBuildingApartments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBuildingApartmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetApartmentAddress_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApartmentAddress" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetApartmentAddress_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApartmentAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_ServiceAvailability_InputMessage">
+    <wsdl:part name="parameters" element="tns:ServiceAvailability" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_ServiceAvailability_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ServiceAvailabilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetKeyFragment_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetKeyFragment" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetKeyFragment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetKeyFragmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_PayBills_InputMessage">
+    <wsdl:part name="parameters" element="tns:PayBills" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_PayBills_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PayBillsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_Authenticate_InputMessage">
+    <wsdl:part name="parameters" element="tns:Authenticate" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_Authenticate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthenticateResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IPartnerService">
+    <wsdl:operation name="GetProvinces">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinces" message="tns:IPartnerService_GetProvinces_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvincesResponse" message="tns:IPartnerService_GetProvinces_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProvinceDistricts">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinceDistricts" message="tns:IPartnerService_GetProvinceDistricts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinceDistrictsResponse" message="tns:IPartnerService_GetProvinceDistricts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistrictRuralRegions">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetDistrictRuralRegions" message="tns:IPartnerService_GetDistrictRuralRegions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetDistrictRuralRegionsResponse" message="tns:IPartnerService_GetDistrictRuralRegions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRuralRegionNeighbourhoods">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetRuralRegionNeighbourhoods" message="tns:IPartnerService_GetRuralRegionNeighbourhoods_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetRuralRegionNeighbourhoodsResponse" message="tns:IPartnerService_GetRuralRegionNeighbourhoods_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighbourhoodStreets">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetNeighbourhoodStreets" message="tns:IPartnerService_GetNeighbourhoodStreets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetNeighbourhoodStreetsResponse" message="tns:IPartnerService_GetNeighbourhoodStreets_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStreetBuildings">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetStreetBuildings" message="tns:IPartnerService_GetStreetBuildings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetStreetBuildingsResponse" message="tns:IPartnerService_GetStreetBuildings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBuildingApartments">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetBuildingApartments" message="tns:IPartnerService_GetBuildingApartments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetBuildingApartmentsResponse" message="tns:IPartnerService_GetBuildingApartments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApartmentAddress">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetApartmentAddress" message="tns:IPartnerService_GetApartmentAddress_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetApartmentAddressResponse" message="tns:IPartnerService_GetApartmentAddress_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ServiceAvailability">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/ServiceAvailability" message="tns:IPartnerService_ServiceAvailability_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/ServiceAvailabilityResponse" message="tns:IPartnerService_ServiceAvailability_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKeyFragment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetKeyFragment" message="tns:IPartnerService_GetKeyFragment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetKeyFragmentResponse" message="tns:IPartnerService_GetKeyFragment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PayBills">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/PayBills" message="tns:IPartnerService_PayBills_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/PayBillsResponse" message="tns:IPartnerService_PayBills_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Authenticate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/Authenticate" message="tns:IPartnerService_Authenticate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/AuthenticateResponse" message="tns:IPartnerService_Authenticate_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSHttpBinding_IPartnerService" type="tns:IPartnerService">
+    <wsp:PolicyReference URI="#WSHttpBinding_IPartnerService_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetProvinces">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetProvinces" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProvinceDistricts">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetProvinceDistricts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistrictRuralRegions">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetDistrictRuralRegions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRuralRegionNeighbourhoods">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetRuralRegionNeighbourhoods" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighbourhoodStreets">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetNeighbourhoodStreets" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStreetBuildings">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetStreetBuildings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBuildingApartments">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetBuildingApartments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApartmentAddress">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetApartmentAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServiceAvailability">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/ServiceAvailability" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKeyFragment">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetKeyFragment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PayBills">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/PayBills" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authenticate">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/Authenticate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PartnerService">
+    <wsdl:port name="WSHttpBinding_IPartnerService" binding="tns:WSHttpBinding_IPartnerService">
+      <soap12:address location="http://localhost:56365/PartnerService.svc/PartnerService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:56365/PartnerService.svc/PartnerService.svc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

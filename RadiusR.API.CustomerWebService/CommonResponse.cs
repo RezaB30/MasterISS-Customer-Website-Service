@@ -17,11 +17,11 @@ namespace RadiusR.API.CustomerWebService
     {
         public static ServiceResponse InternalException(string culture, Exception ex = null)
         {
-            var msg = ex == null ? "" : ex.Message;
+            var msg = ex == null ? "" : $" - {ex.Message}";
             return new ServiceResponse()
             {
                 ErrorCode = (int)ErrorCodes.InternalServerError,
-                ErrorMessage = new RezaB.Data.Localization.LocalizedList<ErrorCodes, ErrorMessages>().GetDisplayText((int)ErrorCodes.InternalServerError, CreateCulture(culture)) + $" - { msg }"
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<ErrorCodes, ErrorMessages>().GetDisplayText((int)ErrorCodes.InternalServerError, CreateCulture(culture)) + $"{ msg }"
             };
         }
         public static ServiceResponse UnauthorizedResponse(BaseRequest<SHA1> request)
@@ -225,6 +225,24 @@ namespace RadiusR.API.CustomerWebService
             {
                 ErrorCode = (int)PartnerErrorCodes.NotEnoughCredit,
                 ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.NotEnoughCredit, CreateCulture(culture))
+            };
+        }
+        public static ServiceResponse PartnerIsNotActive(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.PartnerIsNotActive,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.PartnerIsNotActive, CreateCulture(culture))
+            };
+        }
+        public static ServiceResponse PartnerUnauthorizedResponse(BaseRequest<SHA256> request)
+        {
+            WebServiceLogger Errorslogger = new WebServiceLogger("PartnerErrors");
+            Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)ErrorCodes.AuthenticationFailed,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<ErrorCodes, ErrorMessages>().GetDisplayText((int)ErrorCodes.AuthenticationFailed, CreateCulture(request.Culture))
             };
         }
         private static CultureInfo CreateCulture(string cultureName)

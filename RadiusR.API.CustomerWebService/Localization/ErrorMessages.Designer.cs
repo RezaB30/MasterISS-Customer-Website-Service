@@ -160,6 +160,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Online Password.
+        /// </summary>
+        public static string InvalidOnlinePassword {
+            get {
+                return ResourceManager.GetString("InvalidOnlinePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Operation.
         /// </summary>
         public static string InvalidOperation {
@@ -205,6 +214,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Online Password Can&apos;t Be Null.
+        /// </summary>
+        public static string OnlinePasswordCantBeNull {
+            get {
+                return ResourceManager.GetString("OnlinePasswordCantBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Only One Gateway Allowed.
         /// </summary>
         public static string OnlyOneGatewayAllowed {
@@ -219,6 +237,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         public static string PaidTypeNull {
             get {
                 return ResourceManager.GetString("PaidTypeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client is not active.
+        /// </summary>
+        public static string PartnerIsNotActive {
+            get {
+                return ResourceManager.GetString("PartnerIsNotActive", resourceCulture);
             }
         }
         

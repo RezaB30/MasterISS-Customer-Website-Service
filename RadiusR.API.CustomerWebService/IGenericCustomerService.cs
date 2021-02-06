@@ -128,5 +128,7 @@ namespace RadiusR.API.CustomerWebService
         CustomerServiceChangeClientInfoResponse ChangeClientInfoSMSCheck(CustomerServiceChangeClientInfoRequest request);
         [OperationContract]
         CustomerServiceChangeClientInfoConfirmResponse ChangeClientInfoConfirm(CustomerServiceChangeClientInfoConfirmRequest request);
+        [OperationContract]
+        CustomerServiceChangeClientInfoConfirmResponse ChangeClientOnlinePassword(CustomerServiceChangeClientOnlinePasswordRequest request);
     }
 }

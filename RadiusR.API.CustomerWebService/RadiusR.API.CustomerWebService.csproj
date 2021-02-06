@@ -151,8 +151,8 @@
     <Reference Include="RadiusR.SystemLogs, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.SystemLogs.1.0.2\lib\net452\RadiusR.SystemLogs.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.VPOS, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.VPOS.1.0.1\lib\net452\RadiusR.VPOS.dll</HintPath>
+    <Reference Include="RadiusR.VPOS, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.VPOS.1.0.2\lib\net452\RadiusR.VPOS.dll</HintPath>
     </Reference>
     <Reference Include="Renci.SshNet, Version=2020.0.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
       <HintPath>..\packages\SSH.NET.2020.0.0\lib\net40\Renci.SshNet.dll</HintPath>
@@ -196,8 +196,8 @@
     <Reference Include="RezaB.TurkTelekom.WebServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.TurkTelekom.WebServices.1.0.0\lib\net452\RezaB.TurkTelekom.WebServices.dll</HintPath>
     </Reference>
-    <Reference Include="RezaB.Web.VPOS, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RezaB.Web.VPOS.1.0.3\lib\net452\RezaB.Web.VPOS.dll</HintPath>
+    <Reference Include="RezaB.Web.VPOS, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.Web.VPOS.1.1.1\lib\net452\RezaB.Web.VPOS.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -298,6 +298,8 @@
     </Compile>
     <Compile Include="Requests\ChangeClientInfoConfirmRequest.cs" />
     <Compile Include="Requests\ChangeClientInfoRequest.cs" />
+    <Compile Include="Requests\ChangeClientOnlinePasswordRequest.cs" />
+    <Compile Include="Requests\PartnerRequests\AuthenticationRequest.cs" />
     <Compile Include="Requests\PartnerRequests\RequestBase.cs" />
     <Compile Include="Requests\PartnerRequests\PaymentRequest.cs" />
     <Compile Include="Requests\Payment\ActivateAutomaticPaymentRequest.cs" />
@@ -345,6 +347,7 @@
     <Compile Include="Responses\ChangeClientInfoResponse.cs" />
     <Compile Include="Responses\GetClientPDFFormResponse.cs" />
     <Compile Include="Responses\HasClientPreRegisterResponse.cs" />
+    <Compile Include="Responses\PartnerResponses\AuthenticationResponse.cs" />
     <Compile Include="Responses\PartnerResponses\PaymentResponse.cs" />
     <Compile Include="Responses\Payment\ActivateAutomaticPaymentResponse.cs" />
     <Compile Include="Responses\Payment\AddCardResponse.cs" />

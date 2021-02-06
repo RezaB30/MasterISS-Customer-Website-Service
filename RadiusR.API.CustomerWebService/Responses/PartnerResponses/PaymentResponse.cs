@@ -9,9 +9,9 @@ using System.Web;
 namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
 {
     [DataContract]
-    public partial class PartnerServicePaymentResponse : BaseResponse<long[], SHA1>
+    public partial class PartnerServicePaymentResponse : BaseResponse<long[], SHA256>
     {
-        public PartnerServicePaymentResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
+        public PartnerServicePaymentResponse(string passwordHash, BaseRequest<SHA256> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
         public long[] PaymentResponse { get { return Data; } set { Data = value; } }
     }

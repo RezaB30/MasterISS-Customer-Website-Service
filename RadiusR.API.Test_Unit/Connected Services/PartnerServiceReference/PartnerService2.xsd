@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd5" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:56365/PartnerService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" />
+  <xs:complexType name="PartnerServicePaymentResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q1:BaseResponseOfArrayOflongSHA256PGu3YCeQ">
+        <xs:sequence>
+          <xs:element xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="PaymentResponse" nillable="true" type="q2:ArrayOflong" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServicePaymentResponse" nillable="true" type="tns:PartnerServicePaymentResponse" />
+  <xs:complexType name="PartnerServiceAuthenticationResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q3="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q3:BaseResponseOfAuthenticationResponseSHA256_SnLIBD70">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AuthenticationResponse" nillable="true" type="tns:AuthenticationResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceAuthenticationResponse" nillable="true" type="tns:PartnerServiceAuthenticationResponse" />
+  <xs:complexType name="AuthenticationResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AuthenticationResultResponse" nillable="true" type="tns:AuthenticationResponse.AuthenticationResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuthenticationResponse" nillable="true" type="tns:AuthenticationResponse" />
+  <xs:complexType name="AuthenticationResponse.AuthenticationResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DisplayName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsAuthenticated" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Permissions" nillable="true" type="tns:ArrayOfAuthenticationResponse.PermissionResult" />
+      <xs:element minOccurs="0" name="SetupServiceHash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SetupServiceUser" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserID" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuthenticationResponse.AuthenticationResult" nillable="true" type="tns:AuthenticationResponse.AuthenticationResult" />
+  <xs:complexType name="ArrayOfAuthenticationResponse.PermissionResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AuthenticationResponse.PermissionResult" nillable="true" type="tns:AuthenticationResponse.PermissionResult" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAuthenticationResponse.PermissionResult" nillable="true" type="tns:ArrayOfAuthenticationResponse.PermissionResult" />
+  <xs:complexType name="AuthenticationResponse.PermissionResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ID" type="xs:short" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuthenticationResponse.PermissionResult" nillable="true" type="tns:AuthenticationResponse.PermissionResult" />
+</xs:schema>

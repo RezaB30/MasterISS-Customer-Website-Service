@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RadiusR.API.CustomerWebService.Requests.PartnerRequests;
+using RadiusR.API.CustomerWebService.Responses.PartnerResponses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -13,5 +15,10 @@ namespace RadiusR.API.CustomerWebService
     {
         [OperationContract]
         string GetKeyFragment(string username);
+        [OperationContract]
+        PartnerServicePaymentResponse PayBills(PartnerServicePaymentRequest request);
+        [OperationContract]
+        PartnerServiceAuthenticationResponse Authenticate(PartnerServiceAuthenticationRequest request);
+
     }
 }
