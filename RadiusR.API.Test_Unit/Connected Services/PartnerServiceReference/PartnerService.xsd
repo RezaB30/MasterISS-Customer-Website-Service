@@ -25,6 +25,7 @@
   <xs:complexType name="RequestBase">
     <xs:sequence>
       <xs:element minOccurs="0" name="SubUserEmail" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UserEmail" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="RequestBase" nillable="true" type="tns:RequestBase" />
@@ -43,10 +44,71 @@
       <xs:extension base="tns:RequestBase">
         <xs:sequence>
           <xs:element minOccurs="0" name="PartnerPasswordHash" nillable="true" type="xs:string" />
-          <xs:element minOccurs="0" name="PartnerUsername" nillable="true" type="xs:string" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="AuthenticationRequest" nillable="true" type="tns:AuthenticationRequest" />
+  <xs:complexType name="PartnerServiceAddSubUserRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q4:BaseRequestOfAddSubUserRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AddSubUserRequestParameters" nillable="true" type="tns:AddSubUserRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceAddSubUserRequest" nillable="true" type="tns:PartnerServiceAddSubUserRequest" />
+  <xs:complexType name="AddSubUserRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:RequestBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="RequestedSubUserEmail" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RequestedSubUserName" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="RequestedSubUserPassword" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AddSubUserRequest" nillable="true" type="tns:AddSubUserRequest" />
+  <xs:complexType name="PartnerServiceSubUserRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q5:BaseRequestOfSubUserRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubUserRequest" nillable="true" type="tns:SubUserRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceSubUserRequest" nillable="true" type="tns:PartnerServiceSubUserRequest" />
+  <xs:complexType name="SubUserRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:RequestBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="RequestedSubUserEmail" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="SubUserRequest" nillable="true" type="tns:SubUserRequest" />
+  <xs:complexType name="PartnerServiceBillListRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q6:BaseRequestOfBillListRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BillListRequest" nillable="true" type="tns:BillListRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceBillListRequest" nillable="true" type="tns:PartnerServiceBillListRequest" />
+  <xs:complexType name="BillListRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:RequestBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubscriberNo" nillable="true" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BillListRequest" nillable="true" type="tns:BillListRequest" />
 </xs:schema>

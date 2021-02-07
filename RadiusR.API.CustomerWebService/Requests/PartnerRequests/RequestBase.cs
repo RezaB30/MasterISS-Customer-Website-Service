@@ -11,5 +11,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
     {
         [DataMember]
         public string SubUserEmail { get; set; }
+        [DataMember]
+        public string UserEmail { get; set; }
     }
 }

@@ -9,6 +9,12 @@ namespace RadiusR.API.CustomerWebService.Enums
     {
         PaymentPermissionNotFound = 1,
         NotEnoughCredit = 2,
-        PartnerIsNotActive = 3
+        PartnerIsNotActive = 3,
+        MaxSubUsersReached = 4,
+        SubUserExists = 5,
+        AuthenticationFailed = 6,
+        NoPermission = 7,
+        PartnerNotFound = 8,
+        SubscriberNotFound = 9
     }
 }

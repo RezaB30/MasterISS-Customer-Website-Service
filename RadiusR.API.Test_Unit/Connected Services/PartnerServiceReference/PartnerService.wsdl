@@ -90,6 +90,24 @@
   <wsdl:message name="IPartnerService_Authenticate_OutputMessage">
     <wsdl:part name="parameters" element="tns:AuthenticateResponse" />
   </wsdl:message>
+  <wsdl:message name="IPartnerService_AddSubUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddSubUser" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_AddSubUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddSubUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_DisableSubUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:DisableSubUser" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_DisableSubUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DisableSubUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_BillsBySubscriberNo_InputMessage">
+    <wsdl:part name="parameters" element="tns:BillsBySubscriberNo" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_BillsBySubscriberNo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BillsBySubscriberNoResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPartnerService">
     <wsdl:operation name="GetProvinces">
       <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinces" message="tns:IPartnerService_GetProvinces_InputMessage" />
@@ -138,6 +156,18 @@
     <wsdl:operation name="Authenticate">
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/Authenticate" message="tns:IPartnerService_Authenticate_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/AuthenticateResponse" message="tns:IPartnerService_Authenticate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddSubUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/AddSubUser" message="tns:IPartnerService_AddSubUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/AddSubUserResponse" message="tns:IPartnerService_AddSubUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DisableSubUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/DisableSubUser" message="tns:IPartnerService_DisableSubUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/DisableSubUserResponse" message="tns:IPartnerService_DisableSubUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BillsBySubscriberNo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/BillsBySubscriberNo" message="tns:IPartnerService_BillsBySubscriberNo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/BillsBySubscriberNoResponse" message="tns:IPartnerService_BillsBySubscriberNo_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_IPartnerService" type="tns:IPartnerService">
@@ -244,6 +274,33 @@
     </wsdl:operation>
     <wsdl:operation name="Authenticate">
       <soap12:operation soapAction="http://tempuri.org/IPartnerService/Authenticate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddSubUser">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/AddSubUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DisableSubUser">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/DisableSubUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BillsBySubscriberNo">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/BillsBySubscriberNo" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

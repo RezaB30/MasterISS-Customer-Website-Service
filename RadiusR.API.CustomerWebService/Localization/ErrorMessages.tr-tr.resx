@@ -150,6 +150,9 @@
   <data name="InvalidBillState" xml:space="preserve">
     <value>Geçersiz fatura durumu</value>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>{0} geçersiz e-posta tipi.</value>
+  </data>
   <data name="InvalidOnlinePassword" xml:space="preserve">
     <value>Geçersiz Şifre </value>
   </data>
@@ -159,8 +162,17 @@
   <data name="InvalidPaymentAmount" xml:space="preserve">
     <value>Geçersiz ödeme tutaru</value>
   </data>
+  <data name="MaxLength" xml:space="preserve">
+    <value>{0} uzunluğu fazla. En fazla {1} karakter olmalı.</value>
+  </data>
+  <data name="MaxSubUsersReached" xml:space="preserve">
+    <value>Maksimum kullanıcı limitine ulaşıldı.</value>
+  </data>
   <data name="MobileExpressIsDeactive" xml:space="preserve">
     <value>Kart ekleme aktif değil</value>
+  </data>
+  <data name="NoPermission" xml:space="preserve">
+    <value>Bu kullanıcı yetkili değil.</value>
   </data>
   <data name="NotEnoughCredit" xml:space="preserve">
     <value>Yetersiz bakiye</value>
@@ -180,6 +192,9 @@
   <data name="PartnerIsNotActive" xml:space="preserve">
     <value>Kullanıcı aktif değil</value>
   </data>
+  <data name="PartnerNotFound" xml:space="preserve">
+    <value>Bayi kullanıcısı bulunamadı.</value>
+  </data>
   <data name="PaymentPermissionNotFound" xml:space="preserve">
     <value>Ödeme yetkiniz bulunmamaktadır</value>
   </data>
@@ -189,11 +204,17 @@
   <data name="QuotaTariffNotFound" xml:space="preserve">
     <value>Aboneye ait kotalı tarife bulunmamaktadır</value>
   </data>
+  <data name="Required" xml:space="preserve">
+    <value>{0} gerekli.</value>
+  </data>
   <data name="SpecialOfferError" xml:space="preserve">
     <value>İşlem Başarısız. Referans numarası ile kayıt yapılamaz</value>
   </data>
   <data name="SubscriberNotFound" xml:space="preserve">
     <value>Abone bulunamadı</value>
+  </data>
+  <data name="SubUserExists" xml:space="preserve">
+    <value>Bu isimde kullanıcı zaten kayıtlı</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>Başarılı</value>

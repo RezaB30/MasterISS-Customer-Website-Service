@@ -19,6 +19,29 @@ namespace RadiusR.API.CustomerWebService
         PartnerServicePaymentResponse PayBills(PartnerServicePaymentRequest request);
         [OperationContract]
         PartnerServiceAuthenticationResponse Authenticate(PartnerServiceAuthenticationRequest request);
-
+        [OperationContract]
+        PartnerServiceAddSubUserResponse AddSubUser(PartnerServiceAddSubUserRequest request);
+        [OperationContract]
+        PartnerServiceSubUserResponse DisableSubUser(PartnerServiceSubUserRequest request);
+        [OperationContract]
+        PartnerServiceSubUserResponse EnableSubUser(PartnerServiceSubUserRequest request);
+        [OperationContract]
+        PartnerServiceBillListResponse BillsBySubscriberNo(PartnerServiceBillListRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetCultures(PartnerServiceParameterlessRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetTCKTypes(PartnerServiceParameterlessRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetCustomerTypes(PartnerServiceParameterlessRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetSexes(PartnerServiceParameterlessRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetNationalities(PartnerServiceParameterlessRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetProfessions(PartnerServiceParameterlessRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetPartnerTariffs(PartnerServiceParameterlessRequest request);
+        [OperationContract]
+        PartnerServiceKeyValueListResponse GetPartnerTariffs(PartnerServiceListFromIDRequest request);
     }
 }

@@ -241,8 +241,48 @@ namespace RadiusR.API.CustomerWebService
             Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
             return new ServiceResponse()
             {
-                ErrorCode = (int)ErrorCodes.AuthenticationFailed,
-                ErrorMessage = new RezaB.Data.Localization.LocalizedList<ErrorCodes, ErrorMessages>().GetDisplayText((int)ErrorCodes.AuthenticationFailed, CreateCulture(request.Culture))
+                ErrorCode = (int)PartnerErrorCodes.AuthenticationFailed,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.AuthenticationFailed, CreateCulture(request.Culture))
+            };
+        }
+        public static ServiceResponse PartnerSubUserExistsResponse(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.SubUserExists,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.SubUserExists, CreateCulture(culture))
+            };
+        }
+        public static ServiceResponse PartnerMaxSubUsersReachedResponse(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.MaxSubUsersReached,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.MaxSubUsersReached, CreateCulture(culture))
+            };
+        }
+        public static ServiceResponse PartnerNoPermissionResponse(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.NoPermission,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.NoPermission, CreateCulture(culture))
+            };
+        }
+        public static ServiceResponse PartnerNotFoundResponse(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.PartnerNotFound,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.PartnerNotFound, CreateCulture(culture))
+            };
+        }
+        public static ServiceResponse PartnerSubscriberNotFoundResponse(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.SubscriberNotFound,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.SubscriberNotFound, CreateCulture(culture))
             };
         }
         private static CultureInfo CreateCulture(string cultureName)

@@ -30,7 +30,7 @@ namespace RadiusR.API.Test_Unit
                 AuthenticationParameters = new PartnerServiceReference.AuthenticationRequest()
                 {
                     PartnerPasswordHash = HashUtilities.CalculateHash<SHA256>(password),
-                    PartnerUsername = username,
+                    UserEmail = username,
                     SubUserEmail = null
                 },
                 Culture = "tr-tr",
@@ -39,6 +39,48 @@ namespace RadiusR.API.Test_Unit
                 Username = request.Username
             });
             MessageBox.Show(response.ResponseMessage.ErrorMessage);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
+            var request = new GenericServiceSettings();
+            var response = client.AddSubUser(new PartnerServiceReference.PartnerServiceAddSubUserRequest()
+            {
+                AddSubUserRequestParameters = new PartnerServiceReference.AddSubUserRequest()
+                {
+                    RequestedSubUserEmail = "onr@onr.com",
+                    RequestedSubUserName = "onur",
+                    RequestedSubUserPassword = "123123",
+                    UserEmail = "test@test.com",
+                    SubUserEmail = "test@test.com",
+                },
+                Culture = "tr-tr",
+                Hash = request.Hash,
+                Rand = request.Rand,
+                Username = request.Username
+            });
+            var aaa = response; 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
+            var request = new GenericServiceSettings();
+            var response = client.BillsBySubscriberNo(new PartnerServiceReference.PartnerServiceBillListRequest()
+            {
+                BillListRequest = new PartnerServiceReference.BillListRequest()
+                {
+                    SubscriberNo = "2555456163",
+                    SubUserEmail = "onr@onr.com",
+                    UserEmail = "test@test.com"
+                },
+                Culture = "tr-tr",
+                Hash = request.Hash,
+                Rand = request.Rand,
+                Username = request.Username
+            });
+            var assd = response;
         }
     }
     public class GenericServiceSettings

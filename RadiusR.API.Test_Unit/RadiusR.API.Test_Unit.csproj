@@ -104,10 +104,19 @@
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.CustomerServiceServiceAvailabilityResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceAddSubUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceAuthenticationResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceBillListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServicePaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSubUserResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Properties\Settings.settings">

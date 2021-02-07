@@ -31,19 +31,25 @@ namespace RadiusR.API.Test_Unit
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.PartnerAuthUsernameBox = new System.Windows.Forms.TextBox();
-            this.PartnerAuthPasswordBox = new System.Windows.Forms.TextBox();
-            this.AuthBtn = new System.Windows.Forms.Button();
             this.AuthenticateResultLbl = new System.Windows.Forms.Label();
+            this.AuthBtn = new System.Windows.Forms.Button();
+            this.PartnerAuthPasswordBox = new System.Windows.Forms.TextBox();
+            this.PartnerAuthUsernameBox = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -64,31 +70,14 @@ namespace RadiusR.API.Test_Unit
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Partner Authenticate";
             // 
-            // tabPage2
+            // AuthenticateResultLbl
             // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(862, 495);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // PartnerAuthUsernameBox
-            // 
-            this.PartnerAuthUsernameBox.Location = new System.Drawing.Point(317, 47);
-            this.PartnerAuthUsernameBox.Multiline = true;
-            this.PartnerAuthUsernameBox.Name = "PartnerAuthUsernameBox";
-            this.PartnerAuthUsernameBox.Size = new System.Drawing.Size(175, 26);
-            this.PartnerAuthUsernameBox.TabIndex = 0;
-            // 
-            // PartnerAuthPasswordBox
-            // 
-            this.PartnerAuthPasswordBox.Location = new System.Drawing.Point(317, 98);
-            this.PartnerAuthPasswordBox.Multiline = true;
-            this.PartnerAuthPasswordBox.Name = "PartnerAuthPasswordBox";
-            this.PartnerAuthPasswordBox.Size = new System.Drawing.Size(175, 27);
-            this.PartnerAuthPasswordBox.TabIndex = 1;
+            this.AuthenticateResultLbl.AutoSize = true;
+            this.AuthenticateResultLbl.Location = new System.Drawing.Point(385, 273);
+            this.AuthenticateResultLbl.Name = "AuthenticateResultLbl";
+            this.AuthenticateResultLbl.Size = new System.Drawing.Size(37, 13);
+            this.AuthenticateResultLbl.TabIndex = 3;
+            this.AuthenticateResultLbl.Text = "Result";
             // 
             // AuthBtn
             // 
@@ -100,14 +89,63 @@ namespace RadiusR.API.Test_Unit
             this.AuthBtn.UseVisualStyleBackColor = true;
             this.AuthBtn.Click += new System.EventHandler(this.AuthBtn_Click);
             // 
-            // AuthenticateResultLbl
+            // PartnerAuthPasswordBox
             // 
-            this.AuthenticateResultLbl.AutoSize = true;
-            this.AuthenticateResultLbl.Location = new System.Drawing.Point(385, 273);
-            this.AuthenticateResultLbl.Name = "AuthenticateResultLbl";
-            this.AuthenticateResultLbl.Size = new System.Drawing.Size(37, 13);
-            this.AuthenticateResultLbl.TabIndex = 3;
-            this.AuthenticateResultLbl.Text = "Result";
+            this.PartnerAuthPasswordBox.Location = new System.Drawing.Point(317, 98);
+            this.PartnerAuthPasswordBox.Multiline = true;
+            this.PartnerAuthPasswordBox.Name = "PartnerAuthPasswordBox";
+            this.PartnerAuthPasswordBox.Size = new System.Drawing.Size(175, 27);
+            this.PartnerAuthPasswordBox.TabIndex = 1;
+            // 
+            // PartnerAuthUsernameBox
+            // 
+            this.PartnerAuthUsernameBox.Location = new System.Drawing.Point(317, 47);
+            this.PartnerAuthUsernameBox.Multiline = true;
+            this.PartnerAuthUsernameBox.Name = "PartnerAuthUsernameBox";
+            this.PartnerAuthUsernameBox.Size = new System.Drawing.Size(175, 26);
+            this.PartnerAuthUsernameBox.TabIndex = 0;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage2.Controls.Add(this.button1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(862, 495);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Add Sub User";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(355, 208);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(116, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Add Sub User";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage3.Controls.Add(this.button2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(862, 495);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Bill List";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(341, 201);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(108, 28);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "GetBillList";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
@@ -120,6 +158,8 @@ namespace RadiusR.API.Test_Unit
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -133,6 +173,9 @@ namespace RadiusR.API.Test_Unit
         private System.Windows.Forms.TextBox PartnerAuthPasswordBox;
         private System.Windows.Forms.TextBox PartnerAuthUsernameBox;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button button2;
     }
 }
 

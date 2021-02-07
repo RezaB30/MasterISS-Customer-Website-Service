@@ -160,6 +160,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is invalid email..
+        /// </summary>
+        public static string InvalidEmail {
+            get {
+                return ResourceManager.GetString("InvalidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Online Password.
         /// </summary>
         public static string InvalidOnlinePassword {
@@ -187,11 +196,38 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} has invalid length. Max Length must be {1}..
+        /// </summary>
+        public static string MaxLength {
+            get {
+                return ResourceManager.GetString("MaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum user limit reached..
+        /// </summary>
+        public static string MaxSubUsersReached {
+            get {
+                return ResourceManager.GetString("MaxSubUsersReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add card is deactive.
         /// </summary>
         public static string MobileExpressIsDeactive {
             get {
                 return ResourceManager.GetString("MobileExpressIsDeactive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user is not authorized..
+        /// </summary>
+        public static string NoPermission {
+            get {
+                return ResourceManager.GetString("NoPermission", resourceCulture);
             }
         }
         
@@ -250,6 +286,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Partner not found..
+        /// </summary>
+        public static string PartnerNotFound {
+            get {
+                return ResourceManager.GetString("PartnerNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You don&apos;t have payment permission.
         /// </summary>
         public static string PaymentPermissionNotFound {
@@ -277,6 +322,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} is required..
+        /// </summary>
+        public static string Required {
+            get {
+                return ResourceManager.GetString("Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed. Registration is not possible with reference number..
         /// </summary>
         public static string SpecialOfferError {
@@ -291,6 +345,15 @@ namespace RadiusR.API.CustomerWebService.Localization {
         public static string SubscriberNotFound {
             get {
                 return ResourceManager.GetString("SubscriberNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user with this name is already registered..
+        /// </summary>
+        public static string SubUserExists {
+            get {
+                return ResourceManager.GetString("SubUserExists", resourceCulture);
             }
         }
         

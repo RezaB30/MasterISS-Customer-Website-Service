@@ -9,15 +9,15 @@ using System.Web;
 namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
 {
     [DataContract]
-    public class AuthenticationRequest : RequestBase
+    public class BillListRequest : RequestBase
     {
         [DataMember]
-        public string PartnerPasswordHash { get; set; }
+        public string SubscriberNo { get; set; }
     }
     [DataContract]
-    public partial class PartnerServiceAuthenticationRequest : BaseRequest<AuthenticationRequest, SHA256>
+    public partial class PartnerServiceBillListRequest : BaseRequest<BillListRequest, SHA256>
     {
         [DataMember]
-        public AuthenticationRequest AuthenticationParameters { get { return Data; } set { Data = value; } }
+        public BillListRequest BillListRequest { get { return Data; } set { Data = value; } }
     }
 }

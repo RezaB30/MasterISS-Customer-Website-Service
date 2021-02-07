@@ -150,6 +150,9 @@
   <data name="InvalidBillState" xml:space="preserve">
     <value>Invalid Bill State</value>
   </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>{0} is invalid email.</value>
+  </data>
   <data name="InvalidOnlinePassword" xml:space="preserve">
     <value>Invalid Online Password</value>
   </data>
@@ -159,8 +162,17 @@
   <data name="InvalidPaymentAmount" xml:space="preserve">
     <value>Invalid Payment Amount</value>
   </data>
+  <data name="MaxLength" xml:space="preserve">
+    <value>{0} has invalid length. Max Length must be {1}.</value>
+  </data>
+  <data name="MaxSubUsersReached" xml:space="preserve">
+    <value>Maximum user limit reached.</value>
+  </data>
   <data name="MobileExpressIsDeactive" xml:space="preserve">
     <value>Add card is deactive</value>
+  </data>
+  <data name="NoPermission" xml:space="preserve">
+    <value>This user is not authorized.</value>
   </data>
   <data name="NotEnoughCredit" xml:space="preserve">
     <value>Not Enough Credit</value>
@@ -180,6 +192,9 @@
   <data name="PartnerIsNotActive" xml:space="preserve">
     <value>Client is not active</value>
   </data>
+  <data name="PartnerNotFound" xml:space="preserve">
+    <value>Partner not found.</value>
+  </data>
   <data name="PaymentPermissionNotFound" xml:space="preserve">
     <value>You don't have payment permission</value>
   </data>
@@ -189,11 +204,17 @@
   <data name="QuotaTariffNotFound" xml:space="preserve">
     <value>Customer don't have quota tariff</value>
   </data>
+  <data name="Required" xml:space="preserve">
+    <value>{0} is required.</value>
+  </data>
   <data name="SpecialOfferError" xml:space="preserve">
     <value>Failed. Registration is not possible with reference number.</value>
   </data>
   <data name="SubscriberNotFound" xml:space="preserve">
     <value>Subscriber not found</value>
+  </data>
+  <data name="SubUserExists" xml:space="preserve">
+    <value>The user with this name is already registered.</value>
   </data>
   <data name="Success" xml:space="preserve">
     <value>Success</value>

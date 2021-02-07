@@ -9,15 +9,15 @@ using System.Web;
 namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
 {
     [DataContract]
-    public class AuthenticationRequest : RequestBase
+    public class SubUserRequest : RequestBase
     {
         [DataMember]
-        public string PartnerPasswordHash { get; set; }
+        public string RequestedSubUserEmail { get; set; }
     }
     [DataContract]
-    public partial class PartnerServiceAuthenticationRequest : BaseRequest<AuthenticationRequest, SHA256>
+    public partial class PartnerServiceSubUserRequest : BaseRequest<SubUserRequest, SHA256>
     {
         [DataMember]
-        public AuthenticationRequest AuthenticationParameters { get { return Data; } set { Data = value; } }
+        public SubUserRequest SubUserRequest { get { return Data; } set { Data = value; } }
     }
 }
