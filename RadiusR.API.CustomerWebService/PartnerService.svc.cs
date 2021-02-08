@@ -2,6 +2,7 @@
 using RadiusR.API.CustomerWebService.Responses.PartnerResponses;
 using RadiusR.DB;
 using RadiusR.DB.Enums;
+using RadiusR.DB.ModelExtentions;
 using RadiusR.DB.Utilities.Billing;
 using RadiusR.DB.Utilities.ComplexOperations.Subscriptions.Registration;
 using RadiusR.SMS;
@@ -35,7 +36,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServicePaymentResponse(passwordHash, request)
                     {
@@ -101,7 +102,6 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture)
                         };
                     }
-
                     // set system logs
                     var gatewayName = dbPartner.Title + (dbSubUser != null ? " (" + dbSubUser.Name + ")" : string.Empty);
                     var SMSClient = new SMSService();
@@ -111,12 +111,11 @@ namespace RadiusR.API.CustomerWebService
                     {
                         db.SystemLogs.Add(SystemLogProcessor.BillPayment(group.Select(bill => bill.ID), null, group.Key.ID, RadiusR.DB.Enums.SystemLogInterface.PartnerWebService, request.PaymentRequest.UserEmail, RadiusR.DB.Enums.PaymentType.Partner, gatewayName));
                         // send SMS
-                        db.SMSArchives.Add(SMSClient.SendSubscriberSMS(group.Key, RadiusR.DB.Enums.SMSType.PaymentDone, new Dictionary<string, object>()
+                        db.SMSArchives.AddSafely(SMSClient.SendSubscriberSMS(group.Key, RadiusR.DB.Enums.SMSType.PaymentDone, new Dictionary<string, object>()
                         {
-                            { SMSParamaterRepository.SMSParameterNameCollection.BillTotal, group.Sum(bill => bill.GetPayableCost()) }
+                            { SMSParamaterRepository.SMSParameterNameCollection.BillTotal,group.Sum(bill => bill.GetPayableCost()) }
                         }));
                     }
-
                     db.SaveChanges();
                     //dbBills.Select(b => b.ID).ToArray()
                     return new PartnerServicePaymentResponse(passwordHash, request)
@@ -143,7 +142,7 @@ namespace RadiusR.API.CustomerWebService
             try
             {
                 InComingInfoLogger.LogIncomingMessage(request);
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceAuthenticationResponse(passwordHash, request)
                     {
@@ -233,7 +232,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceAddSubUserResponse(passwordHash, request)
                     {
@@ -374,7 +373,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceSubUserResponse(passwordHash, request)
                     {
@@ -450,7 +449,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceBillListResponse(passwordHash, request)
                     {
@@ -525,7 +524,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceSubUserResponse(passwordHash, request)
                     {
@@ -605,7 +604,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -639,7 +638,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -676,7 +675,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -713,7 +712,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -750,7 +749,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -787,7 +786,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -824,7 +823,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -879,7 +878,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 InComingInfoLogger.LogIncomingMessage(request);
 
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
                     {
@@ -930,7 +929,7 @@ namespace RadiusR.API.CustomerWebService
             try
             {
                 InComingInfoLogger.LogIncomingMessage(request);
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceCreditReportResponse(passwordHash, request)
                     {
@@ -990,7 +989,7 @@ namespace RadiusR.API.CustomerWebService
             try
             {
                 InComingInfoLogger.LogIncomingMessage(request);
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceSMSCodeResponse(passwordHash, request)
                     {
@@ -1051,7 +1050,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA256>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
                     {
@@ -1328,7 +1327,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA256>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceIDCardValidationResponse(passwordHash, request)
                     {

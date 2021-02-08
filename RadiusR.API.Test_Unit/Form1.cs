@@ -60,7 +60,7 @@ namespace RadiusR.API.Test_Unit
                 Rand = request.Rand,
                 Username = request.Username
             });
-            var aaa = response; 
+            var aaa = response;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -105,9 +105,32 @@ namespace RadiusR.API.Test_Unit
             });
             var assd = response;
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
+
+            var request = new GenericServiceSettings();
+            List<long> bills = new List<long>();
+            bills.Add(623347);
+            var response = client.PayBills(new PartnerServiceReference.PartnerServicePaymentRequest()
+            {
+                PaymentRequest = new PartnerServiceReference.PaymentRequest()
+                {
+                    SubUserEmail = "test@test.com",
+                    UserEmail = "test@test.com",
+                    BillIDs = bills.ToArray()
+                },
+                Culture = "tr-tr",
+                Hash = request.Hash,
+                Rand = request.Rand,
+                Username = request.Username
+            });
+            var assd = response;
+        }
     }
     public class GenericServiceSettings
-    {        
+    {
         public string Culture { get; set; }
         public string Rand { get; set; }
         public string Username { get; set; }
@@ -116,7 +139,7 @@ namespace RadiusR.API.Test_Unit
         {
             Culture = Thread.CurrentThread.CurrentUICulture.Name;
             Rand = Guid.NewGuid().ToString("N");
-            Username ="testwebservice";
+            Username = "testwebservice";
             Password = "12345678";
         }
         PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();

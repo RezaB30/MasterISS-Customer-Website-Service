@@ -51,7 +51,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceActivateAutomaticPaymentResponse(passwordHash, request)
@@ -156,7 +156,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAddCardResponse(passwordHash, request)
@@ -249,7 +249,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAddCardSMSValidationResponse(passwordHash, request)
@@ -304,7 +304,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAuthenticationSMSConfirmResponse(passwordHash, request)
@@ -384,7 +384,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -470,7 +470,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"CanHaveQuotaSale unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -533,7 +533,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($" unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -624,7 +624,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                    if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                     {
                         //Errorslogger.Error($"ConnectionStatus unauthorize error. User : {request.Username}");
                         Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -726,7 +726,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 using (RadiusREntities db = new RadiusREntities())
                 {
-                    if (request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                    if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                     {
                         var CustomerCode = request.AuthenticationParameters.CustomerCode;
                         var dbClients = db.Subscriptions.Where(sub => (sub.Customer.CustomerIDCard.TCKNo == CustomerCode) || sub.Customer.ContactPhoneNo == CustomerCode).ToList();
@@ -813,7 +813,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceDeactivateAutomaticPaymentResponse(passwordHash, request)
@@ -914,7 +914,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                    if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                     {
                         //Errorslogger.Error($"EArchivePDF unauthorize error. User : {request.Username}");
                         Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -995,7 +995,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -1045,7 +1045,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    if (request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                    if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                     {
                         var dbClient = db.Subscriptions.Find(request.SubscriptionParameters.SubscriptionId);
                         if (dbClient == null)
@@ -1132,7 +1132,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    if (request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                    if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                     {
                         var dbClient = db.Subscriptions.Find(request.SubscriptionParameters.SubscriptionId);
                         if (dbClient == null)
@@ -1215,7 +1215,7 @@ namespace RadiusR.API.CustomerWebService
             try
             {
                 var currentSubId = request.SubscriptionParameters.SubscriptionId;
-                if (request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     var minDate = DateTime.Now.Date.AddYears(-1);
                     using (RadiusREntities db = new RadiusREntities())
@@ -1287,7 +1287,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     using (RadiusREntities db = new RadiusREntities())
                     {
@@ -1376,7 +1376,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"GetSupportDetailMessages unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -1469,7 +1469,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"GetSupportList unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -1538,7 +1538,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     using (var db = new RadiusR.DB.RadiusREntities())
                     {
@@ -1596,7 +1596,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     using (var db = new RadiusR.DB.RadiusREntities())
                     {
@@ -1651,7 +1651,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"GetVPOSForm unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -1719,7 +1719,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"PayBills unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -1853,7 +1853,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -1893,7 +1893,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"QuotaPackageList unauthorize error. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
@@ -1946,7 +1946,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceQuotaSaleResponse(passwordHash, request)
@@ -2055,7 +2055,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceRegisteredCardsResponse(passwordHash, request)
@@ -2137,7 +2137,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceRemoveCardResponse(passwordHash, request)
@@ -2261,7 +2261,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceRemoveCardSMSValidationResponse(passwordHash, request)
@@ -2315,7 +2315,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceAutoPaymentListResponse(passwordHash, request)
@@ -2384,7 +2384,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSendSubscriberSMSResponse(passwordHash, request)
@@ -2482,7 +2482,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
@@ -2677,7 +2677,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSubscriptionBasicInformationResponse(passwordHash, request)
@@ -2751,7 +2751,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceHasActiveRequestResponse(passwordHash, request)
@@ -2799,7 +2799,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSupportRegisterResponse(passwordHash, request)
@@ -2889,7 +2889,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSupportStatusResponse(passwordHash, request)
@@ -2957,7 +2957,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServicePaymentSystemLogResponse(passwordHash, request)
@@ -3016,7 +3016,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceMobilexpressPayBillResponse(passwordHash, request)
@@ -3106,7 +3106,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceVPOSErrorParameterNameResponse(passwordHash, request)
@@ -3139,7 +3139,7 @@ namespace RadiusR.API.CustomerWebService
 
         public string GetKeyFragment(string username)
         {
-            return KeyManager.GenerateKeyFragment(username, new ServiceSettings().Duration());
+            return KeyManager.GenerateKeyFragment(username, Properties.Settings.Default.CacheDuration);
         }
         public CustomerServiceExistingCustomerRegisterResponse ExistingCustomerRegister(CustomerServiceExistingCustomerRegisterRequest request)
         {
@@ -3147,7 +3147,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceExistingCustomerRegisterResponse(passwordHash, request)
@@ -3276,7 +3276,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceNameValuePair(passwordHash, request)
@@ -3314,7 +3314,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
@@ -3355,7 +3355,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
@@ -3405,7 +3405,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
@@ -3456,7 +3456,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
@@ -3506,7 +3506,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
@@ -3559,7 +3559,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
@@ -3610,7 +3610,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceNameValuePair(passwordHash, request)
@@ -3659,7 +3659,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceAddressDetailsResponse(passwordHash, request)
@@ -3721,7 +3721,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceExternalTariffResponse(passwordHash, request)
@@ -3771,7 +3771,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new TelekomInfrastructureService.CustomerServiceServiceAvailabilityResponse(passwordHash, request)
@@ -3862,7 +3862,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGetCustomerFileResponse(password, request)
@@ -3926,7 +3926,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceGetClientAttachmentResponse(password, request)
@@ -3997,7 +3997,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServicGetSupportAttachmentListResponse(password, request)
                     {
@@ -4058,7 +4058,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceGetSupportAttachmentResponse(password, request)
                     {
@@ -4127,7 +4127,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceSaveSupportAttachmentResponse(password, request)
                     {
@@ -4184,7 +4184,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceCustomerAuthenticationWithPasswordResponse(passwordHash, request)
                     {
@@ -4272,7 +4272,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceHasClientPreRegisterResponse(passwordHash, request)
                     {
@@ -4329,7 +4329,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceSaveClientAttachmentResponse(password, request)
                     {
@@ -4383,7 +4383,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceGetClientPDFFormResponse(password, request)
                     {
@@ -4450,7 +4450,7 @@ namespace RadiusR.API.CustomerWebService
             {
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                    if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                     {
                         Errorslogger.LogException(request.Username, new Exception("unauthorize error."));
                         //Errorslogger.Error($"EArchivePDF unauthorize error. User : {request.Username}");
@@ -4559,7 +4559,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceChangeClientInfoResponse(passwordHash, request)
                     {
@@ -4607,7 +4607,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
                     {
@@ -4671,7 +4671,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                if (!request.HasValidHash(passwordHash, new ServiceSettings().Duration()))
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
                     {

@@ -34,11 +34,11 @@ namespace RadiusR.API.CustomerWebService
 
             return password;
         }
-        public TimeSpan Duration()
-        {
-            //add CacheDuration
-            return Properties.Settings.Default.CacheDuration;
-        }
+        //public TimeSpan Duration()
+        //{
+        //    //add CacheDuration
+        //    return Properties.Settings.Default.CacheDuration;
+        //}
     }
     //public static class CacheManager
     //{
