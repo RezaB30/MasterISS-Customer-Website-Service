@@ -42,6 +42,14 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         PartnerServiceKeyValueListResponse GetPartnerTariffs(PartnerServiceParameterlessRequest request);
         [OperationContract]
-        PartnerServiceKeyValueListResponse GetPartnerTariffs(PartnerServiceListFromIDRequest request);
+        PartnerServiceKeyValueListResponse GetPaymentDays(PartnerServiceListFromIDRequest request);
+        [OperationContract]
+        PartnerServiceCreditReportResponse GetCreditReport(PartnerServiceCreditReportRequest request);
+        [OperationContract]
+        PartnerServiceSMSCodeResponse SendConfirmationSMS(PartnerServiceSMSCodeRequest request);
+        [OperationContract]
+        PartnerServiceNewCustomerRegisterResponse NewCustomerRegister(PartnerServiceNewCustomerRegisterRequest request);
+        [OperationContract]
+        PartnerServiceIDCardValidationResponse IDCardValidation(PartnerServiceIDCardValidationRequest request);
     }
 }

@@ -102,11 +102,89 @@
   <wsdl:message name="IPartnerService_DisableSubUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:DisableSubUserResponse" />
   </wsdl:message>
+  <wsdl:message name="IPartnerService_EnableSubUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:EnableSubUser" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_EnableSubUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:EnableSubUserResponse" />
+  </wsdl:message>
   <wsdl:message name="IPartnerService_BillsBySubscriberNo_InputMessage">
     <wsdl:part name="parameters" element="tns:BillsBySubscriberNo" />
   </wsdl:message>
   <wsdl:message name="IPartnerService_BillsBySubscriberNo_OutputMessage">
     <wsdl:part name="parameters" element="tns:BillsBySubscriberNoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetCultures_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCultures" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetCultures_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCulturesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetTCKTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTCKTypes" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetTCKTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTCKTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetCustomerTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerTypes" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetCustomerTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetSexes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSexes" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetSexes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSexesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetNationalities_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNationalities" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetNationalities_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNationalitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetProfessions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfessions" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetProfessions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfessionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerTariffs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerTariffs" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerTariffs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerTariffsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPaymentDays_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPaymentDays" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPaymentDays_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPaymentDaysResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetCreditReport_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCreditReport" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetCreditReport_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCreditReportResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SendConfirmationSMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendConfirmationSMS" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SendConfirmationSMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendConfirmationSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_NewCustomerRegister_InputMessage">
+    <wsdl:part name="parameters" element="tns:NewCustomerRegister" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_NewCustomerRegister_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NewCustomerRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_IDCardValidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:IDCardValidation" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_IDCardValidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IDCardValidationResponse" />
   </wsdl:message>
   <wsdl:portType name="IPartnerService">
     <wsdl:operation name="GetProvinces">
@@ -165,9 +243,61 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/DisableSubUser" message="tns:IPartnerService_DisableSubUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/DisableSubUserResponse" message="tns:IPartnerService_DisableSubUser_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="EnableSubUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/EnableSubUser" message="tns:IPartnerService_EnableSubUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/EnableSubUserResponse" message="tns:IPartnerService_EnableSubUser_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="BillsBySubscriberNo">
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/BillsBySubscriberNo" message="tns:IPartnerService_BillsBySubscriberNo_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/BillsBySubscriberNoResponse" message="tns:IPartnerService_BillsBySubscriberNo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCultures">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetCultures" message="tns:IPartnerService_GetCultures_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetCulturesResponse" message="tns:IPartnerService_GetCultures_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTCKTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetTCKTypes" message="tns:IPartnerService_GetTCKTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetTCKTypesResponse" message="tns:IPartnerService_GetTCKTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetCustomerTypes" message="tns:IPartnerService_GetCustomerTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetCustomerTypesResponse" message="tns:IPartnerService_GetCustomerTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSexes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetSexes" message="tns:IPartnerService_GetSexes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetSexesResponse" message="tns:IPartnerService_GetSexes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNationalities">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetNationalities" message="tns:IPartnerService_GetNationalities_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetNationalitiesResponse" message="tns:IPartnerService_GetNationalities_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProfessions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetProfessions" message="tns:IPartnerService_GetProfessions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetProfessionsResponse" message="tns:IPartnerService_GetProfessions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerTariffs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerTariffs" message="tns:IPartnerService_GetPartnerTariffs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerTariffsResponse" message="tns:IPartnerService_GetPartnerTariffs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPaymentDays">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetPaymentDays" message="tns:IPartnerService_GetPaymentDays_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetPaymentDaysResponse" message="tns:IPartnerService_GetPaymentDays_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCreditReport">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetCreditReport" message="tns:IPartnerService_GetCreditReport_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetCreditReportResponse" message="tns:IPartnerService_GetCreditReport_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendConfirmationSMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SendConfirmationSMS" message="tns:IPartnerService_SendConfirmationSMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SendConfirmationSMSResponse" message="tns:IPartnerService_SendConfirmationSMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NewCustomerRegister">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/NewCustomerRegister" message="tns:IPartnerService_NewCustomerRegister_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/NewCustomerRegisterResponse" message="tns:IPartnerService_NewCustomerRegister_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IDCardValidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/IDCardValidation" message="tns:IPartnerService_IDCardValidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/IDCardValidationResponse" message="tns:IPartnerService_IDCardValidation_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_IPartnerService" type="tns:IPartnerService">
@@ -299,8 +429,125 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="EnableSubUser">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/EnableSubUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="BillsBySubscriberNo">
       <soap12:operation soapAction="http://tempuri.org/IPartnerService/BillsBySubscriberNo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCultures">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetCultures" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTCKTypes">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetTCKTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerTypes">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetCustomerTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSexes">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetSexes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNationalities">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetNationalities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProfessions">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetProfessions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerTariffs">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetPartnerTariffs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPaymentDays">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetPaymentDays" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCreditReport">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetCreditReport" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendConfirmationSMS">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SendConfirmationSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewCustomerRegister">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/NewCustomerRegister" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IDCardValidation">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/IDCardValidation" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

@@ -285,6 +285,14 @@ namespace RadiusR.API.CustomerWebService
                 ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.SubscriberNotFound, CreateCulture(culture))
             };
         }
+        public static ServiceResponse PartnerInvalidPhoneNoResponse(string culture)
+        {
+            return new ServiceResponse()
+            {
+                ErrorCode = (int)PartnerErrorCodes.InvalidPhoneNo,
+                ErrorMessage = new RezaB.Data.Localization.LocalizedList<PartnerErrorCodes, ErrorMessages>().GetDisplayText((int)PartnerErrorCodes.InvalidPhoneNo, CreateCulture(culture))
+            };
+        }
         private static CultureInfo CreateCulture(string cultureName)
         {
             var currentCulture = CultureInfo.InvariantCulture;

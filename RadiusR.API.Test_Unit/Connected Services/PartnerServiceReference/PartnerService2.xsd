@@ -134,4 +134,94 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="BillListResponse.BillInfo" nillable="true" type="tns:BillListResponse.BillInfo" />
+  <xs:complexType name="PartnerServiceKeyValueListResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q7:BaseResponseOfArrayOfKeyValueItemSHA256_SnLIBD70">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="KeyValueItemResponse" nillable="true" type="tns:ArrayOfKeyValueItem" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceKeyValueListResponse" nillable="true" type="tns:PartnerServiceKeyValueListResponse" />
+  <xs:complexType name="ArrayOfKeyValueItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueItem" nillable="true" type="tns:KeyValueItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfKeyValueItem" nillable="true" type="tns:ArrayOfKeyValueItem" />
+  <xs:complexType name="KeyValueItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Key" type="xs:long" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="KeyValueItem" nillable="true" type="tns:KeyValueItem" />
+  <xs:complexType name="PartnerServiceCreditReportResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q8:BaseResponseOfCreditReportResponseSHA256_SnLIBD70">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CreditReportResponse" nillable="true" type="tns:CreditReportResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceCreditReportResponse" nillable="true" type="tns:PartnerServiceCreditReportResponse" />
+  <xs:complexType name="CreditReportResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Details" nillable="true" type="tns:ArrayOfCreditChangeItem" />
+      <xs:element minOccurs="0" name="Total" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CreditReportResponse" nillable="true" type="tns:CreditReportResponse" />
+  <xs:complexType name="ArrayOfCreditChangeItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CreditChangeItem" nillable="true" type="tns:CreditChangeItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCreditChangeItem" nillable="true" type="tns:ArrayOfCreditChangeItem" />
+  <xs:complexType name="CreditChangeItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Date" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Details" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CreditChangeItem" nillable="true" type="tns:CreditChangeItem" />
+  <xs:complexType name="PartnerServiceSMSCodeResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q9="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q9:BaseResponseOfSMSCodeResponseSHA256_SnLIBD70">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SMSCodeResponse" nillable="true" type="tns:SMSCodeResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceSMSCodeResponse" nillable="true" type="tns:PartnerServiceSMSCodeResponse" />
+  <xs:complexType name="SMSCodeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SMSCodeResponse" nillable="true" type="tns:SMSCodeResponse" />
+  <xs:complexType name="PartnerServiceNewCustomerRegisterResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q10:BaseResponseOfArrayOfKeyValueOfstringstringSHA256PGu3YCeQ">
+        <xs:sequence>
+          <xs:element xmlns:q11="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="NewCustomerRegisterResponse" nillable="true" type="q11:ArrayOfKeyValueOfstringstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceNewCustomerRegisterResponse" nillable="true" type="tns:PartnerServiceNewCustomerRegisterResponse" />
+  <xs:complexType name="PartnerServiceIDCardValidationResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q12="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q12:BaseResponseOfbooleanSHA256Miy85_SUl">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="IDCardValidationResponse" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceIDCardValidationResponse" nillable="true" type="tns:PartnerServiceIDCardValidationResponse" />
 </xs:schema>

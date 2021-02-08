@@ -113,7 +113,22 @@
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceBillListResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceCreditReportResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceIDCardValidationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceKeyValueListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceNewCustomerRegisterResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServicePaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSMSCodeResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSubUserResponse.datasource">

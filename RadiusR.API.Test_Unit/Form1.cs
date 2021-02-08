@@ -82,6 +82,29 @@ namespace RadiusR.API.Test_Unit
             });
             var assd = response;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
+            var request = new GenericServiceSettings();
+            var response = client.IDCardValidation(new PartnerServiceReference.PartnerServiceIDCardValidationRequest()
+            {
+                IDCardValidationRequest = new PartnerServiceReference.IDCardValidationRequest()
+                {
+                    BirthDate = "1995-09-08",
+                    FirstName = "ONUR",
+                    IDCardType = 2,
+                    LastName = "CİVANOĞLU",
+                    TCKNo = "55147390880",
+                    RegistirationNo = "K13628202"
+                },
+                Culture = "tr-tr",
+                Hash = request.Hash,
+                Rand = request.Rand,
+                Username = request.Username
+            });
+            var assd = response;
+        }
     }
     public class GenericServiceSettings
     {        

@@ -196,6 +196,24 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid phone no..
+        /// </summary>
+        public static string InvalidPhoneNo {
+            get {
+                return ResourceManager.GetString("InvalidPhoneNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid serial no..
+        /// </summary>
+        public static string InvalidSerialNo {
+            get {
+                return ResourceManager.GetString("InvalidSerialNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} has invalid length. Max Length must be {1}..
         /// </summary>
         public static string MaxLength {

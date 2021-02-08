@@ -15,6 +15,11 @@ namespace RadiusR.API.CustomerWebService.Enums
         AuthenticationFailed = 6,
         NoPermission = 7,
         PartnerNotFound = 8,
-        SubscriberNotFound = 9
+        SubscriberNotFound = 9,
+        InvalidPhoneNo = 10,
+        SpecialOfferError = 17,
+        TariffNotFound = 18,
+        InternalServerError = 199,
+        Failed = 200
     }
 }
