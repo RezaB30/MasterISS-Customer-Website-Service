@@ -166,8 +166,8 @@
     <Reference Include="RezaB.API.WebService, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.API.WebService.1.1.7\lib\net472\RezaB.API.WebService.dll</HintPath>
     </Reference>
-    <Reference Include="RezaB.API.WebService.NLogExtentions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RezaB.API.WebService.NLogExtentions.1.0.0\lib\net472\RezaB.API.WebService.NLogExtentions.dll</HintPath>
+    <Reference Include="RezaB.API.WebService.NLogExtentions, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.API.WebService.NLogExtentions.1.0.1\lib\net472\RezaB.API.WebService.NLogExtentions.dll</HintPath>
     </Reference>
     <Reference Include="RezaB.Data, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.Data.1.0.1\lib\net452\RezaB.Data.dll</HintPath>

@@ -386,11 +386,11 @@ namespace RadiusR.API.CustomerWebService
 
         public CustomerServiceBillPayableAmountResponse BillPayableAmount(CustomerServiceBillPayableAmountRequest request)
         {
-            CustomerInComingInfo.LogIncomingMessage(request);
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
+                CustomerInComingInfo.LogIncomingMessage(request);
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"unauthorize error. User : {request.Username}");
@@ -473,11 +473,11 @@ namespace RadiusR.API.CustomerWebService
 
         public CustomerServiceCanHaveQuotaSaleResponse CanHaveQuotaSale(CustomerServiceBaseRequest request)
         {
-            CustomerInComingInfo.LogIncomingMessage(request);
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
+                CustomerInComingInfo.LogIncomingMessage(request);
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"CanHaveQuotaSale unauthorize error. User : {request.Username}");
@@ -1001,6 +1001,7 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+
         public CustomerServiceGenericAppSettingsResponse GenericAppSettings(CustomerServiceGenericAppSettingsRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
@@ -2362,16 +2363,12 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture)
                     };
                 }
-                if (request.AutoPaymentListParameters.CardList == null)
-                {
-                    request.AutoPaymentListParameters.CardList = Enumerable.Empty<RegisteredCardsResponse>();
-                }
                 using (var db = new RadiusREntities())
                 {
                     var dbCustomer = db.Subscriptions.Find(request.AutoPaymentListParameters.SubscriptionId).Customer;
                     var subscriptions = dbCustomer.Subscriptions.Where(s => !s.IsCancelled).ToArray();
                     var cards = request.AutoPaymentListParameters.CardList;
-                    var expiredOrInvalidCards = subscriptions.Where(m => m.MobilExpressAutoPayment != null).Select(s => s.MobilExpressAutoPayment).Where(meap => !cards.Select(c => c.Token).Contains(meap.CardToken));
+                    var expiredOrInvalidCards = subscriptions.Where(m => m.MobilExpressAutoPayment != null).Select(s => s.MobilExpressAutoPayment).Where(meap => cards != null && !cards.Select(c => c.Token).Contains(meap.CardToken));
                     db.MobilExpressAutoPayments.RemoveRange(expiredOrInvalidCards);
                     db.SaveChanges();
 
@@ -3355,7 +3352,6 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.LogIncomingMessage(request);
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));

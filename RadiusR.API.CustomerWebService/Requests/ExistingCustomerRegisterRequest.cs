@@ -41,11 +41,11 @@ namespace RadiusR.API.CustomerWebService.Requests
         //[DataMember]
         //public int? BillingPeriod { get; set; }
         //[DataMember]
-        //public IEnumerable<int> GroupIds { get; set; }
+        //public Errorslogger.LogException(request.Username, ex);<int> GroupIds { get; set; }
         //[DataMember]
         //public CustomerCommitmentInfo CommitmentInfo { get; set; }
         //[DataMember]
-        //public IEnumerable<SubscriptionAddedFeeItem> AddedFeesInfo { get; set; }
+        //public Errorslogger.LogException(request.Username, ex);<SubscriptionAddedFeeItem> AddedFeesInfo { get; set; }
         //[DataMember]
         //public SubscriptionTelekomInfoDetails TelekomDetailedInfo { get; set; }
         //[DataMember]
@@ -109,7 +109,7 @@ namespace RadiusR.API.CustomerWebService.Requests
     //    [DataMember]
     //    public int? VariantType { get; set; }
     //    [DataMember]
-    //    public IEnumerable<SubscriptionCustomAddedFeeItem> CustomFeesInfo { get; set; }
+    //    public Errorslogger.LogException(request.Username, ex);<SubscriptionCustomAddedFeeItem> CustomFeesInfo { get; set; }
     //}
     //public class SubscriptionCustomAddedFeeItem
     //{

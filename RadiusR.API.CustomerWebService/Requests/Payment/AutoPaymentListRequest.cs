@@ -12,7 +12,7 @@ namespace RadiusR.API.CustomerWebService.Requests.Payment
     public class AutoPaymentListRequest : BaseSubscriptionRequest
     {
         [DataMember]
-        public IEnumerable<Responses.Payment.RegisteredCardsResponse> CardList { get; set; }
+        public Responses.Payment.RegisteredCardsResponse[] CardList { get; set; }
     }
     [DataContract]
     public partial class CustomerServiceAutoPaymentListRequest : BaseRequest<AutoPaymentListRequest, SHA1>

@@ -12,7 +12,7 @@ namespace RadiusR.API.CustomerWebService.Requests.Payment
     public class PayBillsRequest : BaseSubscriptionRequest
     {
         [DataMember]
-        public IEnumerable<long> BillIds { get; set; }
+        public long[] BillIds { get; set; }
         [DataMember]
         public short? SubscriptionPaidType { get; set; } // Enum
         [DataMember]

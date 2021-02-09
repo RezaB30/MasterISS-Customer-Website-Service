@@ -14,7 +14,7 @@ namespace RadiusR.API.CustomerWebService.Requests
         [DataMember]
         public decimal? PayableAmount { get; set; }
         [DataMember]
-        public IEnumerable<long> BillIds { get; set; }
+        public long[] BillIds { get; set; }
         [DataMember]
         public short? SubscriptionPaidType { get; set; } // Enum
     }
