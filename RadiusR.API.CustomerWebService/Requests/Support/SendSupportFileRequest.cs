@@ -20,7 +20,7 @@ namespace RadiusR.API.CustomerWebService.Requests.Support
 
     }
     [DataContract]
-    public partial class CustoemrServiceSendSupportFileRequest : BaseRequest<SendSupportFileRequest, SHA1>
+    public partial class CustomerServiceSendSupportFileRequest : BaseRequest<SendSupportFileRequest, SHA1>
     {
         [DataMember]
         public SendSupportFileRequest SendSupportFile { get { return Data; } set { Data = value; } }

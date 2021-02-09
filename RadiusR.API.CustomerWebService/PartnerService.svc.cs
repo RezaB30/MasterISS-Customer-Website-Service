@@ -1327,6 +1327,7 @@ namespace RadiusR.API.CustomerWebService
             var passwordHash = HashUtilities.GetHexString<SHA256>(password);
             try
             {
+                InComingInfoLogger.LogIncomingMessage(request);
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServiceIDCardValidationResponse(passwordHash, request)

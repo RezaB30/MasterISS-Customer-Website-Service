@@ -253,6 +253,7 @@
   <ItemGroup>
     <Content Include="GenericCustomerService.svc" />
     <Content Include="PartnerService.svc" />
+    <Content Include="VersionHistory.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
