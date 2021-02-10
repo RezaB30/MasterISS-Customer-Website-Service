@@ -41,6 +41,7 @@ namespace RadiusR.API.CustomerWebService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
+    [ServiceBehavior(AddressFilterMode = AddressFilterMode.Any)]
     public class GenericCustomerService : IGenericCustomerService
     {
         WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
@@ -50,7 +51,7 @@ namespace RadiusR.API.CustomerWebService
         public CustomerServiceActivateAutomaticPaymentResponse ActivateAutomaticPayment(CustomerServiceActivateAutomaticPaymentRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
-            var passwordHash = HashUtilities.GetHexString<SHA1>(password);            
+            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
                 CustomerInComingInfo.LogIncomingMessage(request);
@@ -763,7 +764,8 @@ namespace RadiusR.API.CustomerWebService
                                 dbClients.ForEach(client => client.OnlinePasswordExpirationDate = DateTime.Now.Add(CustomerWebsiteSettings.OnlinePasswordDuration));
                                 validPasswordClient = dbClients.FirstOrDefault();
                                 SMSService SMS = new SMSService();
-                                SMS.SendGenericSMS(validPasswordClient.Customer.ContactPhoneNo, validPasswordClient.Customer.Culture, rawText: string.Format(Localization.Common.PasswordSMS, validPasswordClient.OnlinePassword, CustomerWebsiteSettings.OnlinePasswordDuration.Hours));
+                                var customerCulture = string.IsNullOrEmpty(validPasswordClient.Customer.Culture) ? "tr-tr" : validPasswordClient.Customer.Culture;
+                                SMS.SendGenericSMS(validPasswordClient.Customer.ContactPhoneNo, validPasswordClient.Customer.Culture, rawText: string.Format(Localization.Common.ResourceManager.GetString("PasswordSMS", CultureInfo.CreateSpecificCulture(customerCulture)), validPasswordClient.OnlinePassword, CustomerWebsiteSettings.OnlinePasswordDuration.Hours));
                                 db.SaveChanges();
                             }
                             return new CustomerServiceCustomerAuthenticationResponse(passwordHash, request)
@@ -970,13 +972,14 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.EArchivePDFNotFound(request.Culture)
                         };
                     }
+                    var customerCulture = string.IsNullOrEmpty(dbBill.Subscription.Customer.Culture) ? "tr-tr" : dbBill.Subscription.Customer.Culture;
                     return new CustomerServiceEArchivePDFResponse(passwordHash, request)
                     {
                         EArchivePDFResponse = new EArchivePDFResponse()
                         {
                             FileContent = response.PDFData,
                             ContentType = "application/pdf",
-                            FileDownloadName = Localization.Common.EArchivePDFFileName + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
+                            FileDownloadName = Localization.Common.ResourceManager.GetString("EArchivePDFFileName", CultureInfo.CreateSpecificCulture(customerCulture)) + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
                         },
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                     };
@@ -4556,13 +4559,14 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.CustomerMailNotFound(request.Culture)
                         };
                     }
+                    var customerCulture = string.IsNullOrEmpty(dbBill.Subscription.Customer.Culture) ? "tr-tr" : dbBill.Subscription.Customer.Culture;
                     var fileStream = new MemoryStream(response.PDFData);
                     List<RezaB.Mailing.MailFileAttachment> attachments = new List<RezaB.Mailing.MailFileAttachment>();
                     attachments.Add(new RezaB.Mailing.MailFileAttachment()
                     {
                         Content = fileStream,
                         ContentType = "application/pdf",
-                        FileName = Localization.Common.EArchivePDFFileName + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
+                        FileName = Localization.Common.ResourceManager.GetString("EArchivePDFFileName",CultureInfo.CreateSpecificCulture(customerCulture)) + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
                     });
                     RezaB.Mailing.Client.MailClient client = new RezaB.Mailing.Client.MailClient(EmailSettings.SMTPEmailHost, EmailSettings.SMTPEMailPort, false, EmailSettings.SMTPEmailAddress, EmailSettings.SMTPEmailPassword);
                     //var collection = new System.Net.Mail.MailAddressCollection();
@@ -4580,8 +4584,8 @@ namespace RadiusR.API.CustomerWebService
                         new string[] { dbBill.Subscription.Customer.Email },
                         null,
                         null,
-                        string.Format(Localization.Common.EArchiveMailSubject, dbBill.IssueDate.ToString("dd-MM-yyyy")),
-                        string.Format(Localization.Common.EArchiveMailBody, dbBill.IssueDate.ToString("dd-MM-yyyy")),
+                        string.Format(Localization.Common.ResourceManager.GetString("EArchiveMailSubject", CultureInfo.CreateSpecificCulture(customerCulture)), dbBill.IssueDate.ToString("dd-MM-yyyy")),
+                        string.Format(Localization.Common.ResourceManager.GetString("EArchiveMailBody", CultureInfo.CreateSpecificCulture(customerCulture)), dbBill.IssueDate.ToString("dd-MM-yyyy")),
                         RezaB.Mailing.MailBodyType.Text,
                         attachments));
                     return new CustomerServiceEArchivePDFMailResponse(passwordHash, request)

@@ -511,7 +511,7 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} tarihli faturanız ekte yer almaktadır. İyi günler dileriz..
+        ///   Looks up a localized string similar to Your {0} dated invoice is attached. We wish you a nice day..
         /// </summary>
         public static string EArchiveMailBody {
             get {
@@ -520,7 +520,7 @@ namespace RadiusR.API.CustomerWebService.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} tarihli fatura bilgisi.
+        ///   Looks up a localized string similar to Invoice information with date {0}.
         /// </summary>
         public static string EArchiveMailSubject {
             get {
