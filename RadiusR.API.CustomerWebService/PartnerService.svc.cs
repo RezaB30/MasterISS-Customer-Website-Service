@@ -47,7 +47,7 @@ namespace RadiusR.API.CustomerWebService
                 using (RadiusREntities db = new RadiusREntities())
                 {
                     var dbPartner = db.Partners.FirstOrDefault(p => p.Email == request.PaymentRequest.UserEmail);
-                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Name == request.PaymentRequest.SubUserEmail);
+                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Email == request.PaymentRequest.SubUserEmail);
 
                     if (!dbPartner.PartnerPermissions.Any(pp => pp.Permission == (short)RadiusR.DB.Enums.PartnerPermissions.Payment))
                     {
@@ -279,7 +279,7 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerMaxSubUsersReachedResponse(request.Culture)
                         };
                     }
-                    if (dbPartner.PartnerSubUsers.Any(su => su.Name.ToLower() == request.AddSubUserRequestParameters.RequestedSubUserEmail.ToLower()))
+                    if (dbPartner.PartnerSubUsers.Any(su => su.Email.ToLower() == request.AddSubUserRequestParameters.RequestedSubUserEmail.ToLower()))
                     {
                         //SubUserExists
                         return new PartnerServiceAddSubUserResponse(passwordHash, request)
@@ -406,7 +406,7 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerNoPermissionResponse(request.Culture)
                         };
                     }
-                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Name == request.SubUserRequest.RequestedSubUserEmail);
+                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Email == request.SubUserRequest.RequestedSubUserEmail);
 
                     if (dbSubUser == null)
                     {
@@ -461,7 +461,7 @@ namespace RadiusR.API.CustomerWebService
                 using (RadiusREntities db = new RadiusREntities())
                 {
                     var dbPartner = db.Partners.FirstOrDefault(p => p.Email == request.BillListRequest.UserEmail);
-                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Name == request.BillListRequest.SubUserEmail);
+                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Email == request.BillListRequest.SubUserEmail);
 
                     if (!dbPartner.PartnerPermissions.Any(pp => pp.Permission == (short)RadiusR.DB.Enums.PartnerPermissions.Payment))
                     {
@@ -560,7 +560,7 @@ namespace RadiusR.API.CustomerWebService
                             SubUserResponse = null
                         };
                     }
-                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Name == request.SubUserRequest.RequestedSubUserEmail);
+                    var dbSubUser = dbPartner.PartnerSubUsers.FirstOrDefault(su => su.Email == request.SubUserRequest.RequestedSubUserEmail);
 
                     if (dbSubUser == null)
                     {
