@@ -43,14 +43,14 @@ namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
 
             private PermissionResult() { }
 
-            public PermissionResult(short id, string culture)
+            public PermissionResult(short id)
             {
                 ID = id;
 
                 try
                 {
                     var resourceKey = Enum.GetName(typeof(RadiusR.DB.Enums.PartnerPermissions), id);
-                    Name = new LocalizedList<RadiusR.DB.Enums.PartnerPermissions, RadiusR.Localization.Lists.PartnerPermissions>().GetDisplayText(id, CultureInfo.CreateSpecificCulture(culture));
+                    Name = resourceKey;
                 }
                 catch
                 {

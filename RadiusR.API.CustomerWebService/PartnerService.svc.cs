@@ -203,7 +203,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         AuthenticationResponse = new AuthenticationResponse()
                         {
-                            Permissions = dbPartner.PartnerPermissions.Select(pp => new AuthenticationResponse.PermissionResult(pp.Permission, request.Culture)).ToArray(),
+                            Permissions = dbPartner.PartnerPermissions.Select(pp => new AuthenticationResponse.PermissionResult(pp.Permission)).ToArray(),
                             IsAuthenticated = true,
                             UserID = dbPartner.ID,
                             DisplayName = dbPartner.Title,
