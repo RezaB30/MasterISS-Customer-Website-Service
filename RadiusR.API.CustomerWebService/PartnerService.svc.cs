@@ -3,6 +3,7 @@ using RadiusR.API.CustomerWebService.Responses.PartnerResponses;
 using RadiusR.DB;
 using RadiusR.DB.Enums;
 using RadiusR.DB.ModelExtentions;
+using RadiusR.DB.QueryExtentions;
 using RadiusR.DB.Utilities.Billing;
 using RadiusR.DB.Utilities.ComplexOperations.Subscriptions.Registration;
 using RadiusR.SMS;
@@ -35,7 +36,6 @@ namespace RadiusR.API.CustomerWebService
             try
             {
                 InComingInfoLogger.LogIncomingMessage(request);
-
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new PartnerServicePaymentResponse(passwordHash, request)
@@ -845,12 +845,12 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerNoPermissionResponse(request.Culture)
                         };
                     }
-                    var rawResults = dbPartner.PartnerGroup.PartnerAvailableTariffs.Select(pat => new { ID = pat.ID, TariffName = pat.Service.Name, Commitment = pat.Commitment, DomainName = pat.Domain.Name }).ToArray();
+                    var rawResults = dbPartner.PartnerGroup.PartnerAvailableTariffs.Select(pat => new { ID = pat.ID, TariffName = pat.Service.Name, DomainName = pat.Domain.Name }).ToArray();
                     var list = new LocalizedList<RadiusR.DB.Enums.CommitmentLength, RadiusR.Localization.Lists.CommitmentLength>();
                     var results = rawResults.Select(rr => new KeyValueItem()
                     {
                         Key = rr.ID,
-                        Value = rr.TariffName + "(" + rr.DomainName + (rr.Commitment.HasValue ? " - " + list.GetDisplayText(rr.Commitment, CreateCulture(request.Culture)) : string.Empty) + ")"
+                        Value = rr.TariffName + "(" + rr.DomainName + ")"
                     }).ToArray();
 
                     return new PartnerServiceKeyValueListResponse(passwordHash, request)
@@ -1061,15 +1061,15 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    var specialOfferId = db.SpecialOffers.Where(s => s.IsReferral == true && DateTime.Now > s.StartDate && DateTime.Now < s.EndDate).ToList();
-                    if (specialOfferId.Count != 1)
-                    {
-                        return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
-                        {
-                            NewCustomerRegisterResponse = null,
-                            ResponseMessage = CommonResponse.SpecialOfferError(request.Culture)
-                        };
-                    }
+                    //var specialOfferId = db.SpecialOffers.Where(s => s.IsReferral == true && DateTime.Now > s.StartDate && DateTime.Now < s.EndDate).ToList();
+                    //if (specialOfferId.Count != 1)
+                    //{
+                    //    return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
+                    //    {
+                    //        NewCustomerRegisterResponse = null,
+                    //        ResponseMessage = CommonResponse.SpecialOfferError(request.Culture)
+                    //    };
+                    //}
                     var externalTariff = db.ExternalTariffs.GetActiveExternalTariffs().FirstOrDefault(ext => ext.TariffID == request.CustomerRegisterParameters.SubscriptionInfo.ServiceID);
                     if (externalTariff == null)
                     {
@@ -1080,7 +1080,7 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                     var billingPeriod = externalTariff.Service.GetBestBillingPeriod(DateTime.Now.Day);
-                    var currentSpecialOfferId = specialOfferId.FirstOrDefault().ID;
+                    //var currentSpecialOfferId = specialOfferId.FirstOrDefault().ID;
                     var registeredCustomer = new Customer();
                     var register = request.CustomerRegisterParameters;
                     CustomerRegistrationInfo registrationInfo = new CustomerRegistrationInfo()
@@ -1244,11 +1244,12 @@ namespace RadiusR.API.CustomerWebService
                                 StreetName = register.SubscriptionInfo.SetupAddress.StreetName
                             },
                             BillingPeriod = billingPeriod,
-                            ReferralDiscount = string.IsNullOrEmpty(request.CustomerRegisterParameters.SubscriptionInfo.ReferralDiscountInfo.ReferenceNo) ? null : new CustomerRegistrationInfo.ReferralDiscountInfo()
-                            {
-                                ReferenceNo = request.CustomerRegisterParameters.SubscriptionInfo.ReferralDiscountInfo.ReferenceNo,
-                                SpecialOfferID = currentSpecialOfferId
-                            }
+                            ReferralDiscount = null
+                            //ReferralDiscount = string.IsNullOrEmpty(request.CustomerRegisterParameters.SubscriptionInfo.ReferralDiscountInfo.ReferenceNo) ? null : new CustomerRegistrationInfo.ReferralDiscountInfo()
+                            //{
+                            //    ReferenceNo = request.CustomerRegisterParameters.SubscriptionInfo.ReferralDiscountInfo.ReferenceNo,
+                            //    SpecialOfferID = currentSpecialOfferId
+                            //}
                         },
                     };
                     Dictionary<string, string> valuePairs = new Dictionary<string, string>();
@@ -1391,6 +1392,124 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+        public PartnerServiceAllowanceDetailsResponse GetAllowanceDetails(PartnerServiceAllowanceRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+                    {
+                        AllowanceDetailsResponse = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                if (request.PartnerAllowanceRequest.AllowanceTypeId == null)
+                {
+                    return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceTypeId")),
+                        AllowanceDetailsResponse = null
+                    };
+                }
+                if (request.PartnerAllowanceRequest.PartnerId == null)
+                {
+                    return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
+                        AllowanceDetailsResponse = null
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {                    
+                    var allowances = db.GetAllowanceDetails(request.PartnerAllowanceRequest.PartnerId.Value, (PartnerCollectionType)request.PartnerAllowanceRequest.AllowanceTypeId);
+                    var allowanceList = allowances.Select(a => new AllowanceDetailsResponse()
+                    {
+                        AllowanceStateID = (int)a.Key,
+                        AllowanceStateName = new LocalizedList<PartnerAllowanceState, RadiusR.Localization.Lists.PartnerAllowanceState>().GetDisplayText((int)a.Key, CreateCulture(request.Culture)),
+                        Price = a.Value
+                    }).ToArray();
+                    return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        AllowanceDetailsResponse = allowanceList
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+                {
+                    AllowanceDetailsResponse = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        //public object GetPartnerCollectionList(PartnerServiceAllowanceRequest request)
+        //{
+        //    var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+        //    var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+        //    try
+        //    {
+        //        InComingInfoLogger.LogIncomingMessage(request);
+        //        if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+        //        {
+        //            return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+        //            {
+        //                AllowanceDetailsResponse = null,
+        //                ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+        //            };
+        //        }
+        //        if (request.PartnerAllowanceRequest.AllowanceTypeId == null)
+        //        {
+        //            return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+        //            {
+        //                ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceTypeId")),
+        //                AllowanceDetailsResponse = null
+        //            };
+        //        }
+        //        if (request.PartnerAllowanceRequest.PartnerId == null)
+        //        {
+        //            return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+        //            {
+        //                ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
+        //                AllowanceDetailsResponse = null
+        //            };
+        //        }
+        //        using (var db = new RadiusREntities())
+        //        {
+        //            var collections = db.PartnerCollections.Where(c => c.CollectionType == request.PartnerAllowanceRequest.AllowanceTypeId).ToArray();
+        //            foreach (var item in collections)
+        //            {
+        //                item.PartnerRegisteredSubscriptions.FirstOrDefault().
+        //            }
+        //            var allowanceList = allowances.Select(a => new AllowanceDetailsResponse()
+        //            {
+        //                AllowanceStateID = (int)a.Key,
+        //                AllowanceStateName = new LocalizedList<PartnerAllowanceState, RadiusR.Localization.Lists.PartnerAllowanceState>().GetDisplayText((int)a.Key, CreateCulture(request.Culture)),
+        //                Price = a.Value
+        //            }).ToArray();
+        //            return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+        //            {
+        //                ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+        //                AllowanceDetailsResponse = allowanceList
+        //            };
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Errorslogger.LogException(request.Username, ex);
+        //        return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+        //        {
+        //            AllowanceDetailsResponse = null,
+        //            ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+        //        };
+        //    }
+        //}
         #region private
         private CultureInfo CreateCulture(string cultureName)
         {
@@ -1402,6 +1521,10 @@ namespace RadiusR.API.CustomerWebService
             catch { }
             return currentCulture;
         }
+        private string CreateErrorMessage(string LocalizationValueName, string cultureName)
+        {
+            return Localization.ErrorMessages.ResourceManager.GetString(LocalizationValueName, CreateCulture(cultureName));
+        }        
         #endregion
 
     }

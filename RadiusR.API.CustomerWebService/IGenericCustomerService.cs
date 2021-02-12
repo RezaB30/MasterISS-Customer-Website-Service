@@ -97,9 +97,7 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         CustomerServiceMobilexpressPayBillResponse MobilexpressPayBill(CustomerServiceMobilexpressPayBillRequest request);
         [OperationContract]
-        CustomerServiceVPOSErrorParameterNameResponse GetVPOSErrorParameterName(CustomerServiceVPOSErrorParameterNameRequest request);
-        [OperationContract]
-        CustomerServiceExistingCustomerRegisterResponse ExistingCustomerRegister(CustomerServiceExistingCustomerRegisterRequest request);
+        CustomerServiceVPOSErrorParameterNameResponse GetVPOSErrorParameterName(CustomerServiceVPOSErrorParameterNameRequest request);        
         [OperationContract]
         CustomerServiceNameValuePair CommitmentLengthList(CustomerServiceCommitmentLengthsRequest request);        
         [OperationContract]
@@ -124,10 +122,10 @@ namespace RadiusR.API.CustomerWebService
         CustomerServiceGetClientPDFFormResponse GetClientPDFForm(CustomerServiceBaseRequest request);
         [OperationContract]
         CustomerServiceEArchivePDFMailResponse EArchivePDFMail(CustomerServiceEArchivePDFRequest request);
-        [OperationContract]
-        CustomerServiceChangeClientInfoResponse ChangeClientInfoSMSCheck(CustomerServiceChangeClientInfoRequest request);
-        [OperationContract]
-        CustomerServiceChangeClientInfoConfirmResponse ChangeClientInfoConfirm(CustomerServiceChangeClientInfoConfirmRequest request);
+        //[OperationContract]
+        //CustomerServiceChangeClientInfoResponse ChangeClientInfoSMSCheck(CustomerServiceChangeClientInfoRequest request);
+        //[OperationContract]
+        //CustomerServiceChangeClientInfoConfirmResponse ChangeClientInfoConfirm(CustomerServiceChangeClientInfoConfirmRequest request);
         [OperationContract]
         CustomerServiceChangeClientInfoConfirmResponse ChangeClientOnlinePassword(CustomerServiceChangeClientOnlinePasswordRequest request);
     }
