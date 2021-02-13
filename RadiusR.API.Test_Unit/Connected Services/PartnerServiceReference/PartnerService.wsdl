@@ -186,6 +186,18 @@
   <wsdl:message name="IPartnerService_IDCardValidation_OutputMessage">
     <wsdl:part name="parameters" element="tns:IDCardValidationResponse" />
   </wsdl:message>
+  <wsdl:message name="IPartnerService_GetAllowanceDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllowanceDetails" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetAllowanceDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAllowanceDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SetupGenericAllowanceList_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetupGenericAllowanceList" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SetupGenericAllowanceList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetupGenericAllowanceListResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPartnerService">
     <wsdl:operation name="GetProvinces">
       <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinces" message="tns:IPartnerService_GetProvinces_InputMessage" />
@@ -298,6 +310,14 @@
     <wsdl:operation name="IDCardValidation">
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/IDCardValidation" message="tns:IPartnerService_IDCardValidation_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/IDCardValidationResponse" message="tns:IPartnerService_IDCardValidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAllowanceDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetAllowanceDetails" message="tns:IPartnerService_GetAllowanceDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetAllowanceDetailsResponse" message="tns:IPartnerService_GetAllowanceDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetupGenericAllowanceList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SetupGenericAllowanceList" message="tns:IPartnerService_SetupGenericAllowanceList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SetupGenericAllowanceListResponse" message="tns:IPartnerService_SetupGenericAllowanceList_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_IPartnerService" type="tns:IPartnerService">
@@ -548,6 +568,24 @@
     </wsdl:operation>
     <wsdl:operation name="IDCardValidation">
       <soap12:operation soapAction="http://tempuri.org/IPartnerService/IDCardValidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAllowanceDetails">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetAllowanceDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetupGenericAllowanceList">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SetupGenericAllowanceList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

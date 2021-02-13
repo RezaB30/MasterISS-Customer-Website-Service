@@ -9,7 +9,7 @@ using System.Web;
 namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
 {
     [DataContract]
-    public class PartnerAllowanceRequest
+    public class PartnerAllowanceRequest : PaginationRequest
     {
         [DataMember]
         public int? PartnerId { get; set; }

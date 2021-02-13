@@ -254,7 +254,7 @@
     <Content Include="GenericCustomerService.svc" />
     <Content Include="NetspeedCustomerService.svc" />
     <Content Include="PartnerService.svc" />
-    <Content Include="VersionHistory.txt" />
+    <None Include="VersionHistory.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +306,8 @@
     <Compile Include="Requests\ChangeClientInfoRequest.cs" />
     <Compile Include="Requests\ChangeClientOnlinePasswordRequest.cs" />
     <Compile Include="Requests\PartnerRequests\AddSubUserRequest.cs" />
+    <Compile Include="Requests\PartnerRequests\PaginationRequest.cs" />
+    <Compile Include="Requests\PartnerRequests\PartnerAllowanceDetailRequest.cs" />
     <Compile Include="Requests\PartnerRequests\PartnerAllowanceRequest.cs" />
     <Compile Include="Requests\PartnerRequests\AuthenticationRequest.cs" />
     <Compile Include="Requests\PartnerRequests\BillListRequest.cs" />
@@ -365,14 +367,18 @@
     <Compile Include="Responses\HasClientPreRegisterResponse.cs" />
     <Compile Include="Responses\PartnerResponses\AddSubUserResponse.cs" />
     <Compile Include="Responses\PartnerResponses\AllowanceDetailsResponse.cs" />
+    <Compile Include="Responses\PartnerResponses\NameValuePair.cs" />
     <Compile Include="Responses\PartnerResponses\AuthenticationResponse.cs" />
     <Compile Include="Responses\PartnerResponses\BillListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\CreditReportResponse.cs" />
     <Compile Include="Responses\PartnerResponses\IDCardValidationResponse.cs" />
     <Compile Include="Responses\PartnerResponses\KeyValueListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\NewCustomerRegisterResponse.cs" />
+    <Compile Include="Responses\PartnerResponses\PaginationResponse.cs" />
     <Compile Include="Responses\PartnerResponses\PaymentResponse.cs" />
     <Compile Include="Responses\PartnerResponses\ResponseValidationBase.cs" />
+    <Compile Include="Responses\PartnerResponses\SetupAllowanceListResponse.cs" />
+    <Compile Include="Responses\PartnerResponses\SetupGenericAllowanceListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SMSCodeResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SubUserResponse.cs" />
     <Compile Include="Responses\Payment\ActivateAutomaticPaymentResponse.cs" />

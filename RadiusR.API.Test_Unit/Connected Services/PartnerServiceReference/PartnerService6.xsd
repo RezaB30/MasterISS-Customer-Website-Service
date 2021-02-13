@@ -494,4 +494,52 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="BaseResponseOfbooleanSHA256Miy85_SUl" nillable="true" type="tns:BaseResponseOfbooleanSHA256Miy85_SUl" />
+  <xs:complexType name="BaseRequestOfPartnerAllowanceRequestSHA256XdPrP3EA">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseRequestOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="PartnerAllowanceRequest" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseRequestOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseRequestOfPartnerAllowanceRequestSHA256XdPrP3EA" nillable="true" type="tns:BaseRequestOfPartnerAllowanceRequestSHA256XdPrP3EA" />
+  <xs:complexType name="BaseResponseOfArrayOfAllowanceDetailsResponseSHA256_SnLIBD70">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseResponseOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfAllowanceDetailsResponse" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseResponseOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseResponseOfArrayOfAllowanceDetailsResponseSHA256_SnLIBD70" nillable="true" type="tns:BaseResponseOfArrayOfAllowanceDetailsResponseSHA256_SnLIBD70" />
+  <xs:complexType name="BaseResponseOfSetupGenericAllowanceListResponseSHA256_SnLIBD70">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseResponseOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SetupGenericAllowanceListResponse" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseResponseOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseResponseOfSetupGenericAllowanceListResponseSHA256_SnLIBD70" nillable="true" type="tns:BaseResponseOfSetupGenericAllowanceListResponseSHA256_SnLIBD70" />
 </xs:schema>

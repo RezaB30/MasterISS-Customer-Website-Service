@@ -1,2 +1,6 @@
 ﻿v 1.0.0 2021-02-07
 - first release
+v 1.0.1 2021-02-12
+- created parent service for generic
+- created custom service for netspeed
+- new customer register removed from generic

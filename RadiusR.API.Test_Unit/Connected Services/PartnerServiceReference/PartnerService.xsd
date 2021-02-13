@@ -344,4 +344,32 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="IDCardValidationRequest" nillable="true" type="tns:IDCardValidationRequest" />
+  <xs:complexType name="PartnerServiceAllowanceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q13="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q13:BaseRequestOfPartnerAllowanceRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PartnerAllowanceRequest" nillable="true" type="tns:PartnerAllowanceRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceAllowanceRequest" nillable="true" type="tns:PartnerServiceAllowanceRequest" />
+  <xs:complexType name="PartnerAllowanceRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:PaginationRequest">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AllowanceTypeId" nillable="true" type="xs:short" />
+          <xs:element minOccurs="0" name="PartnerId" nillable="true" type="xs:int" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerAllowanceRequest" nillable="true" type="tns:PartnerAllowanceRequest" />
+  <xs:complexType name="PaginationRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ItemPerPage" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PageNo" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="PaginationRequest" nillable="true" type="tns:PaginationRequest" />
 </xs:schema>

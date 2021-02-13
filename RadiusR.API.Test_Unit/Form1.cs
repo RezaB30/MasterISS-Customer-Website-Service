@@ -128,6 +128,26 @@ namespace RadiusR.API.Test_Unit
             });
             var assd = response;
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
+            var request = new GenericServiceSettings();
+            var response = client.GetCreditReport(new PartnerServiceReference.PartnerServiceCreditReportRequest()
+            {
+                CreditReportRequest = new PartnerServiceReference.CreditReportRequest()
+                {
+                    SubUserEmail = "test@test.com",
+                    UserEmail = "test@test.com",
+                    WithDetails = true
+                },
+                Culture = "tr-tr",
+                Hash = request.Hash,
+                Rand = request.Rand,
+                Username = request.Username
+            });
+            var assd = response;
+        }
     }
     public class GenericServiceSettings
     {

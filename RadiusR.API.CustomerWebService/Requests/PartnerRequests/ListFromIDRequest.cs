@@ -11,6 +11,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
     [DataContract]
     public class ListFromIDRequest : RequestBase
     {
+        [DataMember]
         public long? ID { get; set; }
     }
     [DataContract]

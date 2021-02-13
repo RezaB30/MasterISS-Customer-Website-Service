@@ -107,6 +107,9 @@
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceAddSubUserResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceAllowanceDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceAuthenticationResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -126,6 +129,9 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServicePaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSetupGenericAllowanceListResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSMSCodeResponse.datasource">
