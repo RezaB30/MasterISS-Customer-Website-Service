@@ -18,7 +18,7 @@ namespace RadiusR.API.CustomerWebService
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "NetspeedCustomerService" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select NetspeedCustomerService.svc or NetspeedCustomerService.svc.cs at the Solution Explorer and start debugging.
     [ServiceBehavior(AddressFilterMode = AddressFilterMode.Any)]
-    public class NetspeedCustomerService : GenericCustomerService , INetspeedCustomerService , IGenericCustomerService
+    public class NetspeedCustomerService : GenericCustomerService, INetspeedCustomerService, IGenericCustomerService
     {
         WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
         WebServiceLogger CustomerInComingInfo = new WebServiceLogger("CustomerInComingInfo");
@@ -121,7 +121,7 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                     db.SaveChanges();
-                    db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, referenceCustomer.ID, referenceCustomer.Customer.ID, SystemLogInterface.CustomerWebsite, request.Username, referenceCustomer.SubscriberNo));
+                    db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, referenceCustomer.ID, referenceCustomer.Customer.ID, SystemLogInterface.CustomerWebsite, $"{request.Username} ({referenceCustomer.SubscriberNo})", referenceCustomer.SubscriberNo));
                     db.SaveChanges();
                     return new CustomerServiceExistingCustomerRegisterResponse(passwordHash, request)
                     {

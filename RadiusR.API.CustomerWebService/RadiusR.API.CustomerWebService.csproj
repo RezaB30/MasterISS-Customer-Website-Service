@@ -363,6 +363,7 @@
     <Compile Include="Requests\Payment\VPOSFormRequest.cs" />
     <Compile Include="Responses\ChangeClientInfoConfirmResponse.cs" />
     <Compile Include="Responses\ChangeClientInfoResponse.cs" />
+    <Compile Include="Responses\CustomerSubscriberListResponse.cs" />
     <Compile Include="Responses\GetClientPDFFormResponse.cs" />
     <Compile Include="Responses\HasClientPreRegisterResponse.cs" />
     <Compile Include="Responses\PartnerResponses\AddSubUserResponse.cs" />
@@ -377,6 +378,8 @@
     <Compile Include="Responses\PartnerResponses\PaginationResponse.cs" />
     <Compile Include="Responses\PartnerResponses\PaymentResponse.cs" />
     <Compile Include="Responses\PartnerResponses\ResponseValidationBase.cs" />
+    <Compile Include="Responses\PartnerResponses\SaleAllowanceListResponse.cs" />
+    <Compile Include="Responses\PartnerResponses\SaleGenericAllowanceListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SetupAllowanceListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SetupGenericAllowanceListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SMSCodeResponse.cs" />

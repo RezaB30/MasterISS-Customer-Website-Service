@@ -52,10 +52,18 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         PartnerServiceIDCardValidationResponse IDCardValidation(PartnerServiceIDCardValidationRequest request);
         [OperationContract]
-        PartnerServiceAllowanceDetailsResponse GetAllowanceDetails(PartnerServiceAllowanceRequest request);
+        PartnerServiceAllowanceDetailsResponse GetBasicAllowanceDetails(PartnerServiceBasicAllowanceRequest request);
         [OperationContract]
         PartnerServiceSetupGenericAllowanceListResponse SetupGenericAllowanceList(PartnerServiceAllowanceRequest request);
         [OperationContract]
         PartnerServiceSetupAllowanceListResponse SetupAllowanceList(PartnerServiceAllowanceRequest request);
+        [OperationContract]
+        PartnerServiceSetupGenericAllowanceListResponse SetupAllowanceDetails(PartnerServiceAllowanceDetailRequest request);
+        [OperationContract]
+        PartnerServiceSaleAllowanceListResponse SaleAllowanceList(PartnerServiceAllowanceRequest request);
+        [OperationContract]
+        PartnerServiceSaleGenericAllowanceListResponse SaleAllowanceDetails(PartnerServiceAllowanceDetailRequest request);
+        [OperationContract]
+        PartnerServiceSaleGenericAllowanceListResponse SaleGenericAllowanceList(PartnerServiceAllowanceRequest request);
     }
 }

@@ -1413,7 +1413,7 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
-        public PartnerServiceAllowanceDetailsResponse GetAllowanceDetails(PartnerServiceAllowanceRequest request)
+        public PartnerServiceAllowanceDetailsResponse GetBasicAllowanceDetails(PartnerServiceBasicAllowanceRequest request)
         {
             var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA256>(password);
@@ -1428,7 +1428,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                if (request.PartnerAllowanceRequest.AllowanceTypeId == null)
+                if (request.PartnerBasicAllowanceRequest.AllowanceTypeId == null)
                 {
                     return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
                     {
@@ -1436,7 +1436,7 @@ namespace RadiusR.API.CustomerWebService
                         AllowanceDetailsResponse = null
                     };
                 }
-                if (request.PartnerAllowanceRequest.PartnerId == null)
+                if (request.PartnerBasicAllowanceRequest.PartnerId == null)
                 {
                     return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
                     {
@@ -1446,7 +1446,7 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusREntities())
                 {
-                    var allowances = db.GetAllowanceDetails(request.PartnerAllowanceRequest.PartnerId.Value, (PartnerCollectionType)request.PartnerAllowanceRequest.AllowanceTypeId);
+                    var allowances = db.GetAllowanceDetails(request.PartnerBasicAllowanceRequest.PartnerId.Value, (PartnerCollectionType)request.PartnerBasicAllowanceRequest.AllowanceTypeId);
                     var allowanceList = allowances.Select(a => new AllowanceDetailsResponse()
                     {
                         AllowanceStateID = (int)a.Key,
@@ -1485,14 +1485,6 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                if (request.PartnerAllowanceRequest.AllowanceTypeId == null)
-                {
-                    return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceTypeId")),
-                        SetupGenericAllowanceList = null
-                    };
-                }
                 if (request.PartnerAllowanceRequest.PartnerId == null)
                 {
                     return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
@@ -1515,7 +1507,7 @@ namespace RadiusR.API.CustomerWebService
                     var partnerSetupList = new SetupGenericAllowanceListResponse()
                     {
                         TotalPageCount = TotalPageCount(partner.CustomerSetupUser?.CustomerSetupTasks.Count(), request.PartnerAllowanceRequest.ItemPerPage),
-                        SetupGenericAllowances = partner.CustomerSetupUser?.CustomerSetupTasks.ToArray().Skip((request.PartnerAllowanceRequest.PageNo.Value * request.PartnerAllowanceRequest.ItemPerPage.Value)).Take(request.PartnerAllowanceRequest.ItemPerPage.Value).Select(cst => new SetupGenericAllowanceListResponse.SetupGenericAllowanceList()
+                        SetupGenericAllowances = partner.CustomerSetupUser?.CustomerSetupTasks.ToArray().OrderByDescending(cst => cst.TaskIssueDate).Skip((request.PartnerAllowanceRequest.PageNo.Value * request.PartnerAllowanceRequest.ItemPerPage.Value)).Take(request.PartnerAllowanceRequest.ItemPerPage.Value).Select(cst => new SetupGenericAllowanceListResponse.SetupGenericAllowanceList()
                         {
                             Allowance = cst.Allowance,
                             AllowanceState = new NameValuePair()
@@ -1565,14 +1557,6 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                if (request.PartnerAllowanceRequest.AllowanceTypeId == null)
-                {
-                    return new PartnerServiceSetupAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceTypeId")),
-                        SetupAllowanceList = null
-                    };
-                }
                 if (request.PartnerAllowanceRequest.PartnerId == null)
                 {
                     return new PartnerServiceSetupAllowanceListResponse(passwordHash, request)
@@ -1592,7 +1576,7 @@ namespace RadiusR.API.CustomerWebService
                             SetupAllowanceList = null
                         };
                     }
-                    var setupCollections = db.PartnerCollections.Where(pc => pc.PartnerID == request.PartnerAllowanceRequest.PartnerId).ToArray();
+                    var setupCollections = db.PartnerCollections.Where(pc => pc.PartnerID == request.PartnerAllowanceRequest.PartnerId && pc.CollectionType == (short)PartnerCollectionType.Setup).ToArray();
 
                     var setupAllowances = setupCollections?.Select(sc => new SetupAllowanceListResponse.SetupAllowanceList()
                     {
@@ -1623,6 +1607,286 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+        public PartnerServiceSetupGenericAllowanceListResponse SetupAllowanceDetails(PartnerServiceAllowanceDetailRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        SetupGenericAllowanceList = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                if (request.PartnerAllowanceDetailRequest.PartnerId == null)
+                {
+                    return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
+                        SetupGenericAllowanceList = null
+                    };
+                }
+                if (request.PartnerAllowanceDetailRequest.AllowanceCollectionID == null)
+                {
+                    return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceCollectionID")),
+                        SetupGenericAllowanceList = null
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var setupCollections = db.PartnerCollections.Find(request.PartnerAllowanceDetailRequest.AllowanceCollectionID);
+                    var setupAllowances = new SetupGenericAllowanceListResponse()
+                    {
+                        TotalPageCount = TotalPageCount(setupCollections.CustomerSetupTasks.Count(), request.PartnerAllowanceDetailRequest.ItemPerPage),
+                        SetupGenericAllowances = setupCollections.CustomerSetupTasks?.ToArray().OrderByDescending(cst => cst.TaskIssueDate).Skip((request.PartnerAllowanceDetailRequest.PageNo.Value * request.PartnerAllowanceDetailRequest.ItemPerPage.Value)).Take(request.PartnerAllowanceDetailRequest.ItemPerPage.Value).Select(cst => new SetupGenericAllowanceListResponse.SetupGenericAllowanceList()
+                        {
+                            Allowance = cst.Allowance,
+                            AllowanceState = new NameValuePair()
+                            {
+                                Name = GetAllowanceStateString(cst.AllowanceState, request.Culture),
+                                Value = cst.AllowanceState
+                            },
+                            CompletionDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(cst.CompletionDate),
+                            IssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(cst.TaskIssueDate),
+                            SetupState = new NameValuePair()
+                            {
+                                Name = GetTaskStateString(cst.TaskStatus, request.Culture),
+                                Value = cst.TaskStatus
+                            },
+                            SubscriptionNo = cst.Subscription.SubscriberNo
+                        }).ToArray()
+                    };
+                    return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        SetupGenericAllowanceList = setupAllowances
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
+                {
+                    SetupGenericAllowanceList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public PartnerServiceSaleAllowanceListResponse SaleAllowanceList(PartnerServiceAllowanceRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceSaleAllowanceListResponse(passwordHash, request)
+                    {
+                        SaleAllowanceList = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                if (request.PartnerAllowanceRequest.PartnerId == null)
+                {
+                    return new PartnerServiceSaleAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
+                        SaleAllowanceList = null
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var partner = db.Partners.Find(request.PartnerAllowanceRequest.PartnerId);
+                    if (partner == null)
+                    {
+                        return new PartnerServiceSaleAllowanceListResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            SaleAllowanceList = null
+                        };
+                    }
+                    var saleCollections = db.PartnerCollections.Where(pc => pc.PartnerID == request.PartnerAllowanceRequest.PartnerId && pc.CollectionType == (short)RadiusR.DB.Enums.PartnerCollectionType.Sales).ToArray();
+
+                    var saleAllowances = saleCollections?.Select(sc => new SaleAllowanceListResponse.SaleAllowanceList()
+                    {
+                        ID = sc.ID,
+                        IsPaid = sc.PaymentDate != null,
+                        PaymentDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(sc.PaymentDate),
+                        IssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(sc.CreationDate),
+                        Total = sc.CustomerSetupTasks.Where(c => c.Allowance != null).Select(c => c.Allowance.Value).DefaultIfEmpty(0).Sum()
+                    });
+                    return new PartnerServiceSaleAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        SaleAllowanceList = new SaleAllowanceListResponse()
+                        {
+                            TotalPageCount = TotalPageCount(saleAllowances.Count(), request.PartnerAllowanceRequest.ItemPerPage),
+                            SaleAllowances = saleAllowances.ToArray()
+                        }
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceSaleAllowanceListResponse(passwordHash, request)
+                {
+                    SaleAllowanceList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+
+        public PartnerServiceSaleGenericAllowanceListResponse SaleAllowanceDetails(PartnerServiceAllowanceDetailRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        SaleGenericAllowanceList = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                if (request.PartnerAllowanceDetailRequest.PartnerId == null)
+                {
+                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
+                        SaleGenericAllowanceList = null
+                    };
+                }
+                if (request.PartnerAllowanceDetailRequest.AllowanceCollectionID == null)
+                {
+                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceCollectionID")),
+                        SaleGenericAllowanceList = null
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var saleCollections = db.PartnerCollections.Find(request.PartnerAllowanceDetailRequest.AllowanceCollectionID);
+                    var saleAllowances = new SaleGenericAllowanceListResponse()
+                    {
+                        TotalPageCount = TotalPageCount(saleCollections.CustomerSetupTasks.Count(), request.PartnerAllowanceDetailRequest.ItemPerPage),
+                        SaleGenericAllowances = saleCollections.PartnerRegisteredSubscriptions?.ToArray().OrderByDescending(cst => cst.Subscription.MembershipDate).Skip((request.PartnerAllowanceDetailRequest.PageNo.Value * request.PartnerAllowanceDetailRequest.ItemPerPage.Value)).Take(request.PartnerAllowanceDetailRequest.ItemPerPage.Value).Select(cst => new SaleGenericAllowanceListResponse.SaleGenericAllowanceList()
+                        {
+                            Allowance = cst.Allowance,
+                            AllowanceState = new NameValuePair()
+                            {
+                                Name = GetAllowanceStateString(cst.AllowanceState, request.Culture),
+                                Value = cst.AllowanceState
+                            },
+                            MembershipDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(cst.Subscription.MembershipDate),
+                            SaleState = new NameValuePair()
+                            {
+                                Name = GetSubscriptionStateString(cst.Subscription.State, request.Culture),
+                                Value = cst.Subscription.State
+                            },
+                            SubscriptionNo = cst.Subscription.SubscriberNo
+                        }).ToArray()
+                    };
+                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        SaleGenericAllowanceList = saleAllowances
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                {
+                    SaleGenericAllowanceList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public PartnerServiceSaleGenericAllowanceListResponse SaleGenericAllowanceList(PartnerServiceAllowanceRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        SaleGenericAllowanceList = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                if (request.PartnerAllowanceRequest.PartnerId == null)
+                {
+                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
+                        SaleGenericAllowanceList = null
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var partner = db.Partners.Find(request.PartnerAllowanceRequest.PartnerId);
+                    if (partner == null)
+                    {
+                        return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            SaleGenericAllowanceList = null
+                        };
+                    }
+                    var partnerSetupList = new SaleGenericAllowanceListResponse()
+                    {
+                        TotalPageCount = TotalPageCount(partner.PartnerRegisteredSubscriptions?.Count(), request.PartnerAllowanceRequest.ItemPerPage),
+                        SaleGenericAllowances = partner.PartnerRegisteredSubscriptions?.ToArray().OrderByDescending(prs => prs.Subscription.MembershipDate).Skip((request.PartnerAllowanceRequest.PageNo.Value * request.PartnerAllowanceRequest.ItemPerPage.Value)).Take(request.PartnerAllowanceRequest.ItemPerPage.Value).Select(prs => new SaleGenericAllowanceListResponse.SaleGenericAllowanceList()
+                        {
+                            Allowance = prs.Allowance,
+                            AllowanceState = new NameValuePair()
+                            {
+                                Name = GetAllowanceStateString(prs.AllowanceState, request.Culture),
+                                Value = prs.AllowanceState
+                            },
+                            MembershipDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(prs.Subscription.MembershipDate),
+                            SaleState = new NameValuePair()
+                            {
+                                Name = GetSubscriptionStateString(prs.Subscription.State, request.Culture),
+                                Value = prs.Subscription.State
+                            },
+                            SubscriptionNo = prs.Subscription.SubscriberNo
+                        }).ToArray()
+                    };
+                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        SaleGenericAllowanceList = partnerSetupList
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                {
+                    SaleGenericAllowanceList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
         #region private
         private int TotalPageCount(int? TotalRow, int? itemPerPage)
         {
@@ -1642,6 +1906,11 @@ namespace RadiusR.API.CustomerWebService
             var stateText = new LocalizedList<RadiusR.DB.Enums.CustomerSetup.TaskStatuses, RadiusR.Localization.Lists.CustomerSetup.TaskStatuses>().GetDisplayText(stateId, CreateCulture(culture));
             return stateText;
         }
+        private string GetSubscriptionStateString(int stateId, string culture)
+        {
+            var stateText = new LocalizedList<RadiusR.DB.Enums.CustomerState, RadiusR.Localization.Lists.CustomerState>().GetDisplayText(stateId, CreateCulture(culture));
+            return stateText;
+        }
         private CultureInfo CreateCulture(string cultureName)
         {
             var currentCulture = CultureInfo.InvariantCulture;
@@ -1655,7 +1924,7 @@ namespace RadiusR.API.CustomerWebService
         private string CreateErrorMessage(string LocalizationValueName, string cultureName)
         {
             return Localization.ErrorMessages.ResourceManager.GetString(LocalizationValueName, CreateCulture(cultureName));
-        }
+        }       
         #endregion
 
     }

@@ -13,13 +13,30 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
     {
         [DataMember]
         public int? PartnerId { get; set; }
-        [DataMember]
-        public short? AllowanceTypeId { get; set; } // sale , setup
     }
     [DataContract]
     public partial class PartnerServiceAllowanceRequest : BaseRequest<PartnerAllowanceRequest, SHA256>
     {
         [DataMember]
         public PartnerAllowanceRequest PartnerAllowanceRequest { get { return Data; } set { Data = value; } }
+    }
+
+    /// <summary>
+    /// basic request
+    /// </summary>
+
+    [DataContract]
+    public class PartnerBasicAllowanceRequest : PaginationRequest
+    {
+        [DataMember]
+        public int? PartnerId { get; set; }
+        [DataMember]
+        public short? AllowanceTypeId { get; set; } // sale , setup
+    }
+    [DataContract]
+    public partial class PartnerServiceBasicAllowanceRequest : BaseRequest<PartnerBasicAllowanceRequest, SHA256>
+    {
+        [DataMember]
+        public PartnerBasicAllowanceRequest PartnerBasicAllowanceRequest { get { return Data; } set { Data = value; } }
     }
 }

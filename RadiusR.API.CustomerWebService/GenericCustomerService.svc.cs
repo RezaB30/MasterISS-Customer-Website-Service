@@ -2483,7 +2483,7 @@ namespace RadiusR.API.CustomerWebService
                         {
                             { SMSParamaterRepository.SMSParameterNameCollection.BillTotal, request.SendSubscriberSMS.PayableAmount }
                         }));
-                        db.SystemLogs.Add(SystemLogProcessor.BillPayment(request.SendSubscriberSMS.BillIds, null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, dbSubscription.SubscriberNo, PaymentType.VirtualPos));
+                        //db.SystemLogs.Add(SystemLogProcessor.BillPayment(request.SendSubscriberSMS.BillIds, null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, dbSubscription.SubscriberNo, PaymentType.VirtualPos));
                         db.SaveChanges();
                     }
                 }
@@ -3007,8 +3007,6 @@ namespace RadiusR.API.CustomerWebService
                 {
                     return new CustomerServicePaymentSystemLogResponse(passwordHash, request)
                     {
-
-
                         ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
                         PaymentSystemLogResult = false
                     };
@@ -3017,7 +3015,6 @@ namespace RadiusR.API.CustomerWebService
                 {
                     return new CustomerServicePaymentSystemLogResponse(passwordHash, request)
                     {
-
                         ResponseMessage = CommonResponse.NullObjectException(request.Culture),
 
                         PaymentSystemLogResult = false,
@@ -3027,7 +3024,7 @@ namespace RadiusR.API.CustomerWebService
                 using (var db = new RadiusREntities())
                 {
                     var subscriptionId = request.PaymentSystemLogParameters.SubscriptionId;
-                    db.SystemLogs.Add(SystemLogProcessor.BillPayment(request.PaymentSystemLogParameters.BillIds, null, subscriptionId.Value, SystemLogInterface.CustomerWebsite, request.PaymentSystemLogParameters.SubscriberNo, (PaymentType)request.PaymentSystemLogParameters.PaymentType));
+                    db.SystemLogs.Add(SystemLogProcessor.BillPayment(request.PaymentSystemLogParameters.BillIds, null, subscriptionId.Value, SystemLogInterface.CustomerWebsite, request.Username, (PaymentType)request.PaymentSystemLogParameters.PaymentType));
                     db.SaveChanges();
                     return new CustomerServicePaymentSystemLogResponse(passwordHash, request)
                     {
@@ -3180,7 +3177,7 @@ namespace RadiusR.API.CustomerWebService
         {
             return KeyManager.GenerateKeyFragment(username, Properties.Settings.Default.CacheDuration);
         }
-        
+
         public CustomerServiceNameValuePair CommitmentLengthList(CustomerServiceCommitmentLengthsRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
@@ -4437,7 +4434,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Content = fileStream,
                         ContentType = "application/pdf",
-                        FileName = Localization.Common.ResourceManager.GetString("EArchivePDFFileName",CultureInfo.CreateSpecificCulture(customerCulture)) + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
+                        FileName = Localization.Common.ResourceManager.GetString("EArchivePDFFileName", CultureInfo.CreateSpecificCulture(customerCulture)) + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
                     });
                     RezaB.Mailing.Client.MailClient client = new RezaB.Mailing.Client.MailClient(EmailSettings.SMTPEmailHost, EmailSettings.SMTPEMailPort, false, EmailSettings.SMTPEmailAddress, EmailSettings.SMTPEmailPassword);
                     //var collection = new System.Net.Mail.MailAddressCollection();
@@ -4660,6 +4657,55 @@ namespace RadiusR.API.CustomerWebService
                 {
                     ResponseMessage = CommonResponse.InternalException(request.Culture),
                     ChangeClientInfoConfirmResult = null,
+                };
+            }
+        }
+        public CustomerServiceSubscriberListResponse GetSubscriptionList(CustomerServiceBaseRequest request)
+        {
+            var password = new ServiceSettings().GetUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+            try
+            {
+                CustomerInComingInfo.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new CustomerServiceSubscriberListResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.UnauthorizedResponse(request),
+                        SubscriptionList = null
+                    };
+                }
+                if (request.SubscriptionParameters.SubscriptionId == null)
+                {
+                    return new CustomerServiceSubscriberListResponse(password, request)
+                    {
+                        ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
+                        SubscriptionList = null
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var customer = db.Subscriptions.Find(request.SubscriptionParameters.SubscriptionId).Customer;
+                    var subscriptions = customer.Subscriptions.Select(s => new SubscriptionKeyValue()
+                    {
+                        SubscriptionId = s.ID,
+                        State = s.State,
+                        StateName = new LocalizedList<RadiusR.DB.Enums.CustomerState, RadiusR.Localization.Lists.CustomerState>().GetDisplayText(s.State, CultureInfo.CreateSpecificCulture(request.Culture))
+                    }).ToArray();
+                    return new CustomerServiceSubscriberListResponse(passwordHash, request)
+                    {
+                        SubscriptionList = subscriptions,
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new CustomerServiceSubscriberListResponse(passwordHash, request)
+                {
+                    ResponseMessage = CommonResponse.InternalException(request.Culture),
+                    SubscriptionList = null,
                 };
             }
         }
