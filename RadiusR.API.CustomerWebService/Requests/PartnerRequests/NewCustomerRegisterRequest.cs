@@ -179,8 +179,8 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
         public AddressInfo SetupAddress { get; set; }
         [DataMember]
         public int? BillingPeriod { get; set; }
-        [DataMember]
-        public ReferralDiscountInfo ReferralDiscountInfo { get; set; }
+        //[DataMember]
+        //public ReferralDiscountInfo ReferralDiscountInfo { get; set; }
     }
     [DataContract]
     public class ReferralDiscountInfo

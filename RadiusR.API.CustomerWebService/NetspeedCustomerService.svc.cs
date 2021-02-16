@@ -75,6 +75,7 @@ namespace RadiusR.API.CustomerWebService
                     var ReferralDiscount = request.ExistingCustomerRegister.RegistrationInfo.ReferralDiscount;
                     var registrationInfo = new CustomerRegistrationInfo.SubscriptionRegistrationInfo()
                     {
+                        GroupIds = RadiusR.DB.CustomerWebsiteSettings.CustomerWebsiteRegistrationGroupID == null ? null : new int[] { RadiusR.DB.CustomerWebsiteSettings.CustomerWebsiteRegistrationGroupID.Value },
                         BillingPeriod = billingPeriod,
                         CommitmentInfo = null,
                         DomainID = externalTariff.DomainID,

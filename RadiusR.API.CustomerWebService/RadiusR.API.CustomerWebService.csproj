@@ -115,8 +115,8 @@
     <Reference Include="RadiusR.API.MobilExpress.DBAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.API.MobilExpress.DBAdapter.1.0.0\lib\net452\RadiusR.API.MobilExpress.DBAdapter.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.1.2.0\lib\net452\RadiusR.DB.dll</HintPath>
+    <Reference Include="RadiusR.DB, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.1.2.1\lib\net452\RadiusR.DB.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.DB.DomainsCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.DomainsCache.1.0.0\lib\net452\RadiusR.DB.DomainsCache.dll</HintPath>
@@ -127,8 +127,8 @@
     <Reference Include="RadiusR.DB.Utilities, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.Utilities.1.1.0\lib\net452\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.0.4\lib\net452\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.0.5\lib\net452\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.FileManagement, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.FileManagement.1.1.4\lib\net472\RadiusR.FileManagement.dll</HintPath>
