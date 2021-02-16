@@ -31,6 +31,8 @@ namespace RadiusR.API.TelekomInfrastructureService
             public string AdslPortState { get; set; }
             [DataMember]
             public string AdslSVUID { get; set; }
+            [DataMember]
+            public int PortState { get; set; }
         }
         public class VDSLInfo
         {
@@ -44,6 +46,8 @@ namespace RadiusR.API.TelekomInfrastructureService
             public string VdslPortState { get; set; }
             [DataMember]
             public string VdslSVUID { get; set; }
+            [DataMember]
+            public int PortState { get; set; }
         }
         public class FIBERInfo
         {
@@ -57,6 +61,8 @@ namespace RadiusR.API.TelekomInfrastructureService
             public string FiberPortState { get; set; }
             [DataMember]
             public string FiberSVUID { get; set; }
+            [DataMember]
+            public int PortState { get; set; }
         }
         [DataMember]
         public string address { get; set; }

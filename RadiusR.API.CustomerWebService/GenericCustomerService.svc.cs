@@ -3742,6 +3742,7 @@ namespace RadiusR.API.CustomerWebService
                                 AdslPortState = availabAdsl.InternalException == null ? RadiusR.Localization.Lists.PortState.ResourceManager.GetString(availabAdsl.Data.Description.PortState.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)) : RadiusR.Localization.Lists.PortState.ResourceManager.GetString(AvailabilityServiceClient.PortState.NotAvailable.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)),
                                 AdslSpeed = availabAdsl.InternalException == null ? availabAdsl.Data.Description.DSLMaxSpeed : null,
                                 AdslSVUID = availabAdsl.InternalException == null ? availabAdsl.Data.Description.SVUID : "-",
+                                PortState = availabAdsl.InternalException == null ? (int)availabAdsl.Data.Description.PortState : (int)AvailabilityServiceClient.PortState.NotAvailable
                             },
                             VDSL = new TelekomInfrastructureService.ServiceAvailabilityResponse.VDSLInfo()
                             {
@@ -3750,6 +3751,7 @@ namespace RadiusR.API.CustomerWebService
                                 VdslPortState = availabVdsl.InternalException == null ? RadiusR.Localization.Lists.PortState.ResourceManager.GetString(availabVdsl.Data.Description.PortState.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)) : RadiusR.Localization.Lists.PortState.ResourceManager.GetString(AvailabilityServiceClient.PortState.NotAvailable.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)),
                                 VdslSpeed = availabVdsl.InternalException == null ? availabVdsl.Data.Description.DSLMaxSpeed : null,
                                 VdslSVUID = availabVdsl.InternalException == null ? availabVdsl.Data.Description.SVUID : "-",
+                                PortState = availabAdsl.InternalException == null ? (int)availabAdsl.Data.Description.PortState : (int)AvailabilityServiceClient.PortState.NotAvailable
                             },
                             FIBER = new TelekomInfrastructureService.ServiceAvailabilityResponse.FIBERInfo()
                             {
@@ -3758,6 +3760,7 @@ namespace RadiusR.API.CustomerWebService
                                 FiberPortState = availabFiber.InternalException == null ? RadiusR.Localization.Lists.PortState.ResourceManager.GetString(availabFiber.Data.Description.PortState.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)) : RadiusR.Localization.Lists.PortState.ResourceManager.GetString(AvailabilityServiceClient.PortState.NotAvailable.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)),
                                 FiberSpeed = availabFiber.InternalException == null ? availabFiber.Data.Description.DSLMaxSpeed : null,
                                 FiberSVUID = availabFiber.InternalException == null ? availabFiber.Data.Description.SVUID : "-",
+                                PortState = availabAdsl.InternalException == null ? (int)availabAdsl.Data.Description.PortState : (int)AvailabilityServiceClient.PortState.NotAvailable
                             },
                             BBK = request.ServiceAvailabilityParameters.bbk
                         }
