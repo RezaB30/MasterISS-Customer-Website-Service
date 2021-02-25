@@ -4,3 +4,6 @@ v 1.0.1 2021-02-12
 - created parent service for generic
 - created custom service for netspeed
 - new customer register removed from generic
+v 1.0.2 2021-02-25
+- updated db modules
+- updated customer register modules

@@ -24,6 +24,18 @@ namespace RadiusR.API.CustomerWebService.Requests
         public long? SubscriberID { get; set; }
         [DataMember]
         public RegistrationInfo RegistrationInfo { get; set; }
+        [DataMember]
+        public ExtraInfo ExtraInfo { get; set; }
+    }
+    [DataContract]
+    public class ExtraInfo
+    {
+        [DataMember]
+        public int? ApplicationType { get; set; }
+        [DataMember]
+        public string XDSLNo { get; set; }
+        [DataMember]
+        public string PSTN { get; set; }
     }
     [DataContract]
     public class RegistrationInfo
