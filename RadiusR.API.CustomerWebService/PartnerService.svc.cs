@@ -1091,8 +1091,8 @@ namespace RadiusR.API.CustomerWebService
                     //        ResponseMessage = CommonResponse.SpecialOfferError(request.Culture)
                     //    };
                     //}
-                    var externalTariff = db.ExternalTariffs.GetActiveExternalTariffs().FirstOrDefault(ext => ext.TariffID == request.CustomerRegisterParameters.SubscriptionInfo.ServiceID);
-                    if (externalTariff == null)
+                    var availableTariffs = db.PartnerAvailableTariffs.Find(request.CustomerRegisterParameters.SubscriptionInfo.ServiceID);
+                    if (availableTariffs == null)
                     {
                         return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
                         {
@@ -1100,7 +1100,16 @@ namespace RadiusR.API.CustomerWebService
                             NewCustomerRegisterResponse = null
                         };
                     }
-                    var billingPeriod = externalTariff.Service.GetBestBillingPeriod(DateTime.Now.Day);
+                    //var externalTariff = db.ExternalTariffs.GetActiveExternalTariffs().FirstOrDefault(ext => ext.TariffID == availableTariffs.TariffID);
+                    //if (externalTariff == null)
+                    //{
+                    //    return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
+                    //    {
+                    //        ResponseMessage = CommonResponse.TariffNotFound(request.Culture),
+                    //        NewCustomerRegisterResponse = null
+                    //    };
+                    //}
+                    var billingPeriod = request.CustomerRegisterParameters.SubscriptionInfo.BillingPeriod; //externalTariff.Service.GetBestBillingPeriod(DateTime.Now.Day);
                     //var currentSpecialOfferId = specialOfferId.FirstOrDefault().ID;
                     var registeredCustomer = new Customer();
                     var register = request.CustomerRegisterParameters;
@@ -1242,8 +1251,8 @@ namespace RadiusR.API.CustomerWebService
                         },
                         SubscriptionInfo = register.SubscriptionInfo == null ? null : new CustomerRegistrationInfo.SubscriptionRegistrationInfo()
                         {
-                            DomainID = externalTariff.DomainID,
-                            ServiceID = externalTariff.TariffID,
+                            DomainID = availableTariffs.DomainID,
+                            ServiceID = availableTariffs.TariffID,
                             SetupAddress = new CustomerRegistrationInfo.AddressInfo()
                             {
                                 AddressNo = register.SubscriptionInfo.SetupAddress.AddressNo,
@@ -1283,6 +1292,7 @@ namespace RadiusR.API.CustomerWebService
                         if (result != null)
                         {
                             var dic = result.ToDictionary(x => x.Key, x => x.ToArray());
+                            Errorslogger.LogIncomingMessage(dic);
                             foreach (var item in dic)
                             {
                                 valuePairs.Add(item.Key, string.Join("-", item.Value));
@@ -1293,6 +1303,14 @@ namespace RadiusR.API.CustomerWebService
                                 ResponseMessage = CommonResponse.FailedResponse(request.Culture),
                             };
                         }
+                        db.SaveChanges();
+                        db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, registeredCustomer.Subscriptions.FirstOrDefault().ID, registeredCustomer.ID, SubscriptionRegistrationType.NewRegistration, SystemLogInterface.PartnerWebService, request.Username, registeredCustomer.Subscriptions.FirstOrDefault().SubscriberNo));
+                        db.SaveChanges();
+                        return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
+                        {
+                            NewCustomerRegisterResponse = valuePairs,
+                            ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        };
                     }
                     else
                     {
@@ -1300,16 +1318,30 @@ namespace RadiusR.API.CustomerWebService
                         if (result != null)
                         {
                             var dic = result.ToDictionary(x => x.Key, x => x.ToArray());
+                            Errorslogger.LogException(request.Username, new Exception($"In Result for existing register."));
                             foreach (var item in dic)
                             {
-                                valuePairs.Add(item.Key, string.Join("-", item.Value));
+                                if (!string.IsNullOrEmpty(item.Key))
+                                {
+                                    valuePairs.Add(item.Key, string.Join("-", item.Value));
+                                }
                             }
+                            var msg = valuePairs == null ? "dic is null" : "dic is not null";
+                            Errorslogger.LogException(request.Username, new Exception($"after foreach : {msg}"));
                             return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
                             {
                                 NewCustomerRegisterResponse = valuePairs,
                                 ResponseMessage = CommonResponse.FailedResponse(request.Culture),
                             };
                         }
+                        db.SaveChanges();
+                        db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, dbCustomer.Subscriptions.FirstOrDefault().ID, dbCustomer.ID, SubscriptionRegistrationType.NewRegistration, SystemLogInterface.PartnerWebService, request.Username, dbCustomer.Subscriptions.FirstOrDefault().SubscriberNo));
+                        db.SaveChanges();
+                        return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
+                        {
+                            NewCustomerRegisterResponse = valuePairs,
+                            ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        };
                     }
                     ////if (registeredCustomer == null)
                     ////{
@@ -1323,15 +1355,7 @@ namespace RadiusR.API.CustomerWebService
                     //if (registeredCustomer != null)
                     //{
                     //    db.Customers.Add(registeredCustomer);
-                    //}
-                    db.SaveChanges();
-                    db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, registeredCustomer.Subscriptions.FirstOrDefault().ID, registeredCustomer.ID, SystemLogInterface.PartnerWebService, request.Username, registeredCustomer.Subscriptions.FirstOrDefault().SubscriberNo));
-                    db.SaveChanges();
-                    return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
-                    {
-                        NewCustomerRegisterResponse = valuePairs,
-                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                    };
+                    //}                    
                 }
             }
             catch (Exception ex)
@@ -1924,7 +1948,7 @@ namespace RadiusR.API.CustomerWebService
         private string CreateErrorMessage(string LocalizationValueName, string cultureName)
         {
             return Localization.ErrorMessages.ResourceManager.GetString(LocalizationValueName, CreateCulture(cultureName));
-        }       
+        }
         #endregion
 
     }

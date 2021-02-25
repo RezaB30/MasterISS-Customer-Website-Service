@@ -148,6 +148,119 @@ namespace RadiusR.API.Test_Unit
             });
             var assd = response;
         }
+
+        private void button6_Click(object sender, EventArgs e) // register
+        {
+            PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
+            var request = new GenericServiceSettings();
+            var response = client.NewCustomerRegister(new PartnerServiceReference.PartnerServiceNewCustomerRegisterRequest()
+            {
+                Culture = "tr-tr",
+                Hash = request.Hash,
+                Rand = request.Rand,
+                Username = request.Username,
+                CustomerRegisterParameters = new PartnerServiceReference.NewCustomerRegisterRequest()
+                {
+                    CorporateCustomerInfo =null,
+                    SubUserEmail = "test@test.com",
+                    UserEmail = "test@test.com",
+                    IDCardInfo = new PartnerServiceReference.IDCardInfo()
+                    {
+                        BirthDate = "1997-02-05",
+                        CardType = 1,
+                        DateOfIssue = "2028-09-04",
+                        FirstName = "Muhammed Furkan",
+                        LastName = "GÖKBEL",
+                        TCKNo = "31135390476",
+                        SerialNo = "A13T51176",
+                    },
+                    CustomerGeneralInfo = new PartnerServiceReference.CustomerGeneralInfo()
+                    {
+                        BillingAddress = new PartnerServiceReference.AddressInfo()
+                        {
+                            AddressText = "DEGIRMENCIUSAGI MAH. GÖKOLUK KÜME EVLERI NO: 11 - DAIRE: -        SAIMBEYLI/ADANA",
+                            StreetName = "GÖKOLUK KÜME EVLERI",
+                            NeighbourhoodName = "FATİH",
+                            DistrictName = "SAİMBEYLİ",
+                            ProvinceName = "ADANA",
+                            AddressNo = 2993529151,
+                            Floor = "1",
+                            PostalCode = 1,
+                            ApartmentNo = "Ic Kapi(Daire) No :null",
+                            ApartmentID = 48587750,
+                            DoorID = 8781242,
+                            StreetID = 932481440,
+                            NeighbourhoodID = 385,
+                            RuralCode = 445,
+                            DistrictID = 1588,
+                            ProvinceID = 1,
+                            DoorNo = "NO :1 "
+                        },
+                        ContactPhoneNo = "5556467367",
+                        Culture = "en-US",
+                        CustomerType = 1,
+                        Email = "furkangokbel@gmail.com",
+                        OtherPhoneNos = null
+                    },
+                    SubscriptionInfo = new PartnerServiceReference.SubscriptionRegistrationInfo()
+                    {
+                        BillingPeriod = 1,
+                        ServiceID = 1,
+                        SetupAddress = new PartnerServiceReference.AddressInfo()
+                        {
+                            AddressText = "DEGIRMENCIUSAGI MAH. GÖKOLUK KÜME EVLERI NO: 11 - DAIRE: -        SAIMBEYLI/ADANA",
+                            StreetName = "GÖKOLUK KÜME EVLERI",
+                            NeighbourhoodName = "FATİH",
+                            DistrictName = "SAİMBEYLİ",
+                            ProvinceName = "ADANA",
+                            AddressNo = 2993529151,
+                            Floor = "1",
+                            PostalCode = 1,
+                            ApartmentNo = "Ic Kapi(Daire) No :null",
+                            ApartmentID = 48587750,
+                            DoorID = 8781242,
+                            StreetID = 932481440,
+                            NeighbourhoodID = 385,
+                            RuralCode = 445,
+                            DistrictID = 1588,
+                            ProvinceID = 1,
+                            DoorNo = "NO :1 "
+                        },
+                    },
+                    IndividualCustomerInfo = new PartnerServiceReference.IndividualCustomerInfo()
+                    {
+                        Sex = 1,
+                        BirthPlace ="İstanbul",
+                        MothersMaidenName = "Taşçı",
+                        FathersName = "Şener",
+                        MothersName = "Safiye",
+                        Nationality = 228,
+                        Profession = 141,
+                        ResidencyAddress = new PartnerServiceReference.AddressInfo()
+                        {
+                            AddressText = "DEGIRMENCIUSAGI MAH. GÖKOLUK KÜME EVLERI NO: 11 - DAIRE: -        SAIMBEYLI/ADANA",
+                            StreetName = "GÖKOLUK KÜME EVLERI",
+                            NeighbourhoodName = "FATİH",
+                            DistrictName = "SAİMBEYLİ",
+                            ProvinceName = "ADANA",
+                            AddressNo = 2993529151,
+                            Floor = "1",
+                            PostalCode = 1,
+                            ApartmentNo = "Ic Kapi(Daire) No :null",
+                            ApartmentID = 48587750,
+                            DoorID = 8781242,
+                            StreetID = 932481440,
+                            NeighbourhoodID = 385,
+                            RuralCode = 445,
+                            DistrictID = 1588,
+                            ProvinceID = 1,
+                            DoorNo = "NO :1 "
+                        }
+                    }
+                }
+            });
+            var assd = response;
+        }
     }
     public class GenericServiceSettings
     {

@@ -125,6 +125,7 @@
       <xs:element minOccurs="0" name="AdslSVUID" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="AdslSpeed" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="HasInfrastructureAdsl" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PortState" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ServiceAvailabilityResponse.ADSLInfo" nillable="true" type="tns:ServiceAvailabilityResponse.ADSLInfo" />
@@ -135,12 +136,14 @@
       <xs:element minOccurs="0" name="FiberSVUID" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="FiberSpeed" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="HasInfrastructureFiber" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PortState" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ServiceAvailabilityResponse.FIBERInfo" nillable="true" type="tns:ServiceAvailabilityResponse.FIBERInfo" />
   <xs:complexType name="ServiceAvailabilityResponse.VDSLInfo">
     <xs:sequence>
       <xs:element minOccurs="0" name="HasInfrastructureVdsl" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PortState" type="xs:int" />
       <xs:element minOccurs="0" name="VdslDistance" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="VdslPortState" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="VdslSVUID" nillable="true" type="xs:string" />

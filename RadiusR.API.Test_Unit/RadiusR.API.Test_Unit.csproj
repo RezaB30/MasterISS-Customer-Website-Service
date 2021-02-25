@@ -131,6 +131,15 @@
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServicePaymentResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSaleAllowanceListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSaleGenericAllowanceListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSetupAllowanceListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSetupGenericAllowanceListResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

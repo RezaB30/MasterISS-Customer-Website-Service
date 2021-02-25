@@ -695,7 +695,7 @@ namespace RadiusR.API.CustomerWebService
                             CurrentDownload = Result.Data.CurrentDown,
                             CurrentUpload = Result.Data.CurrentUp,
                             XDSLNo = Subscription.SubscriptionTelekomInfo.SubscriptionNo,
-                            XDSLTypeValue = Subscription.SubscriptionTelekomInfo.XDSLType,
+                            XDSLTypeValue = Subscription.SubscriptionTelekomInfo.XDSLType.Value,
                             XDSLTypeText = xdslTypeText,
                             DownloadMargin = Result.Data.NoiseRateDown,
                             UploadMargin = Result.Data.NoiseRateUp

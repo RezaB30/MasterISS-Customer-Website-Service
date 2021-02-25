@@ -75,6 +75,7 @@ namespace RadiusR.API.CustomerWebService
                     var ReferralDiscount = request.ExistingCustomerRegister.RegistrationInfo.ReferralDiscount;
                     var registrationInfo = new CustomerRegistrationInfo.SubscriptionRegistrationInfo()
                     {
+                        RegistrationType = SubscriptionRegistrationType.NewRegistration,
                         GroupIds = RadiusR.DB.CustomerWebsiteSettings.CustomerWebsiteRegistrationGroupID == null ? null : new int[] { RadiusR.DB.CustomerWebsiteSettings.CustomerWebsiteRegistrationGroupID.Value },
                         BillingPeriod = billingPeriod,
                         CommitmentInfo = null,
@@ -122,7 +123,7 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                     db.SaveChanges();
-                    db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, referenceCustomer.ID, referenceCustomer.Customer.ID, SystemLogInterface.CustomerWebsite, $"{request.Username} ({referenceCustomer.SubscriberNo})", referenceCustomer.SubscriberNo));
+                    db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, referenceCustomer.ID, referenceCustomer.Customer.ID, SubscriptionRegistrationType.NewRegistration ,SystemLogInterface.CustomerWebsite, $"{request.Username} ({referenceCustomer.SubscriberNo})", referenceCustomer.SubscriberNo));
                     db.SaveChanges();
                     return new CustomerServiceExistingCustomerRegisterResponse(passwordHash, request)
                     {

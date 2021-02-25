@@ -186,17 +186,47 @@
   <wsdl:message name="IPartnerService_IDCardValidation_OutputMessage">
     <wsdl:part name="parameters" element="tns:IDCardValidationResponse" />
   </wsdl:message>
-  <wsdl:message name="IPartnerService_GetAllowanceDetails_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllowanceDetails" />
+  <wsdl:message name="IPartnerService_GetBasicAllowanceDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBasicAllowanceDetails" />
   </wsdl:message>
-  <wsdl:message name="IPartnerService_GetAllowanceDetails_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetAllowanceDetailsResponse" />
+  <wsdl:message name="IPartnerService_GetBasicAllowanceDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBasicAllowanceDetailsResponse" />
   </wsdl:message>
   <wsdl:message name="IPartnerService_SetupGenericAllowanceList_InputMessage">
     <wsdl:part name="parameters" element="tns:SetupGenericAllowanceList" />
   </wsdl:message>
   <wsdl:message name="IPartnerService_SetupGenericAllowanceList_OutputMessage">
     <wsdl:part name="parameters" element="tns:SetupGenericAllowanceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SetupAllowanceList_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetupAllowanceList" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SetupAllowanceList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetupAllowanceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SetupAllowanceDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SetupAllowanceDetails" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SetupAllowanceDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SetupAllowanceDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaleAllowanceList_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaleAllowanceList" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaleAllowanceList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaleAllowanceListResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaleAllowanceDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaleAllowanceDetails" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaleAllowanceDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaleAllowanceDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaleGenericAllowanceList_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaleGenericAllowanceList" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaleGenericAllowanceList_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaleGenericAllowanceListResponse" />
   </wsdl:message>
   <wsdl:portType name="IPartnerService">
     <wsdl:operation name="GetProvinces">
@@ -311,13 +341,33 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/IDCardValidation" message="tns:IPartnerService_IDCardValidation_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/IDCardValidationResponse" message="tns:IPartnerService_IDCardValidation_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetAllowanceDetails">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetAllowanceDetails" message="tns:IPartnerService_GetAllowanceDetails_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetAllowanceDetailsResponse" message="tns:IPartnerService_GetAllowanceDetails_OutputMessage" />
+    <wsdl:operation name="GetBasicAllowanceDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetBasicAllowanceDetails" message="tns:IPartnerService_GetBasicAllowanceDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetBasicAllowanceDetailsResponse" message="tns:IPartnerService_GetBasicAllowanceDetails_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SetupGenericAllowanceList">
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SetupGenericAllowanceList" message="tns:IPartnerService_SetupGenericAllowanceList_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SetupGenericAllowanceListResponse" message="tns:IPartnerService_SetupGenericAllowanceList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetupAllowanceList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SetupAllowanceList" message="tns:IPartnerService_SetupAllowanceList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SetupAllowanceListResponse" message="tns:IPartnerService_SetupAllowanceList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SetupAllowanceDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SetupAllowanceDetails" message="tns:IPartnerService_SetupAllowanceDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SetupAllowanceDetailsResponse" message="tns:IPartnerService_SetupAllowanceDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaleAllowanceList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SaleAllowanceList" message="tns:IPartnerService_SaleAllowanceList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SaleAllowanceListResponse" message="tns:IPartnerService_SaleAllowanceList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaleAllowanceDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SaleAllowanceDetails" message="tns:IPartnerService_SaleAllowanceDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SaleAllowanceDetailsResponse" message="tns:IPartnerService_SaleAllowanceDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaleGenericAllowanceList">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SaleGenericAllowanceList" message="tns:IPartnerService_SaleGenericAllowanceList_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SaleGenericAllowanceListResponse" message="tns:IPartnerService_SaleGenericAllowanceList_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_IPartnerService" type="tns:IPartnerService">
@@ -575,8 +625,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetAllowanceDetails">
-      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetAllowanceDetails" style="document" />
+    <wsdl:operation name="GetBasicAllowanceDetails">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetBasicAllowanceDetails" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -586,6 +636,51 @@
     </wsdl:operation>
     <wsdl:operation name="SetupGenericAllowanceList">
       <soap12:operation soapAction="http://tempuri.org/IPartnerService/SetupGenericAllowanceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetupAllowanceList">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SetupAllowanceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SetupAllowanceDetails">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SetupAllowanceDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaleAllowanceList">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SaleAllowanceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaleAllowanceDetails">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SaleAllowanceDetails" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaleGenericAllowanceList">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SaleGenericAllowanceList" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
