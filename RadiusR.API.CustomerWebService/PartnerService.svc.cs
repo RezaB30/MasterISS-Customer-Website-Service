@@ -25,6 +25,7 @@ namespace RadiusR.API.CustomerWebService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "PartnerService" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select PartnerService.svc or PartnerService.svc.cs at the Solution Explorer and start debugging.
+    [ServiceBehavior(AddressFilterMode = AddressFilterMode.Any)]
     public class PartnerService : GenericCustomerService, IPartnerService
     {
         WebServiceLogger Errorslogger = new WebServiceLogger("PartnerErrors");
@@ -116,6 +117,7 @@ namespace RadiusR.API.CustomerWebService
                             { SMSParamaterRepository.SMSParameterNameCollection.BillTotal,group.Sum(bill => bill.GetPayableCost()) }
                         }));
                     }
+                    // bill register 
                     db.SaveChanges();
                     //dbBills.Select(b => b.ID).ToArray()
                     return new PartnerServicePaymentResponse(passwordHash, request)
@@ -157,7 +159,17 @@ namespace RadiusR.API.CustomerWebService
                 using (RadiusREntities db = new RadiusREntities())
                 {
                     var dbPartner = db.Partners.FirstOrDefault(p => p.Email == request.AuthenticationParameters.UserEmail);
-
+                    if (dbPartner == null)
+                    {
+                        return new PartnerServiceAuthenticationResponse(passwordHash, request)
+                        {
+                            AuthenticationResponse = new AuthenticationResponse()
+                            {
+                                IsAuthenticated = false
+                            },
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
                     if (!dbPartner.IsActive)
                     {
                         return new PartnerServiceAuthenticationResponse(passwordHash, request)
@@ -1090,8 +1102,18 @@ namespace RadiusR.API.CustomerWebService
                     //        NewCustomerRegisterResponse = null,
                     //        ResponseMessage = CommonResponse.SpecialOfferError(request.Culture)
                     //    };
-                    //}
+                    //}                    
                     var availableTariffs = db.PartnerAvailableTariffs.Find(request.CustomerRegisterParameters.SubscriptionInfo.ServiceID);
+                    var partner = db.Partners.Where(p => p.Email == request.CustomerRegisterParameters.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            NewCustomerRegisterResponse = null
+                        };
+                    }
+
                     if (availableTariffs == null)
                     {
                         return new PartnerServiceNewCustomerRegisterResponse(passwordHash, request)
@@ -1194,7 +1216,7 @@ namespace RadiusR.API.CustomerWebService
                             },
                             ContactPhoneNo = register.CustomerGeneralInfo.ContactPhoneNo,
                             Culture = register.CustomerGeneralInfo.Culture,
-                            CustomerType = CustomerType.Individual,
+                            CustomerType = (CustomerType)request.CustomerRegisterParameters.CustomerGeneralInfo.CustomerType,
                             Email = register.CustomerGeneralInfo.Email,
                             OtherPhoneNos = register.CustomerGeneralInfo.OtherPhoneNos == null ? null : register.CustomerGeneralInfo.OtherPhoneNos.Select(p => new CustomerRegistrationInfo.PhoneNoListItem()
                             {
@@ -1203,9 +1225,9 @@ namespace RadiusR.API.CustomerWebService
                         },
                         IDCard = register.IDCardInfo == null ? null : new CustomerRegistrationInfo.IDCardInfo()
                         {
-                            BirthDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.ParseDateTime(register.IDCardInfo.BirthDate),
+                            BirthDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.ParseDate(register.IDCardInfo.BirthDate),
                             CardType = (IDCardTypes?)register.IDCardInfo.CardType,
-                            DateOfIssue = RezaB.API.WebService.DataTypes.ServiceTypeConverter.ParseDateTime(register.IDCardInfo.DateOfIssue),
+                            DateOfIssue = RezaB.API.WebService.DataTypes.ServiceTypeConverter.ParseDate(register.IDCardInfo.DateOfIssue),
                             District = register.IDCardInfo.District,
                             FirstName = register.IDCardInfo.FirstName,
                             LastName = register.IDCardInfo.LastName,
@@ -1218,7 +1240,7 @@ namespace RadiusR.API.CustomerWebService
                             SerialNo = register.IDCardInfo.SerialNo,
                             TCKNo = register.IDCardInfo.TCKNo,
                             VolumeNo = register.IDCardInfo.VolumeNo
-                        },
+                        },                        
                         IndividualInfo = register.IndividualCustomerInfo == null ? null : new CustomerRegistrationInfo.IndividualCustomerInfo()
                         {
                             BirthPlace = register.IndividualCustomerInfo.BirthPlace,
@@ -1251,6 +1273,9 @@ namespace RadiusR.API.CustomerWebService
                         },
                         SubscriptionInfo = register.SubscriptionInfo == null ? null : new CustomerRegistrationInfo.SubscriptionRegistrationInfo()
                         {
+                            RegistrationType = (SubscriptionRegistrationType)register.ExtraInfo.ApplicationType,
+                            TransitionPSTN = register.ExtraInfo.PSTN,
+                            TransitionXDSLNo = register.ExtraInfo.XDSLNo,
                             DomainID = availableTariffs.DomainID,
                             ServiceID = availableTariffs.TariffID,
                             SetupAddress = new CustomerRegistrationInfo.AddressInfo()
@@ -1273,6 +1298,11 @@ namespace RadiusR.API.CustomerWebService
                                 StreetID = register.SubscriptionInfo.SetupAddress.StreetID,
                                 StreetName = register.SubscriptionInfo.SetupAddress.StreetName
                             },
+                            RegisteringPartner = new CustomerRegistrationInfo.RegisteringPartnerInfo()
+                            {
+                                PartnerID = partner.ID,
+                                Allowance = availableTariffs.Allowance
+                            },
                             BillingPeriod = billingPeriod,
                             ReferralDiscount = null
                             //ReferralDiscount = string.IsNullOrEmpty(request.CustomerRegisterParameters.SubscriptionInfo.ReferralDiscountInfo.ReferenceNo) ? null : new CustomerRegistrationInfo.ReferralDiscountInfo()
@@ -1282,6 +1312,7 @@ namespace RadiusR.API.CustomerWebService
                             //}
                         },
                     };
+                    Errorslogger.LogException(request.Username, new Exception($"Birth Date : {registrationInfo.IDCard?.BirthDate}"));
                     Dictionary<string, string> valuePairs = new Dictionary<string, string>();
                     // check for existing customer
                     var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerIDCard.TCKNo == request.CustomerRegisterParameters.IDCardInfo.TCKNo && c.CustomerType == request.CustomerRegisterParameters.CustomerGeneralInfo.CustomerType);
@@ -1292,7 +1323,7 @@ namespace RadiusR.API.CustomerWebService
                         if (result != null)
                         {
                             var dic = result.ToDictionary(x => x.Key, x => x.ToArray());
-                            Errorslogger.LogIncomingMessage(dic);
+                            Errorslogger.LogException(request.Username, new Exception($"In Result for new register."));
                             foreach (var item in dic)
                             {
                                 valuePairs.Add(item.Key, string.Join("-", item.Value));
@@ -1303,6 +1334,8 @@ namespace RadiusR.API.CustomerWebService
                                 ResponseMessage = CommonResponse.FailedResponse(request.Culture),
                             };
                         }
+                        Errorslogger.LogException(request.Username, new Exception($"RegisteredCustomer : {registeredCustomer?.Subscriptions?.FirstOrDefault()?.ID}"));
+                        db.Customers.Add(registeredCustomer);
                         db.SaveChanges();
                         db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.AddSubscription(null, registeredCustomer.Subscriptions.FirstOrDefault().ID, registeredCustomer.ID, SubscriptionRegistrationType.NewRegistration, SystemLogInterface.PartnerWebService, request.Username, registeredCustomer.Subscriptions.FirstOrDefault().SubscriberNo));
                         db.SaveChanges();
@@ -1459,18 +1492,19 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceTypeId")),
                         AllowanceDetailsResponse = null
                     };
-                }
-                if (request.PartnerBasicAllowanceRequest.PartnerId == null)
-                {
-                    return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
-                        AllowanceDetailsResponse = null
-                    };
-                }
+                }                
                 using (var db = new RadiusREntities())
                 {
-                    var allowances = db.GetAllowanceDetails(request.PartnerBasicAllowanceRequest.PartnerId.Value, (PartnerCollectionType)request.PartnerBasicAllowanceRequest.AllowanceTypeId);
+                    var partner = db.Partners.Where(p => p.Email == request.PartnerBasicAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceAllowanceDetailsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            AllowanceDetailsResponse = null
+                        };
+                    }
+                    var allowances = db.GetAllowanceDetails(partner.ID, (PartnerCollectionType)request.PartnerBasicAllowanceRequest.AllowanceTypeId);
                     var allowanceList = allowances.Select(a => new AllowanceDetailsResponse()
                     {
                         AllowanceStateID = (int)a.Key,
@@ -1508,18 +1542,10 @@ namespace RadiusR.API.CustomerWebService
                         SetupGenericAllowanceList = null,
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
-                }
-                if (request.PartnerAllowanceRequest.PartnerId == null)
-                {
-                    return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
-                        SetupGenericAllowanceList = null
-                    };
-                }
+                }                
                 using (var db = new RadiusREntities())
                 {
-                    var partner = db.Partners.Find(request.PartnerAllowanceRequest.PartnerId);
+                    var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
                     if (partner == null)
                     {
                         return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
@@ -1581,17 +1607,10 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                if (request.PartnerAllowanceRequest.PartnerId == null)
-                {
-                    return new PartnerServiceSetupAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
-                        SetupAllowanceList = null
-                    };
-                }
+                
                 using (var db = new RadiusREntities())
                 {
-                    var partner = db.Partners.Find(request.PartnerAllowanceRequest.PartnerId);
+                    var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
                     if (partner == null)
                     {
                         return new PartnerServiceSetupAllowanceListResponse(passwordHash, request)
@@ -1600,7 +1619,7 @@ namespace RadiusR.API.CustomerWebService
                             SetupAllowanceList = null
                         };
                     }
-                    var setupCollections = db.PartnerCollections.Where(pc => pc.PartnerID == request.PartnerAllowanceRequest.PartnerId && pc.CollectionType == (short)PartnerCollectionType.Setup).ToArray();
+                    var setupCollections = db.PartnerCollections.Where(pc => pc.PartnerID == partner.ID && pc.CollectionType == (short)PartnerCollectionType.Setup).ToArray();
 
                     var setupAllowances = setupCollections?.Select(sc => new SetupAllowanceListResponse.SetupAllowanceList()
                     {
@@ -1645,15 +1664,7 @@ namespace RadiusR.API.CustomerWebService
                         SetupGenericAllowanceList = null,
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
-                }
-                if (request.PartnerAllowanceDetailRequest.PartnerId == null)
-                {
-                    return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
-                        SetupGenericAllowanceList = null
-                    };
-                }
+                }                
                 if (request.PartnerAllowanceDetailRequest.AllowanceCollectionID == null)
                 {
                     return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
@@ -1664,6 +1675,15 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusREntities())
                 {
+                    var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceDetailRequest.PartnerCredentials.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            SetupGenericAllowanceList = null
+                        };
+                    }
                     var setupCollections = db.PartnerCollections.Find(request.PartnerAllowanceDetailRequest.AllowanceCollectionID);
                     var setupAllowances = new SetupGenericAllowanceListResponse()
                     {
@@ -1718,17 +1738,10 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                if (request.PartnerAllowanceRequest.PartnerId == null)
-                {
-                    return new PartnerServiceSaleAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
-                        SaleAllowanceList = null
-                    };
-                }
+                
                 using (var db = new RadiusREntities())
                 {
-                    var partner = db.Partners.Find(request.PartnerAllowanceRequest.PartnerId);
+                    var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
                     if (partner == null)
                     {
                         return new PartnerServiceSaleAllowanceListResponse(passwordHash, request)
@@ -1737,7 +1750,7 @@ namespace RadiusR.API.CustomerWebService
                             SaleAllowanceList = null
                         };
                     }
-                    var saleCollections = db.PartnerCollections.Where(pc => pc.PartnerID == request.PartnerAllowanceRequest.PartnerId && pc.CollectionType == (short)RadiusR.DB.Enums.PartnerCollectionType.Sales).ToArray();
+                    var saleCollections = db.PartnerCollections.Where(pc => pc.PartnerID == partner.ID && pc.CollectionType == (short)RadiusR.DB.Enums.PartnerCollectionType.Sales).ToArray();
 
                     var saleAllowances = saleCollections?.Select(sc => new SaleAllowanceListResponse.SaleAllowanceList()
                     {
@@ -1784,14 +1797,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                if (request.PartnerAllowanceDetailRequest.PartnerId == null)
-                {
-                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
-                        SaleGenericAllowanceList = null
-                    };
-                }
+                
                 if (request.PartnerAllowanceDetailRequest.AllowanceCollectionID == null)
                 {
                     return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
@@ -1802,6 +1808,15 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusREntities())
                 {
+                    var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceDetailRequest.PartnerCredentials.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            SaleGenericAllowanceList = null
+                        };
+                    }
                     var saleCollections = db.PartnerCollections.Find(request.PartnerAllowanceDetailRequest.AllowanceCollectionID);
                     var saleAllowances = new SaleGenericAllowanceListResponse()
                     {
@@ -1855,17 +1870,10 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                if (request.PartnerAllowanceRequest.PartnerId == null)
-                {
-                    return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "PartnerId")),
-                        SaleGenericAllowanceList = null
-                    };
-                }
+                
                 using (var db = new RadiusREntities())
                 {
-                    var partner = db.Partners.Find(request.PartnerAllowanceRequest.PartnerId);
+                    var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
                     if (partner == null)
                     {
                         return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)

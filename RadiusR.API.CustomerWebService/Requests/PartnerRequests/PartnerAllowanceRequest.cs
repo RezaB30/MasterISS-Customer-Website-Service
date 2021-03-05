@@ -12,7 +12,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
     public class PartnerAllowanceRequest : PaginationRequest
     {
         [DataMember]
-        public int? PartnerId { get; set; }
+        public RequestBase PartnerCredentials { get; set; }
     }
     [DataContract]
     public partial class PartnerServiceAllowanceRequest : BaseRequest<PartnerAllowanceRequest, SHA256>
@@ -29,7 +29,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
     public class PartnerBasicAllowanceRequest : PaginationRequest
     {
         [DataMember]
-        public int? PartnerId { get; set; }
+        public RequestBase PartnerCredentials { get; set; }
         [DataMember]
         public short? AllowanceTypeId { get; set; } // sale , setup
     }

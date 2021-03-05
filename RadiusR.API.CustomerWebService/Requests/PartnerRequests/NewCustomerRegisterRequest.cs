@@ -21,7 +21,19 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
         public CorporateCustomerInfo CorporateCustomerInfo { get; set; }
         [DataMember]
         public SubscriptionRegistrationInfo SubscriptionInfo { get; set; }
+        [DataMember]
+        public ExtraInfo ExtraInfo { get; set; }
 
+    }
+    [DataContract]
+    public class ExtraInfo
+    {
+        [DataMember]
+        public int? ApplicationType { get; set; }
+        [DataMember]
+        public string PSTN { get; set; }
+        [DataMember]
+        public string XDSLNo { get; set; }
     }
     [DataContract]
     public class IDCardInfo
@@ -178,7 +190,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
         [DataMember]
         public AddressInfo SetupAddress { get; set; }
         [DataMember]
-        public int? BillingPeriod { get; set; }
+        public int? BillingPeriod { get; set; }        
         //[DataMember]
         //public ReferralDiscountInfo ReferralDiscountInfo { get; set; }
     }

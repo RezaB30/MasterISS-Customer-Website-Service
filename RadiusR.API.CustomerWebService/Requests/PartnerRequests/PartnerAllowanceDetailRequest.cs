@@ -14,7 +14,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
         [DataMember]
         public int? AllowanceCollectionID { get; set; } // partner collections customer setup tasks id
         [DataMember]
-        public int? PartnerId { get; set; }
+        public RequestBase PartnerCredentials { get; set; }
     }
     public partial class PartnerServiceAllowanceDetailRequest : BaseRequest<PartnerAllowanceDetailRequest, SHA256>
     {

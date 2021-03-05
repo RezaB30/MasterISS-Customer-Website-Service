@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using RadiusR.DB.Utilities.Billing;
+using RadiusR.DB.Utilities.Extentions;
 
 namespace RadiusR.API.Test_Unit
 {
@@ -161,7 +163,7 @@ namespace RadiusR.API.Test_Unit
                 Username = request.Username,
                 CustomerRegisterParameters = new PartnerServiceReference.NewCustomerRegisterRequest()
                 {
-                    CorporateCustomerInfo =null,
+                    CorporateCustomerInfo = null,
                     SubUserEmail = "test@test.com",
                     UserEmail = "test@test.com",
                     IDCardInfo = new PartnerServiceReference.IDCardInfo()
@@ -230,7 +232,7 @@ namespace RadiusR.API.Test_Unit
                     IndividualCustomerInfo = new PartnerServiceReference.IndividualCustomerInfo()
                     {
                         Sex = 1,
-                        BirthPlace ="İstanbul",
+                        BirthPlace = "İstanbul",
                         MothersMaidenName = "Taşçı",
                         FathersName = "Şener",
                         MothersName = "Safiye",
@@ -260,6 +262,17 @@ namespace RadiusR.API.Test_Unit
                 }
             });
             var assd = response;
+        }
+        // create bills
+        private void button7_Click(object sender, EventArgs e)
+        {
+            using (var db = new RadiusR.DB.RadiusREntities())
+            {
+                var currSubscription = bill_subscriberNoText.Text;
+                var subscription = db.PrepareForBilling(db.Subscriptions.Where(s => s.SubscriberNo == currSubscription)).FirstOrDefault();
+                BillingUtilities.IssueBill(subscription, DateTime.Now.AddMonths(6));
+                db.SaveChanges();
+            }
         }
     }
     public class GenericServiceSettings

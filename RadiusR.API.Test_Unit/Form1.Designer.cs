@@ -47,6 +47,10 @@ namespace RadiusR.API.Test_Unit
             this.button5 = new System.Windows.Forms.Button();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.button6 = new System.Windows.Forms.Button();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button7 = new System.Windows.Forms.Button();
+            this.bill_subscriberNoText = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -55,6 +59,7 @@ namespace RadiusR.API.Test_Unit
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
+            this.tabPage8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -66,6 +71,7 @@ namespace RadiusR.API.Test_Unit
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
+            this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -247,6 +253,45 @@ namespace RadiusR.API.Test_Unit
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
+            // tabPage8
+            // 
+            this.tabPage8.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage8.Controls.Add(this.label1);
+            this.tabPage8.Controls.Add(this.button7);
+            this.tabPage8.Controls.Add(this.bill_subscriberNoText);
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage8.Size = new System.Drawing.Size(862, 495);
+            this.tabPage8.TabIndex = 7;
+            this.tabPage8.Text = "Create Bill";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(379, 82);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Subscriber No";
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(354, 141);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(122, 23);
+            this.button7.TabIndex = 1;
+            this.button7.Text = "Create";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // bill_subscriberNoText
+            // 
+            this.bill_subscriberNoText.Location = new System.Drawing.Point(354, 98);
+            this.bill_subscriberNoText.Name = "bill_subscriberNoText";
+            this.bill_subscriberNoText.Size = new System.Drawing.Size(122, 20);
+            this.bill_subscriberNoText.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -264,6 +309,8 @@ namespace RadiusR.API.Test_Unit
             this.tabPage5.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
+            this.tabPage8.ResumeLayout(false);
+            this.tabPage8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -288,6 +335,10 @@ namespace RadiusR.API.Test_Unit
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.TextBox bill_subscriberNoText;
     }
 }
 

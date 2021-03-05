@@ -4440,17 +4440,6 @@ namespace RadiusR.API.CustomerWebService
                         FileName = Localization.Common.ResourceManager.GetString("EArchivePDFFileName", CultureInfo.CreateSpecificCulture(customerCulture)) + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf"
                     });
                     RezaB.Mailing.Client.MailClient client = new RezaB.Mailing.Client.MailClient(EmailSettings.SMTPEmailHost, EmailSettings.SMTPEMailPort, false, EmailSettings.SMTPEmailAddress, EmailSettings.SMTPEmailPassword);
-                    //var collection = new System.Net.Mail.MailAddressCollection();
-                    //collection.Add(dbBill.Subscription.Customer.Email);
-                    //var mailMessage = new System.Net.Mail.MailMessage(EmailSettings.SMTPEmailDisplayName,
-                    //    dbBill.Subscription.Customer.Email,
-                    //    string.Format(Localization.Common.EArchiveMailSubject, dbBill.IssueDate.ToString("dd-MM-yyyy")),
-                    //    string.Format(Localization.Common.EArchiveMailBody, dbBill.IssueDate.ToString("dd-MM-yyyy")))
-                    //{
-                    //    IsBodyHtml = false,
-                    //};
-                    //mailMessage.Attachments.Add(new System.Net.Mail.Attachment(fileStream, Localization.Common.EArchivePDFFileName + "_" + dbBill.IssueDate.ToString("yyyy-MM-dd") + ".pdf", "application/pdf"));
-                    //client.SendMail(new RezaB.Mailing.StandardMailMessage(mailMessage));
                     client.SendMail(new RezaB.Mailing.StandardMailMessage(new System.Net.Mail.MailAddress(EmailSettings.SMTPEmailDisplayEmail, EmailSettings.SMTPEmailDisplayName),
                         new string[] { dbBill.Subscription.Customer.Email },
                         null,
