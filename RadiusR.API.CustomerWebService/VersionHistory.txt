@@ -7,3 +7,6 @@ v 1.0.1 2021-02-12
 v 1.0.2 2021-02-25
 - updated db modules
 - updated customer register modules
+v 1.0.3 2021-03-08
+- updated register modules
+- updated telekom modules

@@ -115,11 +115,11 @@
     <Reference Include="RadiusR.API.MobilExpress.DBAdapter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.API.MobilExpress.DBAdapter.1.0.0\lib\net452\RadiusR.API.MobilExpress.DBAdapter.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB, Version=1.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.1.2.2\lib\net452\RadiusR.DB.dll</HintPath>
+    <Reference Include="RadiusR.DB, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.1.2.3\lib\net452\RadiusR.DB.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.DomainsCache, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.DomainsCache.1.0.0\lib\net452\RadiusR.DB.DomainsCache.dll</HintPath>
+    <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.0\lib\net452\RadiusR.DB.DomainsCache.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.DB.TelekomOperations, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.0.0\lib\net452\RadiusR.DB.TelekomOperations.dll</HintPath>
@@ -127,8 +127,8 @@
     <Reference Include="RadiusR.DB.Utilities, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.Utilities.1.1.0\lib\net452\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.0.6\lib\net452\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.0.7.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.0.7\lib\net452\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.FileManagement, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.FileManagement.1.1.4\lib\net472\RadiusR.FileManagement.dll</HintPath>
@@ -136,8 +136,8 @@
     <Reference Include="RadiusR.Localization, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.Localization.1.0.4\lib\net452\RadiusR.Localization.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization.Lists, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.8\lib\net452\RadiusR.Localization.Lists.dll</HintPath>
+    <Reference Include="RadiusR.Localization.Lists, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.9\lib\net452\RadiusR.Localization.Lists.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.PDFForms, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.PDFForms.1.0.1\lib\net472\RadiusR.PDFForms.dll</HintPath>
@@ -193,8 +193,8 @@
     <Reference Include="RezaB.NetInvoice.Wrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.NetInvoice.Wrapper.1.0.0\lib\net452\RezaB.NetInvoice.Wrapper.dll</HintPath>
     </Reference>
-    <Reference Include="RezaB.TurkTelekom.WebServices, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RezaB.TurkTelekom.WebServices.1.0.0\lib\net452\RezaB.TurkTelekom.WebServices.dll</HintPath>
+    <Reference Include="RezaB.TurkTelekom.WebServices, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.TurkTelekom.WebServices.1.1.0\lib\net452\RezaB.TurkTelekom.WebServices.dll</HintPath>
     </Reference>
     <Reference Include="RezaB.Web.VPOS, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.Web.VPOS.1.1.1\lib\net452\RezaB.Web.VPOS.dll</HintPath>
@@ -224,7 +224,24 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>

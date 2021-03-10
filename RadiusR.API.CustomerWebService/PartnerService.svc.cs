@@ -1301,7 +1301,6 @@ namespace RadiusR.API.CustomerWebService
                             RegisteringPartner = new CustomerRegistrationInfo.RegisteringPartnerInfo()
                             {
                                 PartnerID = partner.ID,
-                                Allowance = availableTariffs.Allowance
                             },
                             BillingPeriod = billingPeriod,
                             ReferralDiscount = null
@@ -1316,13 +1315,22 @@ namespace RadiusR.API.CustomerWebService
                     Dictionary<string, string> valuePairs = new Dictionary<string, string>();
                     // check for existing customer
                     var dbCustomer = db.Customers.FirstOrDefault(c => c.CustomerIDCard.TCKNo == request.CustomerRegisterParameters.IDCardInfo.TCKNo && c.CustomerType == request.CustomerRegisterParameters.CustomerGeneralInfo.CustomerType);
+                    Errorslogger.LogException(request.Username, new Exception($"Customer Checked"));
                     if (dbCustomer == null)
                     {
+                        Errorslogger.LogException(request.Username, new Exception($"DB Customer is null. Start operation"));
                         // create new customer
                         var result = RadiusR.DB.Utilities.ComplexOperations.Subscriptions.Registration.Registration.RegisterSubscriptionWithNewCustomer(db, registrationInfo, out registeredCustomer);
-                        if (result != null)
+                        Errorslogger.LogException(request.Username, new Exception($"After Result"));
+                        if (result == null)
                         {
-                            var dic = result.ToDictionary(x => x.Key, x => x.ToArray());
+                            Errorslogger.LogException(request.Username, new Exception($"Result Is Null"));
+                        }
+                        if (!result.IsSuccess)
+                        {
+
+                            Errorslogger.LogException(request.Username, new Exception($"DB Customer is null. In Result for new register."));
+                            var dic = result.ValidationMessages?.ToDictionary(x => x.Key, x => x.ToArray());
                             Errorslogger.LogException(request.Username, new Exception($"In Result for new register."));
                             foreach (var item in dic)
                             {
@@ -1347,10 +1355,17 @@ namespace RadiusR.API.CustomerWebService
                     }
                     else
                     {
+                        Errorslogger.LogException(request.Username, new Exception($"DB Customer is not null. Start Operation"));
                         var result = RadiusR.DB.Utilities.ComplexOperations.Subscriptions.Registration.Registration.RegisterSubscriptionForExistingCustomer(db, registrationInfo.SubscriptionInfo, dbCustomer);
-                        if (result != null)
+                        Errorslogger.LogException(request.Username, new Exception($"After Result"));
+                        if (result == null)
                         {
-                            var dic = result.ToDictionary(x => x.Key, x => x.ToArray());
+                            Errorslogger.LogException(request.Username, new Exception($"Result Is Null"));
+                        }
+                        if (!result.IsSuccess)
+                        {
+                            Errorslogger.LogException(request.Username, new Exception($"DB Customer is not null. In Result for existing register."));
+                            var dic = result.ValidationMessages?.ToDictionary(x => x.Key, x => x.ToArray());
                             Errorslogger.LogException(request.Username, new Exception($"In Result for existing register."));
                             foreach (var item in dic)
                             {

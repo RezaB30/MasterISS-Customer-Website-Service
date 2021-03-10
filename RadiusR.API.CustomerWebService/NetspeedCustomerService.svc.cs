@@ -111,9 +111,9 @@ namespace RadiusR.API.CustomerWebService
                     };
                     var result = RadiusR.DB.Utilities.ComplexOperations.Subscriptions.Registration.Registration.RegisterSubscriptionForExistingCustomer(db, registrationInfo, referenceCustomer.Customer);
                     Dictionary<string, string> valuePairs = new Dictionary<string, string>();
-                    if (result != null)
+                    if (!result.IsSuccess)
                     {
-                        var dic = result.ToDictionary(x => x.Key, x => x.ToArray());
+                        var dic = result.ValidationMessages.ToDictionary(x => x.Key, x => x.ToArray());
                         foreach (var item in dic)
                         {
                             valuePairs.Add(item.Key, string.Join("-", item.Value.Select(m => !string.IsNullOrEmpty(m))));

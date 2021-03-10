@@ -135,7 +135,7 @@ namespace RadiusR.API.CustomerWebService
                     db.SMSArchives.AddSafely(smsClient.SendSubscriberSMS(dbSubscription, SMSType.MobilExpressActivation, new Dictionary<string, object> {
                         { SMSParamaterRepository.SMSParameterNameCollection.CardNo, currentCard.MaskedCardNumber }
                     }));
-                    db.SystemLogs.Add(SystemLogProcessor.ActivateAutomaticPayment(dbSubscription.ID, SystemLogInterface.CustomerWebsite, dbSubscription.SubscriberNo, "MobilExpress"));
+                    db.SystemLogs.Add(SystemLogProcessor.ActivateAutomaticPayment(dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, "MobilExpress"));
                     db.SaveChanges();
                     return new CustomerServiceActivateAutomaticPaymentResponse(passwordHash, request)
                     {
@@ -226,7 +226,7 @@ namespace RadiusR.API.CustomerWebService
                     }
 
                     var cardNo = request.AddCardParameters.CardNo.Replace("-", "");
-                    db.SystemLogs.Add(SystemLogProcessor.AddCreditCard(dbCustomer.ID, SystemLogInterface.CustomerWebsite, dbClient.SubscriberNo, cardNo.Substring(0, 6) + "******" + cardNo.Substring(12)));
+                    db.SystemLogs.Add(SystemLogProcessor.AddCreditCard(dbCustomer.ID, SystemLogInterface.CustomerWebsite, request.Username, cardNo.Substring(0, 6) + "******" + cardNo.Substring(12)));
                     db.SaveChanges();
                     return new CustomerServiceAddCardResponse(passwordHash, request)
                     {
@@ -867,7 +867,7 @@ namespace RadiusR.API.CustomerWebService
 
                     var client = new SMSService();
                     db.SMSArchives.AddSafely(client.SendSubscriberSMS(dbSubscription, SMSType.MobilExpressDeactivation));
-                    db.SystemLogs.Add(SystemLogProcessor.DeactivateAutomaticPayment(dbSubscription.ID, SystemLogInterface.CustomerWebsite, dbSubscription.SubscriberNo, "MobilExpress"));
+                    db.SystemLogs.Add(SystemLogProcessor.DeactivateAutomaticPayment(dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, "MobilExpress"));
                     db.SaveChanges();
 
                     return new CustomerServiceDeactivateAutomaticPaymentResponse(passwordHash, request)
@@ -1732,8 +1732,6 @@ namespace RadiusR.API.CustomerWebService
                 Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceVPOSFormResponse(passwordHash, request)
                 {
-
-
                     ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
                     VPOSFormResponse = null
                 };
@@ -2039,7 +2037,7 @@ namespace RadiusR.API.CustomerWebService
                             PayDate = DateTime.Now
                         });
 
-                        db.SystemLogs.Add(SystemLogs.SystemLogProcessor.AddSubscriptionQuota(null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.QuotaSaleParameters.SubscriptionId.ToString(), quotaDescription));
+                        db.SystemLogs.Add(SystemLogs.SystemLogProcessor.AddSubscriptionQuota(null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, quotaDescription));
 
                         SMSService SMSAsync = new SMSService();
                         db.SMSArchives.AddSafely(SMSAsync.SendSubscriberSMS(dbSubscription, SMSType.PaymentDone, new Dictionary<string, object>()
@@ -2267,7 +2265,7 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
 
-                    db.SystemLogs.Add(SystemLogProcessor.RemoveCreditCard(dbCustomer.ID, SystemLogInterface.CustomerWebsite, dbClient.SubscriberNo, targetCard.MaskedCardNumber));
+                    db.SystemLogs.Add(SystemLogProcessor.RemoveCreditCard(dbCustomer.ID, SystemLogInterface.CustomerWebsite, request.Username, targetCard.MaskedCardNumber));
                     db.SaveChanges();
                     return new CustomerServiceRemoveCardResponse(passwordHash, request)
                     {
@@ -2458,7 +2456,7 @@ namespace RadiusR.API.CustomerWebService
                         {
                             { SMSParamaterRepository.SMSParameterNameCollection.ExtendedMonths, "1" }
                         }));
-                        db.SystemLogs.Add(SystemLogProcessor.ExtendPackage(null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.SendSubscriberSMS.SubscriptionId.Value.ToString(), 1));
+                        db.SystemLogs.Add(SystemLogProcessor.ExtendPackage(null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, 1));
                         db.SaveChanges();
                     }
                 }
@@ -3111,7 +3109,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         { SMSParamaterRepository.SMSParameterNameCollection.BillTotal, payableAmount }
                     }));
-                    db.SystemLogs.Add(SystemLogProcessor.BillPayment(dbBills.Select(b => b.ID), null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, dbSubscription.SubscriberNo, PaymentType.MobilExpress));
+                    db.SystemLogs.Add(SystemLogProcessor.BillPayment(dbBills.Select(b => b.ID), null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, PaymentType.MobilExpress));
                     db.SaveChanges();
                     return new CustomerServiceMobilexpressPayBillResponse(passwordHash, request)
                     {
@@ -4633,7 +4631,7 @@ namespace RadiusR.API.CustomerWebService
                     var dbClient = db.Subscriptions.Find(request.ChangeClientOnlinePasswordParameters.SubscriptionId);
                     var dbClients = dbClient.Customer.Subscriptions.ToList();
                     dbClients.ForEach(client => client.OnlinePassword = request.ChangeClientOnlinePasswordParameters.OnlinePassword);
-                    db.SystemLogs.Add(SystemLogProcessor.ChangeCustomer(null, dbClient.CustomerID, SystemLogInterface.CustomerWebsite, dbClient.SubscriberNo));
+                    db.SystemLogs.Add(SystemLogProcessor.ChangeCustomer(null, dbClient.CustomerID, SystemLogInterface.CustomerWebsite, request.Username));
                     db.SaveChanges();
                     return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
                     {
