@@ -13,11 +13,11 @@ using System.Web;
 namespace RadiusR.API.CustomerWebService.Responses
 {
     [DataContract]
-    public partial class CustomerServiceSendSupportMessageResponse : BaseResponse<long?, SHA1>
+    public partial class CustomerServiceSendSupportMessageResponse : BaseResponse<bool, SHA1>
     {
         public CustomerServiceSendSupportMessageResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
-        public long? SendSupportMessageResponse
+        public bool SendSupportMessageResponse
         {
             get { return Data; }
             set { Data = value; }

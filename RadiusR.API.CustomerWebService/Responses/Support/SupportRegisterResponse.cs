@@ -15,7 +15,7 @@ namespace RadiusR.API.CustomerWebService.Responses.Support
     public class SupportRegisterResponse
     {
         [DataMember]
-        public long SupportId { get; set; }
+        public bool SupportRegisterResult { get; set; }
     }
     [DataContract]
     public partial class CustomerServiceSupportRegisterResponse : BaseResponse<SupportRegisterResponse, SHA1>

@@ -1,7 +1,9 @@
 ﻿using NLog;
+using RezaB.API.WebService.NLogExtentions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.Caching;
 using System.Web;
 
@@ -9,12 +11,12 @@ namespace RadiusR.API.CustomerWebService
 {
     public class ServiceSettings
     {
-        Logger Errorslogger = LogManager.GetLogger("Errors");
+        WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
         public string GetUserPassword(string username)
         {
             if (username != RadiusR.DB.CustomerWebsiteSettings.WebsiteServicesUsername)
             {
-                Errorslogger.Error(username, "username is not found");
+                Errorslogger.LogException(username, new Exception("username is not found"));
                 // log wrong username
                 return "";
             }
@@ -26,7 +28,7 @@ namespace RadiusR.API.CustomerWebService
         {
             if (username != RadiusR.DB.CustomerWebsiteSettings.WebsiteServicesUsername)
             {
-                Errorslogger.Error(username, "username is not found");
+                Errorslogger.LogException(username, new Exception("username is not found"));
                 // log wrong username
                 return "";
             }

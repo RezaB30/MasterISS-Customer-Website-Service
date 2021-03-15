@@ -110,8 +110,8 @@ namespace RadiusR.API.CustomerWebService
         CustomerServicGetSupportAttachmentListResponse GetSupportAttachmentList(CustomerServiceGetSupportAttachmentListRequest request);
         [OperationContract]
         CustomerServiceGetSupportAttachmentResponse GetSupportAttachment(CustomerServiceGetSupportAttachmentRequest request);
-        [OperationContract]
-        CustomerServiceSaveSupportAttachmentResponse SaveSupportAttachment(CustomerServiceSaveSupportAttachmentRequest request);
+        //[OperationContract]
+        //CustomerServiceSaveSupportAttachmentResponse SaveSupportAttachment(CustomerServiceSaveSupportAttachmentRequest request);
         [OperationContract]
         CustomerServiceCustomerAuthenticationWithPasswordResponse CustomerAuthenticationWithPassword(CustomerServiceAuthenticationWithPasswordRequest request);
         [OperationContract]

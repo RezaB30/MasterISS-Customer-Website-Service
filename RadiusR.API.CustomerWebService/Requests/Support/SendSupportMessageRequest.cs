@@ -20,8 +20,10 @@ namespace RadiusR.API.CustomerWebService.Requests.Support
         public string Message { get; set; }
         [DataMember]
         public int? SupportMessageType { get; set; }
-
+        [DataMember]
+        public List<Attachment> Attachments { get; set; }
     }
+    
     [DataContract]
     public partial class CustomerServiceSendSupportMessageRequest : BaseRequest<SendSupportMessageRequest, SHA1>
     {

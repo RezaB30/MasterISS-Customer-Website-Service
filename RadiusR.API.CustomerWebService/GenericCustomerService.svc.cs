@@ -2517,44 +2517,168 @@ namespace RadiusR.API.CustomerWebService
                     Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
                     return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                     {
-
-                        SendSupportMessageResponse = null,
-
+                        SendSupportMessageResponse = false,
                         ResponseMessage = CommonResponse.UnauthorizedResponse(request)
                     };
                 }
                 if (request.SendSupportMessageParameters.SubscriptionId == null || request.SendSupportMessageParameters.SupportId == null)
                 {
-                    //Errorslogger.Error($"SendSupportMessage have null objects [{request.SendSupportMessageParameters.SupportId},{request.SendSupportMessageParameters.SubscriptionId}]. User : {request.Username}");
                     Errorslogger.LogException(request.Username, new Exception($"SendSupportMessage have null objects [{request.SendSupportMessageParameters.SupportId},{request.SendSupportMessageParameters.SubscriptionId}]."));
                     return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                     {
-                        SendSupportMessageResponse = null,
+                        SendSupportMessageResponse = false,
                         ResponseMessage = CommonResponse.NullObjectException(request.Culture),
                     };
                 }
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    var SupportProgress = db.SupportRequests.Find(request.SendSupportMessageParameters.SupportId);
-                    if (SupportProgress != null && SupportProgress.SubscriptionID == request.SendSupportMessageParameters.SubscriptionId && SupportProgress.IsVisibleToCustomer)
+                    using (var transaction = db.Database.BeginTransaction())
                     {
-                        if (request.SendSupportMessageParameters.SupportMessageType == (int)SupportMesssageTypes.ProblemSolved)
+                        var SupportProgress = db.SupportRequests.Find(request.SendSupportMessageParameters.SupportId);
+                        if (SupportProgress != null && SupportProgress.SubscriptionID == request.SendSupportMessageParameters.SubscriptionId && SupportProgress.IsVisibleToCustomer)
                         {
-                            if (SupportUtilities.SupportRequestAvailable(request.SendSupportMessageParameters.SubscriptionId.Value, request.SendSupportMessageParameters.SupportId.Value) == SupportRequestAvailableTypes.None)
+                            if (request.SendSupportMessageParameters.SupportMessageType == (int)SupportMesssageTypes.ProblemSolved)
                             {
+                                if (SupportUtilities.SupportRequestAvailable(request.SendSupportMessageParameters.SubscriptionId.Value, request.SendSupportMessageParameters.SupportId.Value) == SupportRequestAvailableTypes.None)
+                                {
+                                    return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                    {
+                                        SendSupportMessageResponse = false,
+                                        ResponseMessage = CommonResponse.InvalidOperation(request.Culture)
+                                    };
+                                }
+                                var CurrentState = (RadiusR.DB.Enums.SupportRequests.SupportRequestStateID)SupportProgress.StateID;
+                                SupportProgress.CustomerApprovalDate = DateTime.Now;
+                                SupportProgress.StateID = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done;
+                                long? stageId = null;
+                                if (CurrentState == RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done)
+                                {
+                                    var currentStage = new RadiusR.DB.SupportRequestProgress()
+                                    {
+                                        ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.Create,
+                                        Date = DateTime.Now,
+                                        IsVisibleToCustomer = true,
+                                        Message = request.SendSupportMessageParameters.Message
+                                    };
+                                    SupportProgress.SupportRequestProgresses.Add(currentStage);
+                                    db.SaveChanges();
+                                    if (request.SendSupportMessageParameters.Attachments != null)
+                                    {
+                                        var fileResponse = SaveSupportAttachments(request.SendSupportMessageParameters.Attachments.ToArray(), currentStage.ID, request.SendSupportMessageParameters.SupportId.Value);
+                                        if (!fileResponse)
+                                        {
+                                            return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                            {
+                                                ResponseMessage = CommonResponse.FailedResponse(request.Culture),
+                                                SendSupportMessageResponse = false
+                                            };
+                                        }
+                                    }
+
+                                    stageId = currentStage.ID;
+                                }
+                                else
+                                {
+                                    var currentStage = new RadiusR.DB.SupportRequestProgress()
+                                    {
+                                        ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.ChangeState,
+                                        Date = DateTime.Now,
+                                        IsVisibleToCustomer = true,
+                                        Message = request.SendSupportMessageParameters.Message,
+                                        OldState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress,
+                                        NewState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done
+                                    };
+                                    SupportProgress.SupportRequestProgresses.Add(currentStage);
+                                    db.SaveChanges();
+                                    // add file 
+                                    if (request.SendSupportMessageParameters.Attachments != null)
+                                    {
+                                        var fileResponse = SaveSupportAttachments(request.SendSupportMessageParameters.Attachments.ToArray(), currentStage.ID, request.SendSupportMessageParameters.SupportId.Value);
+                                        if (!fileResponse)
+                                        {
+                                            transaction.Rollback();
+                                            return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                            {
+                                                ResponseMessage = CommonResponse.FailedResponse(request.Culture),
+                                                SendSupportMessageResponse = false
+                                            };
+                                        }
+                                    }
+                                    stageId = currentStage.ID;
+                                }
+                                transaction.Commit();
                                 return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                                 {
-
-                                    SendSupportMessageResponse = null,
-                                    ResponseMessage = CommonResponse.InvalidOperation(request.Culture)
+                                    SendSupportMessageResponse = true,
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                                 };
                             }
-                            var CurrentState = (RadiusR.DB.Enums.SupportRequests.SupportRequestStateID)SupportProgress.StateID;
-                            SupportProgress.CustomerApprovalDate = DateTime.Now;
-                            SupportProgress.StateID = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done;
-                            long? stageId = null;
-                            if (CurrentState == RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done)
+                            if (request.SendSupportMessageParameters.SupportMessageType == (int)SupportMesssageTypes.OpenRequestAgain)
                             {
+                                if (SupportUtilities.HasOpenRequest(request.SendSupportMessageParameters.SubscriptionId.Value))
+                                {
+                                    return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                    {
+
+                                        SendSupportMessageResponse = true,
+                                        ResponseMessage = CommonResponse.HasActiveRequest(request.Culture),
+
+                                    };
+                                }
+                                if (SupportUtilities.SupportRequestAvailable(request.SendSupportMessageParameters.SubscriptionId.Value, request.SendSupportMessageParameters.SupportId.Value) == SupportRequestAvailableTypes.None)
+                                {
+                                    return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                    {
+                                        SendSupportMessageResponse = true,
+                                        ResponseMessage = CommonResponse.InvalidOperation(request.Culture)
+                                    };
+                                }
+                                SupportProgress.StateID = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress;
+                                SupportProgress.AssignedGroupID = null;
+                                SupportProgress.RedirectedGroupID = null;
+                                var currentStage = new RadiusR.DB.SupportRequestProgress()
+                                {
+                                    ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.ChangeState,
+                                    Date = DateTime.Now,
+                                    IsVisibleToCustomer = true,
+                                    Message = request.SendSupportMessageParameters.Message,
+                                    OldState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done,
+                                    NewState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress
+                                };
+                                SupportProgress.SupportRequestProgresses.Add(currentStage);
+                                db.SaveChanges();
+                                if (request.SendSupportMessageParameters.Attachments != null)
+                                {
+                                    var fileResponse = SaveSupportAttachments(request.SendSupportMessageParameters.Attachments.ToArray(), currentStage.ID, request.SendSupportMessageParameters.SupportId.Value);
+                                    if (!fileResponse)
+                                    {
+                                        transaction.Rollback();
+                                        return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                        {
+                                            ResponseMessage = CommonResponse.FailedResponse(request.Culture),
+                                            SendSupportMessageResponse = false
+                                        };
+                                    }
+                                }
+                                var stageId = currentStage.ID;
+                                transaction.Commit();
+                                return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    SendSupportMessageResponse = true,
+                                };
+                            }
+                            if (request.SendSupportMessageParameters.SupportMessageType == (int)SupportMesssageTypes.AddNote)
+                            {
+                                long? stageId = null;
+                                if (SupportUtilities.SupportRequestAvailable(request.SendSupportMessageParameters.SubscriptionId.Value, request.SendSupportMessageParameters.SupportId.Value) == SupportRequestAvailableTypes.None)
+                                {
+                                    return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                    {
+                                        SendSupportMessageResponse = false,
+                                        ResponseMessage = CommonResponse.InvalidOperation(request.Culture)
+                                    };
+                                }
                                 var currentStage = new RadiusR.DB.SupportRequestProgress()
                                 {
                                     ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.Create,
@@ -2564,121 +2688,34 @@ namespace RadiusR.API.CustomerWebService
                                 };
                                 SupportProgress.SupportRequestProgresses.Add(currentStage);
                                 db.SaveChanges();
+                                if (request.SendSupportMessageParameters.Attachments != null)
+                                {
+                                    var fileResponse = SaveSupportAttachments(request.SendSupportMessageParameters.Attachments.ToArray(), currentStage.ID, request.SendSupportMessageParameters.SupportId.Value);
+                                    if (!fileResponse)
+                                    {
+                                        transaction.Rollback();
+                                        return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
+                                        {
+                                            ResponseMessage = CommonResponse.FailedResponse(request.Culture),
+                                            SendSupportMessageResponse = false
+                                        };
+                                    }
+                                }                                
                                 stageId = currentStage.ID;
-                            }
-                            else
-                            {
-                                var currentStage = new RadiusR.DB.SupportRequestProgress()
+                                transaction.Commit();
+                                return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                                 {
-                                    ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.ChangeState,
-                                    Date = DateTime.Now,
-                                    IsVisibleToCustomer = true,
-                                    Message = request.SendSupportMessageParameters.Message,
-                                    OldState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress,
-                                    NewState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    SendSupportMessageResponse = true,
                                 };
-                                SupportProgress.SupportRequestProgresses.Add(currentStage);
-                                db.SaveChanges();
-                                stageId = currentStage.ID;
                             }
-                            return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
-                            {
-                                SendSupportMessageResponse = stageId,
-                                ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
-                            };
-                            //generalLogger.Warn($"Problem is solved . User id : {User.GiveUserId()} {Environment.NewLine} Request Id : {request.Data.ID}");
                         }
-                        if (request.SendSupportMessageParameters.SupportMessageType == (int)SupportMesssageTypes.OpenRequestAgain)
+                        return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                         {
-                            if (SupportUtilities.HasOpenRequest(request.SendSupportMessageParameters.SubscriptionId.Value))
-                            {
-                                return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
-                                {
-
-                                    SendSupportMessageResponse = null,
-                                    ResponseMessage = CommonResponse.HasActiveRequest(request.Culture),
-
-                                };
-                            }
-                            if (SupportUtilities.SupportRequestAvailable(request.SendSupportMessageParameters.SubscriptionId.Value, request.SendSupportMessageParameters.SupportId.Value) == SupportRequestAvailableTypes.None)
-                            {
-                                return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
-                                {
-
-
-                                    SendSupportMessageResponse = null,
-                                    ResponseMessage = CommonResponse.InvalidOperation(request.Culture)
-                                };
-                            }
-                            SupportProgress.StateID = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress;
-                            SupportProgress.AssignedGroupID = null;
-                            SupportProgress.RedirectedGroupID = null;
-                            var currentStage = new RadiusR.DB.SupportRequestProgress()
-                            {
-                                ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.ChangeState,
-                                Date = DateTime.Now,
-                                IsVisibleToCustomer = true,
-                                Message = request.SendSupportMessageParameters.Message,
-                                OldState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.Done,
-                                NewState = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress
-                            };
-                            SupportProgress.SupportRequestProgresses.Add(currentStage);
-                            db.SaveChanges();
-                            var stageId = currentStage.ID;
-                            return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
-                            {
-                                ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                                SendSupportMessageResponse = stageId,
-                            };
-                            //generalLogger.Warn($"Opened request again. Request id : {request.Data.ID} {Environment.NewLine} User id : {User.GiveUserId()}");
-
-                            //return ReturnMessageUrl(Url.Action("SupportDetails", "Support", new { request.Data.ID }),
-                            //    RadiusRCustomerWebSite.Localization.Validation.OpenedRequestAgain);
-                        }
-                        if (request.SendSupportMessageParameters.SupportMessageType == (int)SupportMesssageTypes.AddNote)
-                        {
-                            long? stageId = null;
-                            if (SupportUtilities.SupportRequestAvailable(request.SendSupportMessageParameters.SubscriptionId.Value, request.SendSupportMessageParameters.SupportId.Value) == SupportRequestAvailableTypes.None)
-                            {
-                                return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
-                                {
-                                    SendSupportMessageResponse = null,
-                                    ResponseMessage = CommonResponse.InvalidOperation(request.Culture)
-                                };
-                            }
-                            var currentStage = new RadiusR.DB.SupportRequestProgress()
-                            {
-                                ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.Create,
-                                Date = DateTime.Now,
-                                IsVisibleToCustomer = true,
-                                Message = request.SendSupportMessageParameters.Message
-                            };
-                            SupportProgress.SupportRequestProgresses.Add(currentStage);
-                            db.SaveChanges();
-                            stageId = currentStage.ID;
-                            return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
-                            {
-                                ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                                SendSupportMessageResponse = stageId,
-                            };
-                            //generalLogger.Warn($"Send Message. Request id : {request.Data.ID} {Environment.NewLine} User Id : {User.GiveUserId()}");
-                            //return ReturnMessageUrl(Url.Action("SupportDetails", "Support", new { request.Data.ID }),
-                            //    RadiusRCustomerWebSite.Localization.Validation.SendMessage);
-                            //if (!request.Data.IsSolved)
-                            //{
-                            //    TempData["Errors"] = RadiusRCustomerWebSite.Localization.Validation.SendMessage;
-                            //}
-                        }
+                            ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
+                            SendSupportMessageResponse = false
+                        };
                     }
-                    return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture),
-                        SendSupportMessageResponse = null
-                    };
-                    //generalLogger.Warn($"Wrong subscription id. User id : {User.GiveUserId()} {Environment.NewLine} Subscription Id : {SupportProgress.SubscriptionID} in progress. {Environment.NewLine} Request Id : {request.Data.ID}");
-                    //return ReturnMessageUrl(Url.Action("SupportDetails", "Support", new { request.Data.ID }),
-                    //        RadiusRCustomerWebSite.Localization.Validation.Failed);
-
                 }
             }
             catch (NullReferenceException ex)
@@ -2687,7 +2724,7 @@ namespace RadiusR.API.CustomerWebService
                 return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.NullObjectException(request.Culture),
-                    SendSupportMessageResponse = null
+                    SendSupportMessageResponse = false
                 };
             }
             catch (Exception ex)
@@ -2695,7 +2732,7 @@ namespace RadiusR.API.CustomerWebService
                 Errorslogger.LogException(request.Username, ex);
                 return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
                 {
-                    SendSupportMessageResponse = null,
+                    SendSupportMessageResponse = false,
                     ResponseMessage = CommonResponse.InternalException(request.Culture)
                 };
             }
@@ -2863,16 +2900,18 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    var result = db.SupportRequests.Add(new SupportRequest()
+                    using (var transaction = db.Database.BeginTransaction())
                     {
-                        Date = DateTime.Now,
-                        IsVisibleToCustomer = true,
-                        StateID = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress,
-                        TypeID = request.SupportRegisterParameters.RequestTypeId.Value,
-                        SubTypeID = request.SupportRegisterParameters.SubRequestTypeId.Value,
-                        SupportPin = RadiusR.DB.RandomCode.CodeGenerator.GenerateSupportRequestPIN(),
-                        SubscriptionID = request.SupportRegisterParameters.SubscriptionId,
-                        SupportRequestProgresses =
+                        var result = db.SupportRequests.Add(new SupportRequest()
+                        {
+                            Date = DateTime.Now,
+                            IsVisibleToCustomer = true,
+                            StateID = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestStateID.InProgress,
+                            TypeID = request.SupportRegisterParameters.RequestTypeId.Value,
+                            SubTypeID = request.SupportRegisterParameters.SubRequestTypeId.Value,
+                            SupportPin = RadiusR.DB.RandomCode.CodeGenerator.GenerateSupportRequestPIN(),
+                            SubscriptionID = request.SupportRegisterParameters.SubscriptionId,
+                            SupportRequestProgresses =
                         {
                             new RadiusR.DB.SupportRequestProgress()
                             {
@@ -2882,18 +2921,34 @@ namespace RadiusR.API.CustomerWebService
                                 ActionType = (short)RadiusR.DB.Enums.SupportRequests.SupportRequestActionTypes.Create
                             }
                         }
-                    });
-                    db.SaveChanges();
-                    return new CustomerServiceSupportRegisterResponse(passwordHash, request)
-                    {
-
-
-                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                        SupportRegisterResponse = new SupportRegisterResponse()
+                        });
+                        db.SaveChanges();
+                        if (request.SupportRegisterParameters.Attachments != null)
                         {
-                            SupportId = result.ID
+                            var fileResponse = SaveSupportAttachments(request.SupportRegisterParameters.Attachments.ToArray(), result.SupportRequestProgresses.FirstOrDefault().ID, result.ID);
+                            if (!fileResponse)
+                            {
+                                transaction.Rollback();
+                                return new CustomerServiceSupportRegisterResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.FailedResponse(request.Culture),
+                                    SupportRegisterResponse = new SupportRegisterResponse()
+                                    {
+                                        SupportRegisterResult = false
+                                    }
+                                };
+                            }
                         }
-                    };
+                        transaction.Commit();
+                        return new CustomerServiceSupportRegisterResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                            SupportRegisterResponse = new SupportRegisterResponse()
+                            {
+                                SupportRegisterResult = true
+                            }
+                        };
+                    }
                 }
             }
             catch (NullReferenceException ex)
@@ -4044,64 +4099,64 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceSaveSupportAttachmentResponse SaveSupportAttachment(CustomerServiceSaveSupportAttachmentRequest request)
-        {
-            var password = new ServiceSettings().GetUserPassword(request.Username);
-            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
-            try
-            {
-                CustomerInComingInfo.LogIncomingMessage(request);
-                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
-                {
-                    return new CustomerServiceSaveSupportAttachmentResponse(password, request)
-                    {
-                        ResponseMessage = CommonResponse.UnauthorizedResponse(request),
-                        SaveSupportAttachmentResult = false
-                    };
-                }
-                if (request.SaveSupportAttachmentParameters.StageId == null || request.SaveSupportAttachmentParameters.SupportRequestId == null)
-                {
-                    return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
-                    {
-                        ResponseMessage = CommonResponse.SupportRequestNotFound(request.Culture),
-                        SaveSupportAttachmentResult = false
-                    };
-                }
-                var fileManager = new RadiusR.FileManagement.MasterISSFileManager();
-                var fileStream = new MemoryStream(request.SaveSupportAttachmentParameters.FileContent);
-                var saveAttachment = fileManager.SaveSupportRequestAttachment(
-                    request.SaveSupportAttachmentParameters.SupportRequestId.Value,
-                    new FileManagement.SpecialFiles.FileManagerSupportRequestAttachmentWithContent(
-                        fileStream,
-                        new FileManagement.SpecialFiles.FileManagerSupportRequestAttachment(
-                            request.SaveSupportAttachmentParameters.StageId.Value,
-                            request.SaveSupportAttachmentParameters.FileName.Split('.')[0],
-                            request.SaveSupportAttachmentParameters.FileExtention.Replace(".", ""))));
-                if (saveAttachment.InternalException != null)
-                {
-                    return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
-                    {
-                        SaveSupportAttachmentResult = false,
-                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, saveAttachment.InternalException.Message)
-                    };
-                }
-                return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
-                {
-                    SaveSupportAttachmentResult = saveAttachment.Result,
-                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
-                };
-            }
-            catch (Exception ex)
-            {
-                Errorslogger.LogException(request.Username, ex);
-                return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
-                {
-                    SaveSupportAttachmentResult = false,
-                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+        //public CustomerServiceSaveSupportAttachmentResponse SaveSupportAttachment(CustomerServiceSaveSupportAttachmentRequest request)
+        //{
+        //    var password = new ServiceSettings().GetUserPassword(request.Username);
+        //    var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+        //    try
+        //    {
+        //        CustomerInComingInfo.LogIncomingMessage(request);
+        //        if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+        //        {
+        //            return new CustomerServiceSaveSupportAttachmentResponse(password, request)
+        //            {
+        //                ResponseMessage = CommonResponse.UnauthorizedResponse(request),
+        //                SaveSupportAttachmentResult = false
+        //            };
+        //        }
+        //        if (request.SaveSupportAttachmentParameters.StageId == null || request.SaveSupportAttachmentParameters.SupportRequestId == null)
+        //        {
+        //            return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
+        //            {
+        //                ResponseMessage = CommonResponse.SupportRequestNotFound(request.Culture),
+        //                SaveSupportAttachmentResult = false
+        //            };
+        //        }
+        //        var fileManager = new RadiusR.FileManagement.MasterISSFileManager();
+        //        var fileStream = new MemoryStream(request.SaveSupportAttachmentParameters.FileContent);
+        //        var saveAttachment = fileManager.SaveSupportRequestAttachment(
+        //            request.SaveSupportAttachmentParameters.SupportRequestId.Value,
+        //            new FileManagement.SpecialFiles.FileManagerSupportRequestAttachmentWithContent(
+        //                fileStream,
+        //                new FileManagement.SpecialFiles.FileManagerSupportRequestAttachment(
+        //                    request.SaveSupportAttachmentParameters.StageId.Value,
+        //                    request.SaveSupportAttachmentParameters.FileName.Split('.')[0],
+        //                    request.SaveSupportAttachmentParameters.FileExtention.Replace(".", ""))));
+        //        if (saveAttachment.InternalException != null)
+        //        {
+        //            return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
+        //            {
+        //                SaveSupportAttachmentResult = false,
+        //                ResponseMessage = CommonResponse.FailedResponse(request.Culture, saveAttachment.InternalException.Message)
+        //            };
+        //        }
+        //        return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
+        //        {
+        //            SaveSupportAttachmentResult = saveAttachment.Result,
+        //            ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Errorslogger.LogException(request.Username, ex);
+        //        return new CustomerServiceSaveSupportAttachmentResponse(passwordHash, request)
+        //        {
+        //            SaveSupportAttachmentResult = false,
+        //            ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
 
-                };
-            }
-        }
+        //        };
+        //    }
+        //}
         public CustomerServiceCustomerAuthenticationWithPasswordResponse CustomerAuthenticationWithPassword(CustomerServiceAuthenticationWithPasswordRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
@@ -4723,6 +4778,46 @@ namespace RadiusR.API.CustomerWebService
                 }
             }
             return relatedCustomers.ToArray();
+        }
+        private bool SaveSupportAttachments(Attachment[] attachments, long stageId, long supportId)
+        {
+            try
+            {
+                if (attachments != null && attachments.Length > 0)
+                {
+                    var SuccessFiles = new List<string>();
+                    foreach (var item in attachments)
+                    {
+                        var fileManager = new RadiusR.FileManagement.MasterISSFileManager();
+                        var fileStream = new MemoryStream(item.FileContent);
+                        var saveAttachment = fileManager.SaveSupportRequestAttachment(
+                            supportId,
+                            new FileManagement.SpecialFiles.FileManagerSupportRequestAttachmentWithContent(
+                                fileStream,
+                                new FileManagement.SpecialFiles.FileManagerSupportRequestAttachment(
+                                    stageId,
+                                    item.FileName.Split('.')[0],
+                                    item.FileExtention.Replace(".", ""))));
+                        if (saveAttachment.InternalException != null)
+                        {
+                            foreach (var fileName in SuccessFiles)
+                            {
+                                fileManager.RemoveSupportRequestAttachment(supportId, fileName);
+                            }
+                            return false;
+                        }
+                        if (saveAttachment.Result)
+                        {
+                            SuccessFiles.Add(item.FileName.Split('.')[0]);
+                        }
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
         #endregion
 
