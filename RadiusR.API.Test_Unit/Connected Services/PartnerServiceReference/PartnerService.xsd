@@ -205,6 +205,7 @@
         <xs:sequence>
           <xs:element minOccurs="0" name="CorporateCustomerInfo" nillable="true" type="tns:CorporateCustomerInfo" />
           <xs:element minOccurs="0" name="CustomerGeneralInfo" nillable="true" type="tns:CustomerGeneralInfo" />
+          <xs:element minOccurs="0" name="ExtraInfo" nillable="true" type="tns:ExtraInfo" />
           <xs:element minOccurs="0" name="IDCardInfo" nillable="true" type="tns:IDCardInfo" />
           <xs:element minOccurs="0" name="IndividualCustomerInfo" nillable="true" type="tns:IndividualCustomerInfo" />
           <xs:element minOccurs="0" name="SubscriptionInfo" nillable="true" type="tns:SubscriptionRegistrationInfo" />
@@ -277,6 +278,14 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="PhoneNoListItem" nillable="true" type="tns:PhoneNoListItem" />
+  <xs:complexType name="ExtraInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ApplicationType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PSTN" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="XDSLNo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ExtraInfo" nillable="true" type="tns:ExtraInfo" />
   <xs:complexType name="IDCardInfo">
     <xs:sequence>
       <xs:element minOccurs="0" name="BirthDate" nillable="true" type="xs:string" />
@@ -354,7 +363,7 @@
       <xs:extension base="tns:PaginationRequest">
         <xs:sequence>
           <xs:element minOccurs="0" name="AllowanceTypeId" nillable="true" type="xs:short" />
-          <xs:element minOccurs="0" name="PartnerId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="PartnerCredentials" nillable="true" type="tns:RequestBase" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -381,7 +390,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:PaginationRequest">
         <xs:sequence>
-          <xs:element minOccurs="0" name="PartnerId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="PartnerCredentials" nillable="true" type="tns:RequestBase" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -402,7 +411,7 @@
       <xs:extension base="tns:PaginationRequest">
         <xs:sequence>
           <xs:element minOccurs="0" name="AllowanceCollectionID" nillable="true" type="xs:int" />
-          <xs:element minOccurs="0" name="PartnerId" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="PartnerCredentials" nillable="true" type="tns:RequestBase" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

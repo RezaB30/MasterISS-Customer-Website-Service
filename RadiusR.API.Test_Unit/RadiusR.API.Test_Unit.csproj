@@ -46,49 +46,67 @@
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.7.6\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB, Version=1.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.1.2.3\lib\net452\RadiusR.DB.dll</HintPath>
+    <Reference Include="RadiusR.DB, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.1.2.4\lib\net472\RadiusR.DB.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.0\lib\net452\RadiusR.DB.DomainsCache.dll</HintPath>
+    <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.1\lib\net472\RadiusR.DB.DomainsCache.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.TelekomOperations, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.0.0\lib\net452\RadiusR.DB.TelekomOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.TelekomOperations, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.1.0\lib\net472\RadiusR.DB.TelekomOperations.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.0\lib\net452\RadiusR.DB.Utilities.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.1\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.0.7.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.0.7\lib\net452\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.2\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.1.0.4\lib\net452\RadiusR.Localization.dll</HintPath>
+    <Reference Include="RadiusR.FileManagement, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.FileManagement.1.1.6\lib\net472\RadiusR.FileManagement.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization.Lists, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.9\lib\net452\RadiusR.Localization.Lists.dll</HintPath>
+    <Reference Include="RadiusR.Localization, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.1.0.6\lib\net472\RadiusR.Localization.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Scheduler.SMS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Scheduler.SMS.1.0.0\lib\net452\RadiusR.Scheduler.SMS.dll</HintPath>
+    <Reference Include="RadiusR.Localization.Lists, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.11\lib\net472\RadiusR.Localization.Lists.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.SMS, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.SMS.1.0.0\lib\net452\RadiusR.SMS.dll</HintPath>
+    <Reference Include="RadiusR.Scheduler.SMS, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Scheduler.SMS.1.0.1\lib\net472\RadiusR.Scheduler.SMS.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.SystemLogs, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.SystemLogs.1.0.3\lib\net452\RadiusR.SystemLogs.dll</HintPath>
+    <Reference Include="RadiusR.SMS, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.SMS.1.0.1\lib\net472\RadiusR.SMS.dll</HintPath>
     </Reference>
-    <Reference Include="RezaB.API.TCKValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RezaB.API.TCKValidation.1.0.0\lib\net452\RezaB.API.TCKValidation.dll</HintPath>
+    <Reference Include="RadiusR.SystemLogs, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.SystemLogs.1.0.7\lib\net472\RadiusR.SystemLogs.dll</HintPath>
     </Reference>
-    <Reference Include="RezaB.Data, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RezaB.Data.1.0.1\lib\net452\RezaB.Data.dll</HintPath>
+    <Reference Include="Renci.SshNet, Version=2020.0.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="RezaB.API.TCKValidation, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.API.TCKValidation.1.0.1\lib\net472\RezaB.API.TCKValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="RezaB.Data, Version=1.0.2.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.Data.1.0.2\lib\net452\RezaB.Data.dll</HintPath>
     </Reference>
     <Reference Include="RezaB.DBUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.DBUtilities.1.0.0\lib\net452\RezaB.DBUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="RezaB.TurkTelekom.WebServices, Version=1.1.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RezaB.TurkTelekom.WebServices.1.1.0\lib\net452\RezaB.TurkTelekom.WebServices.dll</HintPath>
+    <Reference Include="RezaB.Files, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.Files.1.0.1\lib\net472\RezaB.Files.dll</HintPath>
+    </Reference>
+    <Reference Include="RezaB.Files.FTP, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.Files.FTP.1.0.2\lib\net472\RezaB.Files.FTP.dll</HintPath>
+    </Reference>
+    <Reference Include="RezaB.Files.Local, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.Files.Local.1.0.1\lib\net472\RezaB.Files.Local.dll</HintPath>
+    </Reference>
+    <Reference Include="RezaB.TurkTelekom.FTPOperations, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.TurkTelekom.FTPOperations.1.1.1\lib\net472\RezaB.TurkTelekom.FTPOperations.dll</HintPath>
+    </Reference>
+    <Reference Include="RezaB.TurkTelekom.WebServices, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.TurkTelekom.WebServices.1.2.0\lib\net452\RezaB.TurkTelekom.WebServices.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

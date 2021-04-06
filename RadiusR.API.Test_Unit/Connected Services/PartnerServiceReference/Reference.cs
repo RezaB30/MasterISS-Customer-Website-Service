@@ -2217,6 +2217,9 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
         private RadiusR.API.Test_Unit.PartnerServiceReference.CustomerGeneralInfo CustomerGeneralInfoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private RadiusR.API.Test_Unit.PartnerServiceReference.ExtraInfo ExtraInfoField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private RadiusR.API.Test_Unit.PartnerServiceReference.IDCardInfo IDCardInfoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
@@ -2247,6 +2250,19 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
                 if ((object.ReferenceEquals(this.CustomerGeneralInfoField, value) != true)) {
                     this.CustomerGeneralInfoField = value;
                     this.RaisePropertyChanged("CustomerGeneralInfo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public RadiusR.API.Test_Unit.PartnerServiceReference.ExtraInfo ExtraInfo {
+            get {
+                return this.ExtraInfoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ExtraInfoField, value) != true)) {
+                    this.ExtraInfoField = value;
+                    this.RaisePropertyChanged("ExtraInfo");
                 }
             }
         }
@@ -2657,6 +2673,84 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
                 if ((object.ReferenceEquals(this.OtherPhoneNosField, value) != true)) {
                     this.OtherPhoneNosField = value;
                     this.RaisePropertyChanged("OtherPhoneNos");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ExtraInfo", Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.P" +
+        "artnerRequests")]
+    [System.SerializableAttribute()]
+    public partial class ExtraInfo : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<int> ApplicationTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string PSTNField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string XDSLNoField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<int> ApplicationType {
+            get {
+                return this.ApplicationTypeField;
+            }
+            set {
+                if ((this.ApplicationTypeField.Equals(value) != true)) {
+                    this.ApplicationTypeField = value;
+                    this.RaisePropertyChanged("ApplicationType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string PSTN {
+            get {
+                return this.PSTNField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.PSTNField, value) != true)) {
+                    this.PSTNField = value;
+                    this.RaisePropertyChanged("PSTN");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string XDSLNo {
+            get {
+                return this.XDSLNoField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.XDSLNoField, value) != true)) {
+                    this.XDSLNoField = value;
+                    this.RaisePropertyChanged("XDSLNo");
                 }
             }
         }
@@ -3662,7 +3756,7 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
         private System.Nullable<short> AllowanceTypeIdField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> PartnerIdField;
+        private RadiusR.API.Test_Unit.PartnerServiceReference.RequestBase PartnerCredentialsField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Nullable<short> AllowanceTypeId {
@@ -3678,14 +3772,14 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> PartnerId {
+        public RadiusR.API.Test_Unit.PartnerServiceReference.RequestBase PartnerCredentials {
             get {
-                return this.PartnerIdField;
+                return this.PartnerCredentialsField;
             }
             set {
-                if ((this.PartnerIdField.Equals(value) != true)) {
-                    this.PartnerIdField = value;
-                    this.RaisePropertyChanged("PartnerId");
+                if ((object.ReferenceEquals(this.PartnerCredentialsField, value) != true)) {
+                    this.PartnerCredentialsField = value;
+                    this.RaisePropertyChanged("PartnerCredentials");
                 }
             }
         }
@@ -3764,17 +3858,17 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
     public partial class PartnerAllowanceRequest : RadiusR.API.Test_Unit.PartnerServiceReference.PaginationRequest {
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> PartnerIdField;
+        private RadiusR.API.Test_Unit.PartnerServiceReference.RequestBase PartnerCredentialsField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> PartnerId {
+        public RadiusR.API.Test_Unit.PartnerServiceReference.RequestBase PartnerCredentials {
             get {
-                return this.PartnerIdField;
+                return this.PartnerCredentialsField;
             }
             set {
-                if ((this.PartnerIdField.Equals(value) != true)) {
-                    this.PartnerIdField = value;
-                    this.RaisePropertyChanged("PartnerId");
+                if ((object.ReferenceEquals(this.PartnerCredentialsField, value) != true)) {
+                    this.PartnerCredentialsField = value;
+                    this.RaisePropertyChanged("PartnerCredentials");
                 }
             }
         }
@@ -3791,7 +3885,7 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
         private System.Nullable<int> AllowanceCollectionIDField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> PartnerIdField;
+        private RadiusR.API.Test_Unit.PartnerServiceReference.RequestBase PartnerCredentialsField;
         
         [System.Runtime.Serialization.DataMemberAttribute()]
         public System.Nullable<int> AllowanceCollectionID {
@@ -3807,14 +3901,14 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> PartnerId {
+        public RadiusR.API.Test_Unit.PartnerServiceReference.RequestBase PartnerCredentials {
             get {
-                return this.PartnerIdField;
+                return this.PartnerCredentialsField;
             }
             set {
-                if ((this.PartnerIdField.Equals(value) != true)) {
-                    this.PartnerIdField = value;
-                    this.RaisePropertyChanged("PartnerId");
+                if ((object.ReferenceEquals(this.PartnerCredentialsField, value) != true)) {
+                    this.PartnerCredentialsField = value;
+                    this.RaisePropertyChanged("PartnerCredentials");
                 }
             }
         }
@@ -4902,6 +4996,9 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
             private string IssueDateField;
             
             [System.Runtime.Serialization.OptionalFieldAttribute()]
+            private string ServiceNameField;
+            
+            [System.Runtime.Serialization.OptionalFieldAttribute()]
             private decimal TotalField;
             
             public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -4948,6 +5045,19 @@ namespace RadiusR.API.Test_Unit.PartnerServiceReference {
                     if ((object.ReferenceEquals(this.IssueDateField, value) != true)) {
                         this.IssueDateField = value;
                         this.RaisePropertyChanged("IssueDate");
+                    }
+                }
+            }
+            
+            [System.Runtime.Serialization.DataMemberAttribute()]
+            public string ServiceName {
+                get {
+                    return this.ServiceNameField;
+                }
+                set {
+                    if ((object.ReferenceEquals(this.ServiceNameField, value) != true)) {
+                        this.ServiceNameField = value;
+                        this.RaisePropertyChanged("ServiceName");
                     }
                 }
             }

@@ -73,7 +73,7 @@ namespace RadiusR.API.Test_Unit
             {
                 BillListRequest = new PartnerServiceReference.BillListRequest()
                 {
-                    SubscriberNo = "2555456163",
+                    SubscriberNo = "2528542231",
                     SubUserEmail = "onr@onr.com",
                     UserEmail = "test@test.com"
                 },
@@ -285,8 +285,8 @@ namespace RadiusR.API.Test_Unit
         {
             Culture = Thread.CurrentThread.CurrentUICulture.Name;
             Rand = Guid.NewGuid().ToString("N");
-            Username = "testwebservice";
-            Password = "12345678";
+            Username = "netspeed-services";
+            Password = "BWzQGencrDqW9qxT";
         }
         PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
         public string Hash { get { return HashUtilities.CalculateHash<SHA256>(Username + Rand + HashUtilities.CalculateHash<SHA256>(Password) + client.GetKeyFragment(Username)); } }

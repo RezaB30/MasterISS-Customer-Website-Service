@@ -765,7 +765,16 @@ namespace RadiusR.API.CustomerWebService
                                 validPasswordClient = dbClients.FirstOrDefault();
                                 SMSService SMS = new SMSService();
                                 var customerCulture = string.IsNullOrEmpty(validPasswordClient.Customer.Culture) ? "tr-tr" : validPasswordClient.Customer.Culture;
-                                SMS.SendGenericSMS(validPasswordClient.Customer.ContactPhoneNo, validPasswordClient.Customer.Culture, rawText: string.Format(Localization.Common.ResourceManager.GetString("PasswordSMS", CultureInfo.CreateSpecificCulture(customerCulture)), validPasswordClient.OnlinePassword, CustomerWebsiteSettings.OnlinePasswordDuration.Hours));
+                                var passwordSMS = db.SMSTexts.Where(sms => !sms.IsDisabled && sms.TypeID == (short)SMSType.WebsiteCredentials && sms.Culture == customerCulture).FirstOrDefault();
+                                if (passwordSMS == null)
+                                {
+                                    SMS.SendGenericSMS(validPasswordClient.Customer.ContactPhoneNo, validPasswordClient.Customer.Culture, rawText: string.Format(Localization.Common.ResourceManager.GetString("PasswordSMS", CultureInfo.CreateSpecificCulture(customerCulture)), validPasswordClient.OnlinePassword, CustomerWebsiteSettings.OnlinePasswordDuration.Hours));
+                                }
+                                else
+                                {
+                                    var passwordSMSText = passwordSMS.Text.Replace("([onlinePassword])", "{0}");
+                                    SMS.SendGenericSMS(validPasswordClient.Customer.ContactPhoneNo, validPasswordClient.Customer.Culture, rawText: string.Format(passwordSMSText, validPasswordClient.OnlinePassword, CustomerWebsiteSettings.OnlinePasswordDuration.Hours));
+                                }
                                 db.SaveChanges();
                             }
                             return new CustomerServiceCustomerAuthenticationResponse(passwordHash, request)
@@ -2700,7 +2709,7 @@ namespace RadiusR.API.CustomerWebService
                                             SendSupportMessageResponse = false
                                         };
                                     }
-                                }                                
+                                }
                                 stageId = currentStage.ID;
                                 transaction.Commit();
                                 return new CustomerServiceSendSupportMessageResponse(passwordHash, request)
@@ -3804,7 +3813,7 @@ namespace RadiusR.API.CustomerWebService
                                 VdslPortState = availabVdsl.InternalException == null ? RadiusR.Localization.Lists.PortState.ResourceManager.GetString(availabVdsl.Data.Description.PortState.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)) : RadiusR.Localization.Lists.PortState.ResourceManager.GetString(AvailabilityServiceClient.PortState.NotAvailable.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)),
                                 VdslSpeed = availabVdsl.InternalException == null ? availabVdsl.Data.Description.DSLMaxSpeed : null,
                                 VdslSVUID = availabVdsl.InternalException == null ? availabVdsl.Data.Description.SVUID : "-",
-                                PortState = availabAdsl.InternalException == null ? (int)availabAdsl.Data.Description.PortState : (int)AvailabilityServiceClient.PortState.NotAvailable
+                                PortState = availabAdsl.InternalException == null ? (int)availabVdsl.Data.Description.PortState : (int)AvailabilityServiceClient.PortState.NotAvailable
                             },
                             FIBER = new TelekomInfrastructureService.ServiceAvailabilityResponse.FIBERInfo()
                             {
@@ -3813,7 +3822,7 @@ namespace RadiusR.API.CustomerWebService
                                 FiberPortState = availabFiber.InternalException == null ? RadiusR.Localization.Lists.PortState.ResourceManager.GetString(availabFiber.Data.Description.PortState.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)) : RadiusR.Localization.Lists.PortState.ResourceManager.GetString(AvailabilityServiceClient.PortState.NotAvailable.ToString(), CultureInfo.CreateSpecificCulture(request.Culture)),
                                 FiberSpeed = availabFiber.InternalException == null ? availabFiber.Data.Description.DSLMaxSpeed : null,
                                 FiberSVUID = availabFiber.InternalException == null ? availabFiber.Data.Description.SVUID : "-",
-                                PortState = availabAdsl.InternalException == null ? (int)availabAdsl.Data.Description.PortState : (int)AvailabilityServiceClient.PortState.NotAvailable
+                                PortState = availabAdsl.InternalException == null ? (int)availabFiber.Data.Description.PortState : (int)AvailabilityServiceClient.PortState.NotAvailable
                             },
                             BBK = request.ServiceAvailabilityParameters.bbk
                         }

@@ -494,16 +494,31 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
                         };
                     }
-
                     var bills = db.Bills.Where(b => b.SubscriptionID == dbSubscriber.ID && b.PaymentTypeID == (short)RadiusR.DB.Enums.PaymentType.None).OrderBy(b => b.ID).ToArray();
                     var results = bills.Select(b => new BillListResponse.BillInfo()
                     {
+                        ServiceName = string.Empty,
                         ID = b.ID,
                         IssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(b.IssueDate),
                         DueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(b.DueDate),
                         Total = b.GetPayableCost()
                     }).ToArray();
+                    foreach (var item in results)
+                    {
+                        var billFees = db.BillFees.Where(bf => bf.BillID == item.ID).ToList();
+                        if (billFees.Where(bf => bf.FeeID != null).Any())
+                        {
+                            var descriptions = string.Join(" - ", billFees.Select(bf => bf.Description).ToArray());
+                            var fees = billFees.Where(bf => bf.Fee != null).Select(bf => bf.Fee.FeeTypeID).ToArray();
+                            var feeNames = string.Join(" - ", fees.Select(f => new LocalizedList<RadiusR.DB.Enums.FeeType, RadiusR.Localization.Lists.FeeType>().GetDisplayText(f, CreateCulture(request.Culture))));
+                            item.ServiceName = string.IsNullOrEmpty(descriptions) ? feeNames : $"{descriptions} - {feeNames}";
+                        }
+                        else
+                        {
+                            item.ServiceName = string.Join(" - ", billFees.Select(bf => bf.Description).ToArray());
+                        }
 
+                    }
                     var totalCredits = dbSubscriber.SubscriptionCredits.Select(sc => sc.Amount).DefaultIfEmpty(0m).Sum();
                     return new PartnerServiceBillListResponse(passwordHash, request)
                     {
@@ -1240,7 +1255,7 @@ namespace RadiusR.API.CustomerWebService
                             SerialNo = register.IDCardInfo.SerialNo,
                             TCKNo = register.IDCardInfo.TCKNo,
                             VolumeNo = register.IDCardInfo.VolumeNo
-                        },                        
+                        },
                         IndividualInfo = register.IndividualCustomerInfo == null ? null : new CustomerRegistrationInfo.IndividualCustomerInfo()
                         {
                             BirthPlace = register.IndividualCustomerInfo.BirthPlace,
@@ -1507,7 +1522,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.FailedResponse(request.Culture, string.Format(CreateErrorMessage("Required", request.Culture), "AllowanceTypeId")),
                         AllowanceDetailsResponse = null
                     };
-                }                
+                }
                 using (var db = new RadiusREntities())
                 {
                     var partner = db.Partners.Where(p => p.Email == request.PartnerBasicAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
@@ -1557,7 +1572,7 @@ namespace RadiusR.API.CustomerWebService
                         SetupGenericAllowanceList = null,
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
-                }                
+                }
                 using (var db = new RadiusREntities())
                 {
                     var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
@@ -1622,7 +1637,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                
+
                 using (var db = new RadiusREntities())
                 {
                     var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
@@ -1679,7 +1694,7 @@ namespace RadiusR.API.CustomerWebService
                         SetupGenericAllowanceList = null,
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
-                }                
+                }
                 if (request.PartnerAllowanceDetailRequest.AllowanceCollectionID == null)
                 {
                     return new PartnerServiceSetupGenericAllowanceListResponse(passwordHash, request)
@@ -1753,7 +1768,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                
+
                 using (var db = new RadiusREntities())
                 {
                     var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();
@@ -1812,7 +1827,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                
+
                 if (request.PartnerAllowanceDetailRequest.AllowanceCollectionID == null)
                 {
                     return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
@@ -1885,7 +1900,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
                     };
                 }
-                
+
                 using (var db = new RadiusREntities())
                 {
                     var partner = db.Partners.Where(p => p.Email == request.PartnerAllowanceRequest.PartnerCredentials.UserEmail).FirstOrDefault();

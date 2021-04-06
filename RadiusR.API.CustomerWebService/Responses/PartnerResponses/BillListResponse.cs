@@ -8,6 +8,7 @@ using System.Web;
 
 namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
 {
+    [DataContract]
     public class BillListResponse
     {
         [DataMember]
@@ -22,6 +23,8 @@ namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
         [DataContract]
         public class BillInfo
         {
+            [DataMember]
+            public string ServiceName { get; set; }
             [DataMember]
             public long ID { get; set; }
 
