@@ -10,3 +10,7 @@ v 1.0.2 2021-02-25
 v 1.0.3 2021-03-08
 - updated register modules
 - updated telekom modules
+v 1.0.4 2021-04-10
+- review functions for documents
+- remove SMSCode from "AddCard" function
+- change variables from DateTime to string

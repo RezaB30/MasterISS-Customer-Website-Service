@@ -1090,10 +1090,10 @@ namespace RadiusR.API.CustomerWebService
                         new GetCustomerBillsResponse()
                         {
                             PaymentTypeID = bill.PaymentTypeID,
-                            BillDate = bill.IssueDate,
-                            LastPaymentDate = bill.DueDate,
+                            BillDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(bill.IssueDate),
+                            LastPaymentDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(bill.DueDate),
                             Status = bill.BillStatusID,
-                            StatusText = new RezaB.Data.Localization.LocalizedList<RadiusR.DB.Enums.BillState, RadiusR.Localization.Lists.BillState>().GetDisplayText((int)ErrorCodes.TelekomCredentialsNotFound, CultureInfo.CreateSpecificCulture(request.Culture)),
+                            StatusText = new LocalizedList<RadiusR.DB.Enums.BillState, RadiusR.Localization.Lists.BillState>().GetDisplayText(bill.BillStatusID, CultureInfo.CreateSpecificCulture(request.Culture)),
                             ID = bill.ID,
                             ServiceName = bill.BillFees.Any(bf => bf.FeeTypeID == (short)FeeType.Tariff) ? bill.BillFees.FirstOrDefault(bf => bf.FeeTypeID == (short)FeeType.Tariff).Description : "-",
                             CanBePaid = firstUnpaidBill != null && bill.ID == firstUnpaidBill.ID,
@@ -1255,10 +1255,10 @@ namespace RadiusR.API.CustomerWebService
                             .Select(rd => new GetCustomerSpecialOffersResponse()
                             {
                                 IsCancelled = rd.IsDisabled,
-                                EndDate = (DateTime)SqlFunctions.DateAdd("month", rd.ApplicationTimes, rd.CreationTime),
+                                EndDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString((DateTime)SqlFunctions.DateAdd("month", rd.ApplicationTimes, rd.CreationTime)),
                                 RemainingCount = rd.IsDisabled ? 0 : rd.ApplicationTimes - (rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count()
                                 + rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Passed).Count()),
-                                StartDate = rd.CreationTime,
+                                StartDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(rd.CreationTime),
                                 TotalCount = rd.ApplicationTimes,
                                 IsApplicableThisPeriod = (rd.IsDisabled ? 0 : rd.ApplicationTimes - (rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count()
                                 + rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Passed).Count())) > 0 && !rd.IsDisabled,
@@ -1439,13 +1439,13 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                             SupportDetailMessagesResponse = new SupportDetailMessagesResponse()
                             {
-                                CustomerApprovalDate = SupportProgress.CustomerApprovalDate,
+                                CustomerApprovalDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(SupportProgress.CustomerApprovalDate),
                                 State = new SupportDetailMessagesResponse.StateType()
                                 {
                                     StateId = SupportProgress.StateID,
                                     StateName = RadiusR.Localization.Lists.SupportRequests.SupportRequestStateID.ResourceManager.GetString(((RadiusR.DB.Enums.SupportRequests.SupportRequestStateID)SupportProgress.StateID).ToString(), CultureInfo.CreateSpecificCulture(request.Culture))
                                 },
-                                SupportDate = SupportProgress.Date,
+                                SupportDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(SupportProgress.Date),
                                 SupportNo = SupportProgress.SupportPin,
                                 SupportRequestName = SupportProgress.SupportRequestType.Name,
                                 SupportRequestSubName = SupportProgress.SupportRequestSubType.Name,
@@ -1453,7 +1453,7 @@ namespace RadiusR.API.CustomerWebService
                                 {
                                     IsCustomer = s.AppUserID == null,
                                     Message = s.Message,
-                                    MessageDate = s.Date,
+                                    MessageDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(s.Date),
                                     StageId = s.ID
                                 }),
                                 ID = request.SupportDetailMessagesParameters.SupportId.Value,
@@ -1515,10 +1515,10 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    var supportRequestList = db.SupportRequests.Where(s => s.IsVisibleToCustomer == true && s.SubscriptionID == request.SubscriptionParameters.SubscriptionId).Select(s => new GetCustomerSupportListResponse()
+                    var supportRequestList = db.SupportRequests.Where(s => s.IsVisibleToCustomer == true && s.SubscriptionID == request.SubscriptionParameters.SubscriptionId).ToArray().Select(s => new GetCustomerSupportListResponse()
                     {
-                        ApprovalDate = s.CustomerApprovalDate,
-                        Date = s.Date,
+                        ApprovalDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(s.CustomerApprovalDate),
+                        Date = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(s.Date),
                         State = s.StateID,
                         StateText = "",
                         SupportNo = s.SupportPin,

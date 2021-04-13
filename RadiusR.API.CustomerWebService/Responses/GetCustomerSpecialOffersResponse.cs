@@ -15,9 +15,9 @@ namespace RadiusR.API.CustomerWebService.Responses
         [DataMember]
         public string ReferenceNo { get; set; }
         [DataMember]
-        public DateTime StartDate { get; set; }
+        public string StartDate { get; set; }
         [DataMember]
-        public DateTime EndDate { get; set; }
+        public string EndDate { get; set; }
         [DataMember]
         public int UsedCount { get; set; }
         [DataMember]

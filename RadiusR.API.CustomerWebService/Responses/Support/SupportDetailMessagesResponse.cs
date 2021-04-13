@@ -20,9 +20,9 @@ namespace RadiusR.API.CustomerWebService.Responses.Support
         public SupportRequestDisplay SupportRequestDisplayType { get; set; }
 
         [DataMember]
-        public DateTime? CustomerApprovalDate { get; set; }
+        public string CustomerApprovalDate { get; set; } //datetime
         [DataMember]
-        public DateTime SupportDate { get; set; }
+        public string SupportDate { get; set; } //datetime
         [DataMember]
         public string SupportNo { get; set; }
         [DataMember]
@@ -50,7 +50,7 @@ namespace RadiusR.API.CustomerWebService.Responses.Support
             [DataMember]
             public string Message { get; set; }
             [DataMember]
-            public DateTime MessageDate { get; set; }
+            public string MessageDate { get; set; }
             [DataMember]
             public bool IsCustomer { get; set; }
             [DataMember]

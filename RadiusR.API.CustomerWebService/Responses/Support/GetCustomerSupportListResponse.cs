@@ -21,9 +21,9 @@ namespace RadiusR.API.CustomerWebService.Responses.Support
         [DataMember]
         public string SupportNo { get; set; } // can be id
         [DataMember]
-        public DateTime Date { get; set; } // dd.MM.yyyy
+        public string Date { get; set; } // dd.MM.yyyy
         [DataMember]
-        public DateTime? ApprovalDate { get; set; } // dd.MM.yyyy completed date        
+        public string ApprovalDate { get; set; } // dd.MM.yyyy completed date        
         [DataMember]
         public short State { get; set; } //enum RadiusR.DB.Enums.SupportRequests.SupportRequestStateID
         [DataMember]

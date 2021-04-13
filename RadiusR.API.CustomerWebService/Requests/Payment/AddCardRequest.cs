@@ -11,8 +11,8 @@ namespace RadiusR.API.CustomerWebService.Requests.Payment
     [DataContract]
     public class AddCardRequest : CreditCardParameters
     {
-        [DataMember]
-        public string SMSCode { get; set; }
+        //[DataMember]
+        //public string SMSCode { get; set; }
         [DataMember]
         public long? SubscriptionId { get; set; }
         [DataMember]

@@ -32,9 +32,9 @@ namespace RadiusR.API.CustomerWebService.Responses.Payment
         [DataMember]
         public string ServiceName { get; set; }
         [DataMember]
-        public DateTime BillDate { get; set; }
+        public string /*DateTime*/ BillDate { get; set; }
         [DataMember]
-        public DateTime LastPaymentDate { get; set; }
+        public string /*DateTime*/ LastPaymentDate { get; set; }
         [DataMember]
         public decimal Total { get; set; }
         [DataMember]
