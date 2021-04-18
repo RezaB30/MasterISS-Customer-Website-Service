@@ -13,8 +13,8 @@ namespace RadiusR.API.CustomerWebService.Requests.Payment
     {
         [DataMember]
         public long[] BillIds { get; set; }
-        [DataMember]
-        public int? UserId { get; set; }
+        //[DataMember]
+        //public int? UserId { get; set; }
         [DataMember]
         public string SubscriberNo { get; set; }
         [DataMember]

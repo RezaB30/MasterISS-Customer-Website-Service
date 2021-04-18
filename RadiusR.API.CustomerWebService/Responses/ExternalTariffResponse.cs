@@ -27,10 +27,10 @@ namespace RadiusR.API.CustomerWebService.Responses
         public string Speed { get; set; }
     }
     [DataContract]
-    public partial class CustomerServiceExternalTariffResponse : BaseResponse<IEnumerable<ExternalTariffResponse>, SHA1>
+    public partial class CustomerServiceExternalTariffResponse : BaseResponse<ExternalTariffResponse[], SHA1>
     {
         public CustomerServiceExternalTariffResponse(string passwordHash, BaseRequest<SHA1> request) : base(passwordHash, request) { }
         [DataMember]
-        public IEnumerable<ExternalTariffResponse> ExternalTariffList { get { return Data; } set { Data = value; } }
+        public ExternalTariffResponse[] ExternalTariffList { get { return Data; } set { Data = value; } }
     }
 }

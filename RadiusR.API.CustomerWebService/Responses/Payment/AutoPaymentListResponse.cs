@@ -27,10 +27,10 @@ namespace RadiusR.API.CustomerWebService.Responses.Payment
         }
     }
     [DataContract]
-    public partial class CustomerServiceAutoPaymentListResponse : BaseResponse<IEnumerable<AutoPaymentListResponse>, SHA1>
+    public partial class CustomerServiceAutoPaymentListResponse : BaseResponse<AutoPaymentListResponse[], SHA1>
     {
         public CustomerServiceAutoPaymentListResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
-        public IEnumerable<AutoPaymentListResponse> AutoPaymentListResult { get { return Data; } set { Data = value; } }
+        public AutoPaymentListResponse[] AutoPaymentListResult { get { return Data; } set { Data = value; } }
     }
 }

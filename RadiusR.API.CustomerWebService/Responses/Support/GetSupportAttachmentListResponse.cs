@@ -27,10 +27,10 @@ namespace RadiusR.API.CustomerWebService.Responses.Support
         public long StageId { get; set; }
     }
     [DataContract]
-    public partial class CustomerServicGetSupportAttachmentListResponse : BaseResponse<IEnumerable<GetSupportAttachmentListResponse>, SHA1>
+    public partial class CustomerServicGetSupportAttachmentListResponse : BaseResponse<GetSupportAttachmentListResponse[], SHA1>
     {
         public CustomerServicGetSupportAttachmentListResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
-        public IEnumerable<GetSupportAttachmentListResponse> GetSupportAttachmentList { get { return Data; } set { Data = value; } }
+        public GetSupportAttachmentListResponse[] GetSupportAttachmentList { get { return Data; } set { Data = value; } }
     }
 }

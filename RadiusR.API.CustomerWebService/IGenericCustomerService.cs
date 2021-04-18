@@ -69,7 +69,7 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         CustomerServiceActivateAutomaticPaymentResponse ActivateAutomaticPayment(CustomerServiceActivateAutomaticPaymentRequest request);
         [OperationContract]
-        CustomerServiceDeactivateAutomaticPaymentResponse DeativateAutomaticPayment(CustomerServiceBaseRequest request);
+        CustomerServiceDeactivateAutomaticPaymentResponse DeactivateAutomaticPayment(CustomerServiceBaseRequest request);
         [OperationContract]
         CustomerServiceAuthenticationSMSConfirmResponse AuthenticationSMSConfirm(CustomerServiceAuthenticationSMSConfirmRequest request);
         [OperationContract]

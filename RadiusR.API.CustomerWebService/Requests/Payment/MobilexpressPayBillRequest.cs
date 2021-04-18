@@ -24,6 +24,6 @@ namespace RadiusR.API.CustomerWebService.Requests.Payment
     public partial class CustomerServiceMobilexpressPayBillRequest : BaseRequest<MobilexpressPayBillRequest, SHA1>
     {
         [DataMember]
-        public MobilexpressPayBillRequest MobileExpressPayBillParameters { get { return Data; } set { Data = value; } }
+        public MobilexpressPayBillRequest MobilexpressPayBillParameters { get { return Data; } set { Data = value; } }
     }
 }

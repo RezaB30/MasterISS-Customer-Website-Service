@@ -829,7 +829,7 @@ namespace RadiusR.API.CustomerWebService
             }
         }
 
-        public CustomerServiceDeactivateAutomaticPaymentResponse DeativateAutomaticPayment(CustomerServiceBaseRequest request)
+        public CustomerServiceDeactivateAutomaticPaymentResponse DeactivateAutomaticPayment(CustomerServiceBaseRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -1250,12 +1250,12 @@ namespace RadiusR.API.CustomerWebService
                     using (RadiusREntities db = new RadiusREntities())
                     {
                         var dbSubscription = db.Subscriptions.Find(currentSubId);
-                        var result = db.RecurringDiscounts.Where(rd => rd.SubscriptionID == dbSubscription.ID).Where(rd => rd.ReferrerRecurringDiscount != null || rd.ReferringRecurringDiscounts.Any())
-                            .OrderByDescending(rd => rd.CreationTime)
-                            .Select(rd => new GetCustomerSpecialOffersResponse()
+                        var recurringDiscounts = db.RecurringDiscounts.Where(rd => rd.SubscriptionID == dbSubscription.ID).Where(rd => rd.ReferrerRecurringDiscount != null || rd.ReferringRecurringDiscounts.Any())
+                            .OrderByDescending(rd => rd.CreationTime).ToArray();
+                        var result = recurringDiscounts.Select(rd => new GetCustomerSpecialOffersResponse()
                             {
                                 IsCancelled = rd.IsDisabled,
-                                EndDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString((DateTime)SqlFunctions.DateAdd("month", rd.ApplicationTimes, rd.CreationTime)),
+                                EndDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(rd.CreationTime.AddMonths(rd.ApplicationTimes)/*(DateTime)SqlFunctions.DateAdd("month", rd.ApplicationTimes, rd.CreationTime)*/),
                                 RemainingCount = rd.IsDisabled ? 0 : rd.ApplicationTimes - (rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count()
                                 + rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Passed).Count()),
                                 StartDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(rd.CreationTime),
@@ -1906,7 +1906,7 @@ namespace RadiusR.API.CustomerWebService
 
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
-                    PaymentTypes = paymentTypes
+                    PaymentTypes = paymentTypes.Select(p => new ValueNamePair() { Value = p.Key, Name = p.Value }).ToArray()
                 };
             }
             catch (Exception ex)
@@ -3122,7 +3122,7 @@ namespace RadiusR.API.CustomerWebService
                         MobilexpressPayBillResult = false,
                     };
                 }
-                if (request.MobileExpressPayBillParameters.SubscriptionId == null)
+                if (request.MobilexpressPayBillParameters.SubscriptionId == null)
                 {
                     return new CustomerServiceMobilexpressPayBillResponse(passwordHash, request)
                     {
@@ -3134,18 +3134,18 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusREntities())
                 {
-                    var dbSubscription = db.Subscriptions.Find(request.MobileExpressPayBillParameters.SubscriptionId);
+                    var dbSubscription = db.Subscriptions.Find(request.MobilexpressPayBillParameters.SubscriptionId);
                     var dbCustomer = dbSubscription.Customer;
-                    var token = request.MobileExpressPayBillParameters.Token;
-                    var payableAmount = request.MobileExpressPayBillParameters.PayableAmount ?? 0m;
+                    var token = request.MobilexpressPayBillParameters.Token;
+                    var payableAmount = request.MobilexpressPayBillParameters.PayableAmount ?? 0m;
                     var dbBills = dbSubscription.Bills.Where(b => b.BillStatusID == (short)BillState.Unpaid).ToList();
-                    if (request.MobileExpressPayBillParameters.BillId.HasValue)
-                        dbBills = dbBills.Where(b => b.ID == request.MobileExpressPayBillParameters.BillId).ToList();
+                    if (request.MobilexpressPayBillParameters.BillId.HasValue)
+                        dbBills = dbBills.Where(b => b.ID == request.MobilexpressPayBillParameters.BillId).ToList();
 
                     var client = new MobilExpressAdapterClient(MobilExpressSettings.MobilExpressMerchantKey, MobilExpressSettings.MobilExpressAPIPassword, new ClientConnectionDetails()
                     {
-                        IP = request.MobileExpressPayBillParameters.HttpContextParameters.UserHostAddress,
-                        UserAgent = request.MobileExpressPayBillParameters.HttpContextParameters.UserAgent
+                        IP = request.MobilexpressPayBillParameters.HttpContextParameters.UserHostAddress,
+                        UserAgent = request.MobilexpressPayBillParameters.HttpContextParameters.UserAgent
                     });
 
                     var response = client.PayBill(dbCustomer, payableAmount, token);
@@ -3261,7 +3261,7 @@ namespace RadiusR.API.CustomerWebService
                 {
                     Name = c.Value,
                     Value = c.Key
-                });
+                }).ToArray();
                 return new CustomerServiceNameValuePair(passwordHash, request)
                 {
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
@@ -4019,7 +4019,7 @@ namespace RadiusR.API.CustomerWebService
                         FileName = f.FileName,
                         MD5 = f.MD5,
                         StageId = f.StageId
-                    });
+                    }).ToArray();
                     return new CustomerServicGetSupportAttachmentListResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),

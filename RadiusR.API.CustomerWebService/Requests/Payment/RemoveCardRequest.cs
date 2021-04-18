@@ -13,8 +13,8 @@ namespace RadiusR.API.CustomerWebService.Requests.Payment
     {
         [DataMember]
         public string CardToken { get; set; }
-        [DataMember]
-        public string SMSCode { get; set; }
+        //[DataMember]
+        //public string SMSCode { get; set; }
         [DataMember]
         public HttpContextParameters HttpContextParameters { get; set; }
     }

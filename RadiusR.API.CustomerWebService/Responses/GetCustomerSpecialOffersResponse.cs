@@ -34,11 +34,11 @@ namespace RadiusR.API.CustomerWebService.Responses
         public short? ReferralSubscriberState { get; set; }
     }
     [DataContract]
-    public partial class CustomerServiceGetCustomerSpecialOffersResponse : BaseResponse<IEnumerable<GetCustomerSpecialOffersResponse>, SHA1>
+    public partial class CustomerServiceGetCustomerSpecialOffersResponse : BaseResponse<GetCustomerSpecialOffersResponse[], SHA1>
     {
         public CustomerServiceGetCustomerSpecialOffersResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
-        public IEnumerable<GetCustomerSpecialOffersResponse> GetCustomerSpecialOffersResponse
+        public GetCustomerSpecialOffersResponse[] GetCustomerSpecialOffersResponse
         {
             get { return Data; }
             set { Data = value; }

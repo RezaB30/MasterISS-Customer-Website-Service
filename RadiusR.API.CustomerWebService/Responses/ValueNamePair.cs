@@ -18,11 +18,11 @@ namespace RadiusR.API.CustomerWebService.Responses
         public long? Value { get; set; }
     }
     [DataContract]
-    public partial class CustomerServiceNameValuePair : BaseResponse<IEnumerable<ValueNamePair>, SHA1>
+    public partial class CustomerServiceNameValuePair : BaseResponse<ValueNamePair[], SHA1>
     {
         public CustomerServiceNameValuePair(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
-        public IEnumerable<ValueNamePair> ValueNamePairList
+        public ValueNamePair[] ValueNamePairList
         {
             get { return Data; }
             set { Data = value; }

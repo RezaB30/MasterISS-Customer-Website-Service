@@ -18,7 +18,7 @@ namespace RadiusR.API.CustomerWebService.Responses
         [DataMember]
         public string SubscriberNo { get; set; }
         [DataMember]
-        public IEnumerable<string> RelatedCustomers { get; set; }
+        public string[] RelatedCustomers { get; set; }
     }
     [DataContract]
     public partial class CustomerServiceCustomerAuthenticationWithPasswordResponse : BaseResponse<CustomerAuthenticationWithPasswordResponse, SHA1>

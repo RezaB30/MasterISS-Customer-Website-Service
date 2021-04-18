@@ -14,3 +14,11 @@ v 1.0.4 2021-04-10
 - review functions for documents
 - remove SMSCode from "AddCard" function
 - change variables from DateTime to string
+- fixed name of DeactiveAutoPayment function
+- changed paymentTypeList response data type
+- removed userId from PaymentSystemLog function
+- changed name of MobileExpressPayBillParameters as MobilexpressPayBillParameters in CustomerServiceMobilexpressPayBillRequest class
+- changed data type of ValueNamePair from IEnumarable to array
+- changed data type of ExternalTariffList from IEnumarable to array in CustomerServiceExternalTariffResponse
+- changed data type of GetCustomerFilesResponse from IEnumarable to array
+- changed data type from IEnumarable to array

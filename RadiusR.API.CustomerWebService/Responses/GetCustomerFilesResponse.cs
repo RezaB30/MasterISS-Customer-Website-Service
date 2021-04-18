@@ -29,10 +29,10 @@ namespace RadiusR.API.CustomerWebService.Responses
         public int Type { get; set; }
     }
     [DataContract]
-    public partial class CustomerServiceGetCustomerFileResponse : BaseResponse<IEnumerable<GetCustomerFilesResponse>, SHA1>
+    public partial class CustomerServiceGetCustomerFileResponse : BaseResponse<GetCustomerFilesResponse[], SHA1>
     {
         public CustomerServiceGetCustomerFileResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
-        public IEnumerable<GetCustomerFilesResponse> CustomerFiles { get { return Data; } set { Data = value; } }
+        public GetCustomerFilesResponse[] CustomerFiles { get { return Data; } set { Data = value; } }
     }
 }
