@@ -29,6 +29,8 @@ namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
 
         [DataMember]
         public string Details { get; set; }
+        [DataMember]
+        public short CreditType { get; set; }
     }
     [DataContract]
     public partial class PartnerServiceCreditReportResponse : BaseResponse<CreditReportResponse, SHA256>

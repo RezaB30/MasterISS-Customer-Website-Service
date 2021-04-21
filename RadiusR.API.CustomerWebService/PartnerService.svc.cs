@@ -986,7 +986,8 @@ namespace RadiusR.API.CustomerWebService
                         {
                             Amount = pc.Amount,
                             Date = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(pc.Date),
-                            Details = pc.Details
+                            Details = pc.Details,
+                            CreditType = pc.BillID == null ? (short)Enums.PartnerCreditType.Balance : (short)Enums.PartnerCreditType.Bill
                         }).ToArray();
                         //foreach (var item in getDetails)
                         //{

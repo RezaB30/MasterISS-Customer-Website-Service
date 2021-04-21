@@ -252,6 +252,7 @@
     <Content Include="GenericCustomerService.svc" />
     <Content Include="NetspeedCustomerService.svc" />
     <Content Include="PartnerService.svc" />
+    <Content Include="Manual\Master ISS Web Servis Dokümanı TR.docx" />
     <None Include="Manual\Master ISS Web Servis Dokümanı TR.pdf" />
     <None Include="VersionHistory.txt" />
     <Content Include="Web.config" />
@@ -259,6 +260,7 @@
   <ItemGroup>
     <Compile Include="CommonResponse.cs" />
     <Compile Include="Enums\ErrorCodes.cs" />
+    <Compile Include="Enums\PartnerCreditType.cs" />
     <Compile Include="Enums\PartnerErrorCodes.cs" />
     <Compile Include="Enums\SubscriptionPaidType.cs" />
     <Compile Include="Enums\SupportMesssageTypes.cs" />
