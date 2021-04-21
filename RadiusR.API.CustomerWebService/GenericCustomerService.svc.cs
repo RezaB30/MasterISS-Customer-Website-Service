@@ -3301,7 +3301,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
+                    }).ToArray() : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>().ToArray(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3354,7 +3354,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
+                    }).ToArray() : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>().ToArray(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3405,7 +3405,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
+                    }).ToArray() : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>().ToArray(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3456,7 +3456,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
+                    }).ToArray() : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>().ToArray(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3510,7 +3510,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
+                    }).ToArray() : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>().ToArray(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3562,7 +3562,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
+                    }).ToArray() : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>().ToArray(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
@@ -3614,7 +3614,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         Value = p.Code,
                         Name = p.Name
-                    }) : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>(),
+                    }).ToArray() : Enumerable.Empty<TelekomInfrastructureService.ValueNamePair>().ToArray(),
                     ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
 
                 };
