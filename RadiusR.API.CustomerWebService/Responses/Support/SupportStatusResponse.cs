@@ -14,7 +14,8 @@ namespace RadiusR.API.CustomerWebService.Responses.Support
         [DataMember]
         public int Count { get; set; }
         [DataMember]
-        public IEnumerable<long> SupportRequestIds { get; set; }
+        //public IEnumerable<long> SupportRequestIds { get; set; }
+        public long? StageId { get; set; }
     }
     [DataContract]
     public partial class CustomerServiceSupportStatusResponse : BaseResponse<SupportStatusResponse, SHA1>

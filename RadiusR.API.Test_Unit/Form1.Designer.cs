@@ -51,6 +51,8 @@ namespace RadiusR.API.Test_Unit
             this.label1 = new System.Windows.Forms.Label();
             this.button7 = new System.Windows.Forms.Button();
             this.bill_subscriberNoText = new System.Windows.Forms.TextBox();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.button8 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -60,6 +62,7 @@ namespace RadiusR.API.Test_Unit
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage8.SuspendLayout();
+            this.tabPage9.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -72,6 +75,7 @@ namespace RadiusR.API.Test_Unit
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage8);
+            this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -292,6 +296,27 @@ namespace RadiusR.API.Test_Unit
             this.bill_subscriberNoText.Size = new System.Drawing.Size(122, 20);
             this.bill_subscriberNoText.TabIndex = 0;
             // 
+            // tabPage9
+            // 
+            this.tabPage9.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage9.Controls.Add(this.button8);
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage9.Size = new System.Drawing.Size(862, 495);
+            this.tabPage9.TabIndex = 8;
+            this.tabPage9.Text = "tabPage9";
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(395, 110);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(75, 23);
+            this.button8.TabIndex = 0;
+            this.button8.Text = "button8";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -311,6 +336,7 @@ namespace RadiusR.API.Test_Unit
             this.tabPage7.ResumeLayout(false);
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
+            this.tabPage9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -339,6 +365,8 @@ namespace RadiusR.API.Test_Unit
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.TextBox bill_subscriberNoText;
+        private System.Windows.Forms.TabPage tabPage9;
+        private System.Windows.Forms.Button button8;
     }
 }
 

@@ -65,5 +65,11 @@ namespace RadiusR.API.CustomerWebService
         PartnerServiceSaleGenericAllowanceListResponse SaleAllowanceDetails(PartnerServiceAllowanceDetailRequest request);
         [OperationContract]
         PartnerServiceSaleGenericAllowanceListResponse SaleGenericAllowanceList(PartnerServiceAllowanceRequest request);
+        [OperationContract]
+        PartnerServiceSubscriptionsResponse GetPartnerSubscriptions(PartnerServiceSubscriptionsRequest request);
+        [OperationContract]
+        PartnerServiceClientAttachmentsResponse GetPartnerClientAttachments(PartnerServiceClientAttachmentsRequest request);
+        [OperationContract]
+        PartnerServiceClientFormsResponse GetPartnerClientForms(PartnerServiceClientFormsRequest request);
     }
 }

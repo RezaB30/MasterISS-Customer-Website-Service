@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Firestore;
 using RadiusR.DB.Utilities.Billing;
 using RadiusR.DB.Utilities.Extentions;
 
@@ -270,9 +273,21 @@ namespace RadiusR.API.Test_Unit
             {
                 var currSubscription = bill_subscriberNoText.Text;
                 var subscription = db.PrepareForBilling(db.Subscriptions.Where(s => s.SubscriberNo == currSubscription)).FirstOrDefault();
-                BillingUtilities.IssueBill(subscription, DateTime.Now.AddMonths(6));
+                BillingUtilities.IssueBill(subscription, DateTime.Now.AddMonths(3));
                 db.SaveChanges();
+                MessageBox.Show("OK");
             }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            GoogleCredential credential;
+            using (var stream = new FileStream("google_credential.json",FileMode.Open))
+            {
+                credential = GoogleCredential.FromStream(stream);
+            }
+            FirestoreDb db = FirestoreDb.Create("xamarinfirebasens");
+            MessageBox.Show("OK");
         }
     }
     public class GenericServiceSettings

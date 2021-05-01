@@ -14,6 +14,7 @@ using RezaB.Data.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
@@ -221,6 +222,7 @@ namespace RadiusR.API.CustomerWebService
                             DisplayName = dbPartner.Title,
                             SetupServiceUser = dbPartner.CustomerSetupUser?.Username,
                             SetupServiceHash = dbPartner.CustomerSetupUser?.Password,
+                            PhoneNo = dbPartner.PhoneNo
                         },
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                     };
@@ -1946,6 +1948,265 @@ namespace RadiusR.API.CustomerWebService
                 return new PartnerServiceSaleGenericAllowanceListResponse(passwordHash, request)
                 {
                     SaleGenericAllowanceList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public PartnerServiceSubscriptionsResponse GetPartnerSubscriptions(PartnerServiceSubscriptionsRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceSubscriptionsResponse(passwordHash, request)
+                    {
+                        PartnerSubscriptionList = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var partner = db.Partners.Where(p => p.Email == request.SubscriptionsRequestParameters.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceSubscriptionsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            PartnerSubscriptionList = null
+                        };
+                    }
+                    var partnerSubscriptions = partner.PartnerRegisteredSubscriptions.ToList();
+                    return new PartnerServiceSubscriptionsResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        PartnerSubscriptionList = partnerSubscriptions?.Select(ps => new PartnerSubscriptionsResponse()
+                        {
+                            ID = ps.SubscriptionID,
+                            CustomerState = new NameValuePair()
+                            {
+                                Value = ps.Subscription.State,
+                                Name = new LocalizedList<CustomerState, RadiusR.Localization.Lists.CustomerState>().GetDisplayText(ps.Subscription.State, CreateCulture(request.Culture))
+                            },
+                            DisplayName = ps.Subscription.ValidDisplayName,
+                            MembershipDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(ps.Subscription.MembershipDate),
+                            SubscriberNo = ps.Subscription.SubscriberNo
+                        }).ToArray()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceSubscriptionsResponse(passwordHash, request)
+                {
+                    PartnerSubscriptionList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public PartnerServiceClientAttachmentsResponse GetPartnerClientAttachments(PartnerServiceClientAttachmentsRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceClientAttachmentsResponse(passwordHash, request)
+                    {
+                        ClientAttachmentList = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var partner = db.Partners.Where(p => p.Email == request.ClientAttachmentsParameters.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceClientAttachmentsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            ClientAttachmentList = null
+                        };
+                    }
+                    if (request.ClientAttachmentsParameters.SubscriptionId == null)
+                    {
+                        return new PartnerServiceClientAttachmentsResponse(passwordHash, request)
+                        {
+                            ClientAttachmentList = null,
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var fileManager = new RadiusR.FileManagement.MasterISSFileManager();
+                    var attachmentList = fileManager.GetClientAttachmentsList(request.ClientAttachmentsParameters.SubscriptionId.Value).Result?.ToList();
+                    var attachmentResultList = new List<PartnerClientAttachmentsResponse>();
+                    foreach (var item in attachmentList)
+                    {
+                        var getAttachment = fileManager.GetClientAttachment(request.ClientAttachmentsParameters.SubscriptionId.Value, item.ServerSideName);
+                        if (getAttachment.Result != null)
+                        {
+                            byte[] content = null;
+                            using (var memoryStream = new MemoryStream())
+                            {
+                                getAttachment.Result.Content.CopyTo(memoryStream);
+                                content = memoryStream.ToArray();
+                            }
+                            attachmentResultList.Add(new PartnerClientAttachmentsResponse()
+                            {
+                                FileContent = content,
+                                MIMEType = getAttachment.Result.FileDetail.MIMEType,
+                                AttachmentType = (int)item.AttachmentType,
+                                FileName = getAttachment.Result.FileDetail.ServerSideName
+                            });
+                        }
+                    }
+                    return new PartnerServiceClientAttachmentsResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        ClientAttachmentList = attachmentResultList.ToArray()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceClientAttachmentsResponse(passwordHash, request)
+                {
+                    ClientAttachmentList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public PartnerServiceClientFormsResponse GetPartnerClientForms(PartnerServiceClientFormsRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceClientFormsResponse(passwordHash, request)
+                    {
+                        PartnerClientForms = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var partner = db.Partners.Where(p => p.Email == request.ClientFormsParameters.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceClientFormsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            PartnerClientForms = null
+                        };
+                    }
+                    if (request.ClientFormsParameters.SubscriptionId == null)
+                    {
+                        return new PartnerServiceClientFormsResponse(passwordHash, request)
+                        {
+                            PartnerClientForms = null,
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var formType = GeneralPDFFormTypes.ContractForm;
+                    var subscriptionId = request.ClientFormsParameters.SubscriptionId.Value;
+                    if (request.ClientFormsParameters.FormType.HasValue)
+                    {
+                        formType = (GeneralPDFFormTypes)request.ClientFormsParameters.FormType.Value;
+                    }
+                    switch (formType)
+                    {
+                        case GeneralPDFFormTypes.ContractForm:
+                            {
+                                var createdPDF = RadiusR.PDFForms.PDFWriter.GetContractPDF(db, subscriptionId);
+                                byte[] content = null;
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    createdPDF.Result.CopyTo(memoryStream);
+                                    content = memoryStream.ToArray();
+                                }
+                                return new PartnerServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    PartnerClientForms = new PartnerClientFormsResponse()
+                                    {
+                                        FileContent = content,
+                                        FileName = new LocalizedList<GeneralPDFFormTypes, RadiusR.Localization.Lists.GeneralPDFFormTypes>()
+                                        .GetDisplayText((int)GeneralPDFFormTypes.ContractForm, CreateCulture(request.Culture)),
+                                        FormType = (int)GeneralPDFFormTypes.ContractForm,
+                                        MIMEType = "application/pdf"
+                                    }
+                                };
+                            }
+                        case GeneralPDFFormTypes.TransitionForm:
+                            {
+                                var createdPDF = RadiusR.PDFForms.PDFWriter.GetTransitionPDF(db, subscriptionId);
+                                byte[] content = null;
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    createdPDF.Result.CopyTo(memoryStream);
+                                    content = memoryStream.ToArray();
+                                }
+                                return new PartnerServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    PartnerClientForms = new PartnerClientFormsResponse()
+                                    {
+                                        FileContent = content,
+                                        FileName = new LocalizedList<GeneralPDFFormTypes, RadiusR.Localization.Lists.GeneralPDFFormTypes>()
+                                        .GetDisplayText((int)GeneralPDFFormTypes.TransitionForm, CreateCulture(request.Culture)),
+                                        FormType = (int)GeneralPDFFormTypes.TransitionForm,
+                                        MIMEType = "application/pdf"
+                                    }
+                                };
+                            }
+                        case GeneralPDFFormTypes.PSTNtoNakedForm:
+                            {
+                                var createdPDF = RadiusR.PDFForms.PDFWriter.GetPSTNtoNakedPDF(db, subscriptionId);
+                                byte[] content = null;
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    createdPDF.Result.CopyTo(memoryStream);
+                                    content = memoryStream.ToArray();
+                                }
+                                return new PartnerServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    PartnerClientForms = new PartnerClientFormsResponse()
+                                    {
+                                        FileContent = content,
+                                        FileName = new LocalizedList<GeneralPDFFormTypes, RadiusR.Localization.Lists.GeneralPDFFormTypes>()
+                                        .GetDisplayText((int)GeneralPDFFormTypes.PSTNtoNakedForm, CreateCulture(request.Culture)),
+                                        FormType = (int)GeneralPDFFormTypes.PSTNtoNakedForm,
+                                        MIMEType = "application/pdf"
+                                    }
+                                };
+                            }
+                        default:
+                            {
+                                return new PartnerServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    PartnerClientForms = null
+                                };
+                            }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceClientFormsResponse(passwordHash, request)
+                {
+                    PartnerClientForms = null,
                     ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
                 };
             }

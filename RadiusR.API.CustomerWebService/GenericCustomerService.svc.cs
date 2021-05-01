@@ -1253,20 +1253,20 @@ namespace RadiusR.API.CustomerWebService
                         var recurringDiscounts = db.RecurringDiscounts.Where(rd => rd.SubscriptionID == dbSubscription.ID).Where(rd => rd.ReferrerRecurringDiscount != null || rd.ReferringRecurringDiscounts.Any())
                             .OrderByDescending(rd => rd.CreationTime).ToArray();
                         var result = recurringDiscounts.Select(rd => new GetCustomerSpecialOffersResponse()
-                            {
-                                IsCancelled = rd.IsDisabled,
-                                EndDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(rd.CreationTime.AddMonths(rd.ApplicationTimes)/*(DateTime)SqlFunctions.DateAdd("month", rd.ApplicationTimes, rd.CreationTime)*/),
-                                RemainingCount = rd.IsDisabled ? 0 : rd.ApplicationTimes - (rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count()
+                        {
+                            IsCancelled = rd.IsDisabled,
+                            EndDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(rd.CreationTime.AddMonths(rd.ApplicationTimes)/*(DateTime)SqlFunctions.DateAdd("month", rd.ApplicationTimes, rd.CreationTime)*/),
+                            RemainingCount = rd.IsDisabled ? 0 : rd.ApplicationTimes - (rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count()
                                 + rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Passed).Count()),
-                                StartDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(rd.CreationTime),
-                                TotalCount = rd.ApplicationTimes,
-                                IsApplicableThisPeriod = (rd.IsDisabled ? 0 : rd.ApplicationTimes - (rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count()
+                            StartDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(rd.CreationTime),
+                            TotalCount = rd.ApplicationTimes,
+                            IsApplicableThisPeriod = (rd.IsDisabled ? 0 : rd.ApplicationTimes - (rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count()
                                 + rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Passed).Count())) > 0 && !rd.IsDisabled,
-                                UsedCount = rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count(),
-                                MissedCount = rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Passed).Count(),
-                                ReferenceNo = rd.ReferrerRecurringDiscount != null ? rd.ReferrerRecurringDiscount.Subscription.ReferenceNo : rd.ReferringRecurringDiscounts.Any() ? rd.ReferringRecurringDiscounts.FirstOrDefault().Subscription.ReferenceNo : null,
-                                ReferralSubscriberState = rd.ReferrerRecurringDiscount != null ? rd.ReferrerRecurringDiscount.Subscription.State : rd.ReferringRecurringDiscounts.Any() ? rd.ReferringRecurringDiscounts.FirstOrDefault().Subscription.State : (short?)null,
-                            });
+                            UsedCount = rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Applied).Count(),
+                            MissedCount = rd.AppliedRecurringDiscounts.Where(ard => ard.ApplicationState == (short)RecurringDiscountApplicationState.Passed).Count(),
+                            ReferenceNo = rd.ReferrerRecurringDiscount != null ? rd.ReferrerRecurringDiscount.Subscription.ReferenceNo : rd.ReferringRecurringDiscounts.Any() ? rd.ReferringRecurringDiscounts.FirstOrDefault().Subscription.ReferenceNo : null,
+                            ReferralSubscriberState = rd.ReferrerRecurringDiscount != null ? rd.ReferrerRecurringDiscount.Subscription.State : rd.ReferringRecurringDiscounts.Any() ? rd.ReferringRecurringDiscounts.FirstOrDefault().Subscription.State : (short?)null,
+                        });
                         return new CustomerServiceGetCustomerSpecialOffersResponse(passwordHash, request)
                         {
                             GetCustomerSpecialOffersResponse = result.ToArray(),
@@ -2459,7 +2459,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         var dbSubscription = db.Subscriptions.Find(request.SendSubscriberSMS.SubscriptionId);
                         RadiusR.SMS.SMSService SMSService = new SMSService();
-                        db.ExtendClientPackage(dbSubscription, 1, PaymentType.VirtualPos, BillPayment.AccountantType.Admin);
+                        //db.ExtendClientPackage(dbSubscription, 1, PaymentType.VirtualPos, BillPayment.AccountantType.Admin);
                         SMSService SMSAsync = new SMSService();
                         db.SMSArchives.AddSafely(SMSAsync.SendSubscriberSMS(dbSubscription, SMSType.ExtendPackage, new Dictionary<string, object>()
                         {
@@ -3019,10 +3019,16 @@ namespace RadiusR.API.CustomerWebService
                     var SupportRequests = db.SupportRequests.OrderByDescending(m => m.Date).Where(m => m.SubscriptionID == subscriptionId && m.IsVisibleToCustomer).FirstOrDefault();
                     var IsAppUser = SupportRequests == null ? false : SupportRequests.SupportRequestProgresses.Where(m => m.IsVisibleToCustomer).OrderByDescending(m => m.Date).FirstOrDefault().AppUserID != null ? true : false;
                     var count = 0;
-                    List<long> requestIds = new List<long>();
+                    // will send stage id from support request 
+                    // change from 'SupportRequests.ID' to 'stageId'
+
+                    //List<long> requestIds = new List<long>();
+                    long? stageId = null;
                     if (SupportRequests != null && IsAppUser && !IsPassedTime && SupportRequests.CustomerApprovalDate == null)
                     {
-                        requestIds.Add(SupportRequests.ID);
+                        var selectedStageId = SupportRequests.SupportRequestProgresses.OrderByDescending(s => s.Date).FirstOrDefault();
+                        //requestIds.Add(SupportRequests.ID);
+                        stageId = selectedStageId == null ? null : selectedStageId.ID;
                         count = 1;
                     }
                     return new CustomerServiceSupportStatusResponse(passwordHash, request)
@@ -3033,7 +3039,8 @@ namespace RadiusR.API.CustomerWebService
                         SupportStatusResponse = new SupportStatusResponse()
                         {
                             Count = count,
-                            SupportRequestIds = requestIds
+                            StageId = stageId
+                            //SupportRequestIds = requestIds
                         }
                     };
                 }

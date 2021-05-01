@@ -15,6 +15,8 @@ namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
     public class AuthenticationResponse
     {
         [DataMember]
+        public string PhoneNo { get; set; }
+        [DataMember]
         public bool IsAuthenticated { get; set; }
 
         [DataMember]

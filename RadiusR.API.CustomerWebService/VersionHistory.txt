@@ -22,3 +22,5 @@ v 1.0.4 2021-04-10
 - changed data type of ExternalTariffList from IEnumarable to array in CustomerServiceExternalTariffResponse
 - changed data type of GetCustomerFilesResponse from IEnumarable to array
 - changed data type from IEnumarable to array
+v 1.0.5 2021-04-29
+- changed 'SupportStatus' response model
