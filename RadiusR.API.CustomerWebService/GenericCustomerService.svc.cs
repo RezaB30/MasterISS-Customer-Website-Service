@@ -1185,7 +1185,7 @@ namespace RadiusR.API.CustomerWebService
                             GetCustomerInfoResponse = new GetCustomerInfoResponse()
                             {
                                 HashAutoPayment = hasAutoPayment,
-                                StaticIP = dbClient.StaticIP,
+                                StaticIP = dbClient.RadiusAuthorization.StaticIP,
                                 OnlinePassword = dbClient.OnlinePassword,
                                 CustomerState = state,
                                 CustomerStateText = stateText,
@@ -1194,8 +1194,8 @@ namespace RadiusR.API.CustomerWebService
                                 PhoneNo = dbClient.Customer.ContactPhoneNo,
                                 ValidDisplayName = dbClient.ValidDisplayName,
                                 InstallationAddress = dbClient.Address.AddressText,
-                                Username = dbClient.Username,
-                                Password = dbClient.RadiusPassword,
+                                Username = dbClient.RadiusAuthorization.Username,
+                                Password = dbClient.RadiusAuthorization.Password,
                                 ReferenceNo = dbClient.ReferenceNo,
                                 TTSubscriberNo = dbClient.SubscriptionTelekomInfo != null ? dbClient.SubscriptionTelekomInfo.SubscriptionNo : null,
                                 PSTN = dbClient.SubscriptionTelekomInfo != null && !string.IsNullOrWhiteSpace(dbClient.SubscriptionTelekomInfo.PSTN) ? dbClient.SubscriptionTelekomInfo.PSTN : null

@@ -33,7 +33,29 @@ namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
 
         [DataMember]
         public PermissionResult[] Permissions { get; set; }
+        [DataMember]
+        public WorkAreaResult[] WorkAreas { get; set; }
+        [DataContract]
+        public class WorkAreaResult
+        {
+            [DataMember]
+            public long WorkAreaId { get; set; }
+            [DataMember]
+            public long ProvinceID { get; set; }
+            [DataMember]
+            public long? DistrictID { get; set; }
+            [DataMember]
+            public long? RuralCode { get; set; }
+            [DataMember]
+            public long? NeighbourhoodID { get; set; }
+            [DataMember]
+            public string ProvinceName { get; set; }
+            [DataMember]
+            public string DistrictName { get; set; }
+            [DataMember]
+            public string NeighbourhoodName { get; set; }
 
+        }
         [DataContract]
         public class PermissionResult
         {

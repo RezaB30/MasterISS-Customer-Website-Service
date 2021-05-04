@@ -24,3 +24,8 @@ v 1.0.4 2021-04-10
 - changed data type from IEnumarable to array
 v 1.0.5 2021-04-29
 - changed 'SupportStatus' response model
+v 1.0.6 2021-05-02
+- updated masterISS modules
+v 1.0.6.1 2021-05-02 (Partner web service changelog)
+- added GetPartnerSubscriptionList function
+- added attachment functions (save , get)

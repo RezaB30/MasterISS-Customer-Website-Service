@@ -115,26 +115,26 @@
     <Reference Include="RadiusR.API.MobilExpress.DBAdapter, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.API.MobilExpress.DBAdapter.1.0.1\lib\net472\RadiusR.API.MobilExpress.DBAdapter.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB, Version=1.2.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.1.2.4\lib\net472\RadiusR.DB.dll</HintPath>
+    <Reference Include="RadiusR.DB, Version=1.3.3.5, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.1.3.3\lib\net472\RadiusR.DB.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.1\lib\net472\RadiusR.DB.DomainsCache.dll</HintPath>
+    <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.2\lib\net472\RadiusR.DB.DomainsCache.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.TelekomOperations, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.1.0\lib\net472\RadiusR.DB.TelekomOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.TelekomOperations, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.1.1\lib\net472\RadiusR.DB.TelekomOperations.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.1\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.4\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.2\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.5\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.FileManagement, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.FileManagement.1.1.6\lib\net472\RadiusR.FileManagement.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.1.0.6\lib\net472\RadiusR.Localization.dll</HintPath>
+    <Reference Include="RadiusR.Localization, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.1.0.7\lib\net472\RadiusR.Localization.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.Localization.Lists, Version=1.0.11.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.Localization.Lists.1.0.11\lib\net472\RadiusR.Localization.Lists.dll</HintPath>
@@ -142,11 +142,11 @@
     <Reference Include="RadiusR.PDFForms, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.PDFForms.1.0.2\lib\net472\RadiusR.PDFForms.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Scheduler.SMS, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Scheduler.SMS.1.0.1\lib\net472\RadiusR.Scheduler.SMS.dll</HintPath>
+    <Reference Include="RadiusR.Scheduler.SMS, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Scheduler.SMS.1.0.2\lib\net472\RadiusR.Scheduler.SMS.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.SMS, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.SMS.1.0.1\lib\net472\RadiusR.SMS.dll</HintPath>
+    <Reference Include="RadiusR.SMS, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.SMS.1.0.2\lib\net472\RadiusR.SMS.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.SystemLogs, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.SystemLogs.1.0.7\lib\net472\RadiusR.SystemLogs.dll</HintPath>
@@ -193,8 +193,8 @@
     <Reference Include="RezaB.NetInvoice.Wrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.NetInvoice.Wrapper.1.0.0\lib\net452\RezaB.NetInvoice.Wrapper.dll</HintPath>
     </Reference>
-    <Reference Include="RezaB.TurkTelekom.FTPOperations, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RezaB.TurkTelekom.FTPOperations.1.1.1\lib\net472\RezaB.TurkTelekom.FTPOperations.dll</HintPath>
+    <Reference Include="RezaB.TurkTelekom.FTPOperations, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RezaB.TurkTelekom.FTPOperations.1.1.2\lib\net472\RezaB.TurkTelekom.FTPOperations.dll</HintPath>
     </Reference>
     <Reference Include="RezaB.TurkTelekom.WebServices, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RezaB.TurkTelekom.WebServices.1.2.0\lib\net452\RezaB.TurkTelekom.WebServices.dll</HintPath>
@@ -254,6 +254,7 @@
     <Content Include="PartnerService.svc" />
     <Content Include="Manual\Master ISS Web Servis Dokümanı TR.docx" />
     <Content Include="Manual\Master ISS Web Servis Dokümanı TR.pdf" />
+    <None Include="Properties\PublishProfiles\CustomerWebService.pubxml" />
     <None Include="VersionHistory.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -322,6 +323,7 @@
     <Compile Include="Requests\PartnerRequests\PartnerSubscriptionsRequest.cs" />
     <Compile Include="Requests\PartnerRequests\RequestBase.cs" />
     <Compile Include="Requests\PartnerRequests\PaymentRequest.cs" />
+    <Compile Include="Requests\PartnerRequests\SavePartnerClientAttachmentRequest.cs" />
     <Compile Include="Requests\PartnerRequests\SMSCodeRequest.cs" />
     <Compile Include="Requests\PartnerRequests\SubUserRequest.cs" />
     <Compile Include="Requests\Payment\ActivateAutomaticPaymentRequest.cs" />
@@ -387,6 +389,7 @@
     <Compile Include="Responses\PartnerResponses\ResponseValidationBase.cs" />
     <Compile Include="Responses\PartnerResponses\SaleAllowanceListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SaleGenericAllowanceListResponse.cs" />
+    <Compile Include="Responses\PartnerResponses\SavePartnerClientAttachmentResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SetupAllowanceListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SetupGenericAllowanceListResponse.cs" />
     <Compile Include="Responses\PartnerResponses\SMSCodeResponse.cs" />

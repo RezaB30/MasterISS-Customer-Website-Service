@@ -195,7 +195,7 @@ namespace RadiusR.API.CustomerWebService
                                 {
                                     IsAuthenticated = false,
                                 },
-                                ResponseMessage = CommonResponse.SubscriberNotFoundErrorResponse(request.Culture)
+                                ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
                             };
                         }
                         partnerPasswordHash = dbSubUser.Password;
@@ -222,7 +222,18 @@ namespace RadiusR.API.CustomerWebService
                             DisplayName = dbPartner.Title,
                             SetupServiceUser = dbPartner.CustomerSetupUser?.Username,
                             SetupServiceHash = dbPartner.CustomerSetupUser?.Password,
-                            PhoneNo = dbPartner.PhoneNo
+                            PhoneNo = dbPartner.PhoneNo,
+                            WorkAreas = dbPartner.WorkAreas?.Select(wa => new AuthenticationResponse.WorkAreaResult()
+                            {
+                                WorkAreaId = wa.ID,
+                                DistrictID = wa.DistrictID,
+                                DistrictName = wa.DistrictName,
+                                NeighbourhoodID = wa.NeighbourhoodID,
+                                NeighbourhoodName = wa.NeighbourhoodName,
+                                ProvinceID = wa.ProvinceID,
+                                ProvinceName = wa.ProvinceName,
+                                RuralCode = wa.RuralCode
+                            }).ToArray()
                         },
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                     };
@@ -2207,6 +2218,60 @@ namespace RadiusR.API.CustomerWebService
                 return new PartnerServiceClientFormsResponse(passwordHash, request)
                 {
                     PartnerClientForms = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public PartnerServiceSaveClientAttachmentResponse SaveClientAttachment(PartnerServiceSaveClientAttachmentRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceSaveClientAttachmentResponse(password, request)
+                    {
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                        SaveClientAttachmentResult = false
+                    };
+                }
+                if (request.SaveClientAttachmentParameters == null || request.SaveClientAttachmentParameters.SubscriptionId == null)
+                {
+                    return new PartnerServiceSaveClientAttachmentResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
+                        SaveClientAttachmentResult = false
+                    };
+                }
+                var fileManager = new RadiusR.FileManagement.MasterISSFileManager();
+                var fileStream = new MemoryStream(request.SaveClientAttachmentParameters.FileContent);
+                var saveAttachment = fileManager.SaveClientAttachment(
+                    request.SaveClientAttachmentParameters.SubscriptionId.Value,
+                    new FileManagement.SpecialFiles.FileManagerClientAttachmentWithContent(fileStream,
+                    new FileManagement.SpecialFiles.FileManagerClientAttachment((FileManagement.SpecialFiles.ClientAttachmentTypes)request.SaveClientAttachmentParameters.AttachmentType,
+                    request.SaveClientAttachmentParameters.FileExtention)));
+                if (saveAttachment.InternalException != null)
+                {
+                    return new PartnerServiceSaveClientAttachmentResponse(passwordHash, request)
+                    {
+                        SaveClientAttachmentResult = false,
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, saveAttachment.InternalException.Message)
+                    };
+                }
+                return new PartnerServiceSaveClientAttachmentResponse(passwordHash, request)
+                {
+                    SaveClientAttachmentResult = saveAttachment.Result,
+                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                };
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceSaveClientAttachmentResponse(passwordHash, request)
+                {
+                    SaveClientAttachmentResult = false,
                     ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
                 };
             }

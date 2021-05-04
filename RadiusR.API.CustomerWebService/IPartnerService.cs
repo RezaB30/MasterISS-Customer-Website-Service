@@ -71,5 +71,7 @@ namespace RadiusR.API.CustomerWebService
         PartnerServiceClientAttachmentsResponse GetPartnerClientAttachments(PartnerServiceClientAttachmentsRequest request);
         [OperationContract]
         PartnerServiceClientFormsResponse GetPartnerClientForms(PartnerServiceClientFormsRequest request);
+        [OperationContract]
+        PartnerServiceSaveClientAttachmentResponse SaveClientAttachment(PartnerServiceSaveClientAttachmentRequest request);
     }
 }
