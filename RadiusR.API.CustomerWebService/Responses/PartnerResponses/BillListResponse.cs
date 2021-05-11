@@ -24,6 +24,8 @@ namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
         public class BillInfo
         {
             [DataMember]
+            public string SubscriberNo { get; set; }
+            [DataMember]
             public string ServiceName { get; set; }
             [DataMember]
             public long ID { get; set; }

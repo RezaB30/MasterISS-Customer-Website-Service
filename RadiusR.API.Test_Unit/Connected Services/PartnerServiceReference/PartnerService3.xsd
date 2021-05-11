@@ -213,17 +213,17 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="BillsBySubscriberNo">
+  <xs:element name="GetBills">
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q29="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" minOccurs="0" name="request" nillable="true" type="q29:PartnerServiceBillListRequest" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="BillsBySubscriberNoResponse">
+  <xs:element name="GetBillsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="BillsBySubscriberNoResult" nillable="true" type="q30:PartnerServiceBillListResponse" />
+        <xs:element xmlns:q30="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="GetBillsResult" nillable="true" type="q30:PartnerServiceBillListResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -490,6 +490,62 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="SaleGenericAllowanceListResult" nillable="true" type="q68:PartnerServiceSaleGenericAllowanceListResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPartnerSubscriptions">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q69="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" minOccurs="0" name="request" nillable="true" type="q69:PartnerServiceSubscriptionsRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPartnerSubscriptionsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q70="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="GetPartnerSubscriptionsResult" nillable="true" type="q70:PartnerServiceSubscriptionsResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPartnerClientAttachments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q71="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" minOccurs="0" name="request" nillable="true" type="q71:PartnerServiceClientAttachmentsRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPartnerClientAttachmentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q72="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="GetPartnerClientAttachmentsResult" nillable="true" type="q72:PartnerServiceClientAttachmentsResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPartnerClientForms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q73="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" minOccurs="0" name="request" nillable="true" type="q73:PartnerServiceClientFormsRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetPartnerClientFormsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q74="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="GetPartnerClientFormsResult" nillable="true" type="q74:PartnerServiceClientFormsResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveClientAttachment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q75="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" minOccurs="0" name="request" nillable="true" type="q75:PartnerServiceSaveClientAttachmentRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveClientAttachmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q76="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" minOccurs="0" name="SaveClientAttachmentResult" nillable="true" type="q76:PartnerServiceSaveClientAttachmentResponse" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

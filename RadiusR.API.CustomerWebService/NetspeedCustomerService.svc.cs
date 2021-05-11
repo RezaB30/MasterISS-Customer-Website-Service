@@ -22,6 +22,45 @@ namespace RadiusR.API.CustomerWebService
     {
         WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
         WebServiceLogger CustomerInComingInfo = new WebServiceLogger("CustomerInComingInfo");
+        WebServiceLogger MobileLogger = new WebServiceLogger("MobileAppLog");
+        public CustomerServiceAppLogResponse AppLog(CustomerServiceAppLogRequest request)
+        {
+            var password = new ServiceSettings().GetUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA1>(password);
+            try
+            {
+                CustomerInComingInfo.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
+                    return new CustomerServiceAppLogResponse(passwordHash, request)
+                    {
+                        AppLogResult = false,
+                        ResponseMessage = CommonResponse.UnauthorizedResponse(request)
+                    };
+                }
+                if (!string.IsNullOrEmpty(request.LogDescription))
+                {
+                    MobileLogger.LogException(request.Username, new Exception(request.LogDescription));
+                }
+                return new CustomerServiceAppLogResponse(passwordHash, request)
+                {
+                    AppLogResult = true,
+                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                };
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                //Errorslogger.Error(ex, "Error Get new customer register");
+                return new CustomerServiceAppLogResponse(passwordHash, request)
+                {
+                    ResponseMessage = CommonResponse.InternalException(request.Culture),
+                    AppLogResult = false
+                };
+            }
+        }
+
         public CustomerServiceExistingCustomerRegisterResponse ExistingCustomerRegister(CustomerServiceExistingCustomerRegisterRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);

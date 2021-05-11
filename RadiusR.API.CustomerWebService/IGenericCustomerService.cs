@@ -15,7 +15,7 @@ using System.Text;
 namespace RadiusR.API.CustomerWebService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
-    [ServiceContract]    
+    [ServiceContract]
     public interface IGenericCustomerService : RadiusR.API.TelekomInfrastructureService.ITelekomInfrastructureService
     {
         [OperationContract]
@@ -35,7 +35,7 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         CustomerServiceNameValuePair GetSupportSubTypes(CustomerServiceSupportSubTypesRequest request);
         [OperationContract]
-        CustomerServiceGetCustomerSupportListResponse GetSupportList(CustomerServiceBaseRequest request);
+        CustomerServiceGetCustomerSupportListResponse GetSupportList(CustomerServiceGetSupportListRequest request);
         [OperationContract]
         CustomerServiceSupportDetailMessagesResponse GetSupportDetailMessages(CustomerServiceSupportDetailMessagesRequest request);
         [OperationContract]
@@ -97,11 +97,11 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         CustomerServiceMobilexpressPayBillResponse MobilexpressPayBill(CustomerServiceMobilexpressPayBillRequest request);
         [OperationContract]
-        CustomerServiceVPOSErrorParameterNameResponse GetVPOSErrorParameterName(CustomerServiceVPOSErrorParameterNameRequest request);        
+        CustomerServiceVPOSErrorParameterNameResponse GetVPOSErrorParameterName(CustomerServiceVPOSErrorParameterNameRequest request);
         [OperationContract]
-        CustomerServiceNameValuePair CommitmentLengthList(CustomerServiceCommitmentLengthsRequest request);        
+        CustomerServiceNameValuePair CommitmentLengthList(CustomerServiceCommitmentLengthsRequest request);
         [OperationContract]
-        CustomerServiceExternalTariffResponse ExternalTariffList(CustomerServiceExternalTariffRequest request);        
+        CustomerServiceExternalTariffResponse ExternalTariffList(CustomerServiceExternalTariffRequest request);
         [OperationContract]
         CustomerServiceGetCustomerFileResponse GetCustomerFiles(CustomerServiceBaseRequest request);
         [OperationContract]

@@ -29,3 +29,7 @@ v 1.0.6 2021-05-02
 v 1.0.6.1 2021-05-02 (Partner web service changelog)
 - added GetPartnerSubscriptionList function
 - added attachment functions (save , get)
+v 1.0.7 2021-05-11
+- added AppLog function for MobileAppLog
+- changed data type of GetCustomerSupportListResponse from IEnumarable to array
+- changed request type of SupportList

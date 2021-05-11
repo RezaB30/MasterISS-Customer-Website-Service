@@ -622,4 +622,134 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="BaseResponseOfSaleGenericAllowanceListResponseSHA256_SnLIBD70" nillable="true" type="tns:BaseResponseOfSaleGenericAllowanceListResponseSHA256_SnLIBD70" />
+  <xs:complexType name="BaseRequestOfRequestBaseSHA256XdPrP3EA">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseRequestOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="RequestBase" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseRequestOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseRequestOfRequestBaseSHA256XdPrP3EA" nillable="true" type="tns:BaseRequestOfRequestBaseSHA256XdPrP3EA" />
+  <xs:complexType name="BaseResponseOfArrayOfPartnerSubscriptionsResponseSHA256_SnLIBD70">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseResponseOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfPartnerSubscriptionsResponse" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseResponseOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseResponseOfArrayOfPartnerSubscriptionsResponseSHA256_SnLIBD70" nillable="true" type="tns:BaseResponseOfArrayOfPartnerSubscriptionsResponseSHA256_SnLIBD70" />
+  <xs:complexType name="BaseRequestOfPartnerClientAttachmentsRequestSHA256XdPrP3EA">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseRequestOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="PartnerClientAttachmentsRequest" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseRequestOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseRequestOfPartnerClientAttachmentsRequestSHA256XdPrP3EA" nillable="true" type="tns:BaseRequestOfPartnerClientAttachmentsRequestSHA256XdPrP3EA" />
+  <xs:complexType name="BaseResponseOfArrayOfPartnerClientAttachmentsResponseSHA256_SnLIBD70">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseResponseOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="ArrayOfPartnerClientAttachmentsResponse" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseResponseOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseResponseOfArrayOfPartnerClientAttachmentsResponseSHA256_SnLIBD70" nillable="true" type="tns:BaseResponseOfArrayOfPartnerClientAttachmentsResponseSHA256_SnLIBD70" />
+  <xs:complexType name="BaseRequestOfPartnerClientFormsRequestSHA256XdPrP3EA">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseRequestOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="PartnerClientFormsRequest" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseRequestOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseRequestOfPartnerClientFormsRequestSHA256XdPrP3EA" nillable="true" type="tns:BaseRequestOfPartnerClientFormsRequestSHA256XdPrP3EA" />
+  <xs:complexType name="BaseResponseOfPartnerClientFormsResponseSHA256_SnLIBD70">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseResponseOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="PartnerClientFormsResponse" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.PartnerResponses" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseResponseOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseResponseOfPartnerClientFormsResponseSHA256_SnLIBD70" nillable="true" type="tns:BaseResponseOfPartnerClientFormsResponseSHA256_SnLIBD70" />
+  <xs:complexType name="BaseRequestOfSavePartnerClientAttachmentRequestSHA256XdPrP3EA">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseRequestOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="SavePartnerClientAttachmentRequest" Namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.PartnerRequests" />
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseRequestOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseRequestOfSavePartnerClientAttachmentRequestSHA256XdPrP3EA" nillable="true" type="tns:BaseRequestOfSavePartnerClientAttachmentRequestSHA256XdPrP3EA" />
+  <xs:complexType name="BaseResponseOfNullableOfbooleanSHA256qBRhzOKh">
+    <xs:annotation>
+      <xs:appinfo>
+        <GenericType Name="BaseResponseOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+          <GenericParameter Name="NullableOf{0}{#}" Namespace="http://schemas.datacontract.org/2004/07/System">
+            <GenericParameter Name="boolean" Namespace="http://www.w3.org/2001/XMLSchema" />
+          </GenericParameter>
+          <GenericParameter Name="SHA256" Namespace="http://schemas.datacontract.org/2004/07/System.Security.Cryptography" />
+        </GenericType>
+      </xs:appinfo>
+    </xs:annotation>
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:BaseResponseOfSHA256o_Pr6u_PMh">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="BaseResponseOfNullableOfbooleanSHA256qBRhzOKh" nillable="true" type="tns:BaseResponseOfNullableOfbooleanSHA256qBRhzOKh" />
 </xs:schema>

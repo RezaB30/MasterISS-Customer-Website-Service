@@ -30,11 +30,11 @@ namespace RadiusR.API.CustomerWebService.Responses.Support
         public string StateText { get; set; }
     }
     [DataContract]
-    public partial class CustomerServiceGetCustomerSupportListResponse : BaseResponse<IEnumerable<GetCustomerSupportListResponse>, SHA1>
+    public partial class CustomerServiceGetCustomerSupportListResponse : BaseResponse<GetCustomerSupportListResponse[], SHA1>
     {
         public CustomerServiceGetCustomerSupportListResponse(string passwordHash, BaseRequest<SHA1> baseRequest) : base(passwordHash, baseRequest) { }
         [DataMember]
-        public IEnumerable<GetCustomerSupportListResponse> GetCustomerSupportListResponse
+        public GetCustomerSupportListResponse[] GetCustomerSupportListResponse
         {
             get { return Data; }
             set { Data = value; }

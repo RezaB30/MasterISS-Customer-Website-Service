@@ -72,12 +72,12 @@ namespace RadiusR.API.Test_Unit
         {
             PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
             var request = new GenericServiceSettings();
-            var response = client.BillsBySubscriberNo(new PartnerServiceReference.PartnerServiceBillListRequest()
+            var response = client.GetBills(new PartnerServiceReference.PartnerServiceBillListRequest()
             {
                 BillListRequest = new PartnerServiceReference.BillListRequest()
                 {
-                    SubscriberNo = "2528542231",
-                    SubUserEmail = "onr@onr.com",
+                    CustomerCode = customerCode_Text.Text,
+                    SubUserEmail = "test@test.com",
                     UserEmail = "test@test.com"
                 },
                 Culture = "tr-tr",
@@ -282,7 +282,7 @@ namespace RadiusR.API.Test_Unit
         private void button8_Click(object sender, EventArgs e)
         {
             GoogleCredential credential;
-            using (var stream = new FileStream("google_credential.json",FileMode.Open))
+            using (var stream = new FileStream("google_credential.json", FileMode.Open))
             {
                 credential = GoogleCredential.FromStream(stream);
             }

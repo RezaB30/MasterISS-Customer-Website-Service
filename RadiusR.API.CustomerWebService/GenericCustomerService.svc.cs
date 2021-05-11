@@ -1494,7 +1494,7 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
-        public CustomerServiceGetCustomerSupportListResponse GetSupportList(CustomerServiceBaseRequest request)
+        public CustomerServiceGetCustomerSupportListResponse GetSupportList(CustomerServiceGetSupportListRequest request)
         {
             var password = new ServiceSettings().GetUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
@@ -1515,7 +1515,9 @@ namespace RadiusR.API.CustomerWebService
                 }
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
-                    var supportRequestList = db.SupportRequests.Where(s => s.IsVisibleToCustomer == true && s.SubscriptionID == request.SubscriptionParameters.SubscriptionId).ToArray().Select(s => new GetCustomerSupportListResponse()
+                    var tempSupportList = request.GetSupportList.RowCount != null ? db.SupportRequests.Where(s => s.IsVisibleToCustomer == true && s.SubscriptionID == request.GetSupportList.SubscriptionId).OrderByDescending(s => s.Date).Take(request.GetSupportList.RowCount.GetValueOrDefault(10)).ToArray()
+                        : db.SupportRequests.Where(s => s.IsVisibleToCustomer == true && s.SubscriptionID == request.GetSupportList.SubscriptionId).OrderByDescending(s => s.Date).ToArray();
+                    var supportRequestList = tempSupportList.Select(s => new GetCustomerSupportListResponse()
                     {
                         ApprovalDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(s.CustomerApprovalDate),
                         Date = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(s.Date),
@@ -1534,7 +1536,7 @@ namespace RadiusR.API.CustomerWebService
                     return new CustomerServiceGetCustomerSupportListResponse(passwordHash, request)
                     {
 
-                        GetCustomerSupportListResponse = supportRequestList,
+                        GetCustomerSupportListResponse = supportRequestList.ToArray(),
 
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                     };

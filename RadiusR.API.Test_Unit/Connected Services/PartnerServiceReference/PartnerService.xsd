@@ -105,7 +105,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="tns:RequestBase">
         <xs:sequence>
-          <xs:element minOccurs="0" name="SubscriberNo" nillable="true" type="xs:string" />
+          <xs:element minOccurs="0" name="CustomerCode" nillable="true" type="xs:string" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -417,4 +417,74 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:element name="PartnerAllowanceDetailRequest" nillable="true" type="tns:PartnerAllowanceDetailRequest" />
+  <xs:complexType name="PartnerServiceSubscriptionsRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q16="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q16:BaseRequestOfRequestBaseSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubscriptionsRequestParameters" nillable="true" type="tns:RequestBase" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceSubscriptionsRequest" nillable="true" type="tns:PartnerServiceSubscriptionsRequest" />
+  <xs:complexType name="PartnerServiceClientAttachmentsRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q17="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q17:BaseRequestOfPartnerClientAttachmentsRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ClientAttachmentsParameters" nillable="true" type="tns:PartnerClientAttachmentsRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceClientAttachmentsRequest" nillable="true" type="tns:PartnerServiceClientAttachmentsRequest" />
+  <xs:complexType name="PartnerClientAttachmentsRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:RequestBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SubscriptionId" nillable="true" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerClientAttachmentsRequest" nillable="true" type="tns:PartnerClientAttachmentsRequest" />
+  <xs:complexType name="PartnerServiceClientFormsRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q18="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q18:BaseRequestOfPartnerClientFormsRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ClientFormsParameters" nillable="true" type="tns:PartnerClientFormsRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceClientFormsRequest" nillable="true" type="tns:PartnerServiceClientFormsRequest" />
+  <xs:complexType name="PartnerClientFormsRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tns:RequestBase">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="FormType" nillable="true" type="xs:int" />
+          <xs:element minOccurs="0" name="SubscriptionId" nillable="true" type="xs:long" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerClientFormsRequest" nillable="true" type="tns:PartnerClientFormsRequest" />
+  <xs:complexType name="PartnerServiceSaveClientAttachmentRequest">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q19="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q19:BaseRequestOfSavePartnerClientAttachmentRequestSHA256XdPrP3EA">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SaveClientAttachmentParameters" nillable="true" type="tns:SavePartnerClientAttachmentRequest" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="PartnerServiceSaveClientAttachmentRequest" nillable="true" type="tns:PartnerServiceSaveClientAttachmentRequest" />
+  <xs:complexType name="SavePartnerClientAttachmentRequest">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AttachmentType" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="FileContent" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="FileExtention" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SubscriptionId" nillable="true" type="xs:long" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SavePartnerClientAttachmentRequest" nillable="true" type="tns:SavePartnerClientAttachmentRequest" />
 </xs:schema>

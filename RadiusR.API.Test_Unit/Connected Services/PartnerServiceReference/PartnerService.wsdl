@@ -108,11 +108,11 @@
   <wsdl:message name="IPartnerService_EnableSubUser_OutputMessage">
     <wsdl:part name="parameters" element="tns:EnableSubUserResponse" />
   </wsdl:message>
-  <wsdl:message name="IPartnerService_BillsBySubscriberNo_InputMessage">
-    <wsdl:part name="parameters" element="tns:BillsBySubscriberNo" />
+  <wsdl:message name="IPartnerService_GetBills_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBills" />
   </wsdl:message>
-  <wsdl:message name="IPartnerService_BillsBySubscriberNo_OutputMessage">
-    <wsdl:part name="parameters" element="tns:BillsBySubscriberNoResponse" />
+  <wsdl:message name="IPartnerService_GetBills_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBillsResponse" />
   </wsdl:message>
   <wsdl:message name="IPartnerService_GetCultures_InputMessage">
     <wsdl:part name="parameters" element="tns:GetCultures" />
@@ -228,6 +228,30 @@
   <wsdl:message name="IPartnerService_SaleGenericAllowanceList_OutputMessage">
     <wsdl:part name="parameters" element="tns:SaleGenericAllowanceListResponse" />
   </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerSubscriptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerSubscriptions" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerSubscriptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerSubscriptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerClientAttachments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerClientAttachments" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerClientAttachments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerClientAttachmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerClientForms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerClientForms" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_GetPartnerClientForms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPartnerClientFormsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaveClientAttachment_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveClientAttachment" />
+  </wsdl:message>
+  <wsdl:message name="IPartnerService_SaveClientAttachment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveClientAttachmentResponse" />
+  </wsdl:message>
   <wsdl:portType name="IPartnerService">
     <wsdl:operation name="GetProvinces">
       <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinces" message="tns:IPartnerService_GetProvinces_InputMessage" />
@@ -289,9 +313,9 @@
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/EnableSubUser" message="tns:IPartnerService_EnableSubUser_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/EnableSubUserResponse" message="tns:IPartnerService_EnableSubUser_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="BillsBySubscriberNo">
-      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/BillsBySubscriberNo" message="tns:IPartnerService_BillsBySubscriberNo_InputMessage" />
-      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/BillsBySubscriberNoResponse" message="tns:IPartnerService_BillsBySubscriberNo_OutputMessage" />
+    <wsdl:operation name="GetBills">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetBills" message="tns:IPartnerService_GetBills_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetBillsResponse" message="tns:IPartnerService_GetBills_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="GetCultures">
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetCultures" message="tns:IPartnerService_GetCultures_InputMessage" />
@@ -368,6 +392,22 @@
     <wsdl:operation name="SaleGenericAllowanceList">
       <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SaleGenericAllowanceList" message="tns:IPartnerService_SaleGenericAllowanceList_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SaleGenericAllowanceListResponse" message="tns:IPartnerService_SaleGenericAllowanceList_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerSubscriptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerSubscriptions" message="tns:IPartnerService_GetPartnerSubscriptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerSubscriptionsResponse" message="tns:IPartnerService_GetPartnerSubscriptions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerClientAttachments">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerClientAttachments" message="tns:IPartnerService_GetPartnerClientAttachments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerClientAttachmentsResponse" message="tns:IPartnerService_GetPartnerClientAttachments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerClientForms">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerClientForms" message="tns:IPartnerService_GetPartnerClientForms_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/GetPartnerClientFormsResponse" message="tns:IPartnerService_GetPartnerClientForms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveClientAttachment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IPartnerService/SaveClientAttachment" message="tns:IPartnerService_SaveClientAttachment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IPartnerService/SaveClientAttachmentResponse" message="tns:IPartnerService_SaveClientAttachment_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSHttpBinding_IPartnerService" type="tns:IPartnerService">
@@ -508,8 +548,8 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="BillsBySubscriberNo">
-      <soap12:operation soapAction="http://tempuri.org/IPartnerService/BillsBySubscriberNo" style="document" />
+    <wsdl:operation name="GetBills">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetBills" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
@@ -681,6 +721,42 @@
     </wsdl:operation>
     <wsdl:operation name="SaleGenericAllowanceList">
       <soap12:operation soapAction="http://tempuri.org/IPartnerService/SaleGenericAllowanceList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerSubscriptions">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetPartnerSubscriptions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerClientAttachments">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetPartnerClientAttachments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPartnerClientForms">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/GetPartnerClientForms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveClientAttachment">
+      <soap12:operation soapAction="http://tempuri.org/IPartnerService/SaveClientAttachment" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

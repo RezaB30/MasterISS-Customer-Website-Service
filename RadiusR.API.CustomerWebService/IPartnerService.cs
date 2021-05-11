@@ -26,7 +26,7 @@ namespace RadiusR.API.CustomerWebService
         [OperationContract]
         PartnerServiceSubUserResponse EnableSubUser(PartnerServiceSubUserRequest request);
         [OperationContract]
-        PartnerServiceBillListResponse BillsBySubscriberNo(PartnerServiceBillListRequest request);
+        PartnerServiceBillListResponse GetBills(PartnerServiceBillListRequest request);
         [OperationContract]
         PartnerServiceKeyValueListResponse GetCultures(PartnerServiceParameterlessRequest request);
         [OperationContract]

@@ -466,7 +466,7 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
-        public PartnerServiceBillListResponse BillsBySubscriberNo(PartnerServiceBillListRequest request)
+        public PartnerServiceBillListResponse GetBills(PartnerServiceBillListRequest request)
         {
             var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
             var passwordHash = HashUtilities.GetHexString<SHA256>(password);
@@ -497,8 +497,10 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
 
-                    var dbSubscriber = db.Subscriptions.FirstOrDefault(s => s.SubscriberNo == request.BillListRequest.SubscriberNo);
-
+                    //var dbSubscriber = db.Subscriptions.FirstOrDefault(s => s.SubscriberNo == request.BillListRequest.SubscriberNo);
+                    var customerCode = request.BillListRequest.CustomerCode.StartsWith("0") ? request.BillListRequest.CustomerCode.TrimStart('0') : request.BillListRequest.CustomerCode;
+                    var dbSubscriber = db.Subscriptions.Where(s => s.SubscriberNo == customerCode || s.Customer.CustomerIDCard.TCKNo == customerCode
+                    || s.Customer.ContactPhoneNo == customerCode).ToArray();
                     if (dbSubscriber == null)
                     {
                         return new PartnerServiceBillListResponse(passwordHash, request)
@@ -507,9 +509,11 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
                         };
                     }
-                    var bills = db.Bills.Where(b => b.SubscriptionID == dbSubscriber.ID && b.PaymentTypeID == (short)RadiusR.DB.Enums.PaymentType.None).OrderBy(b => b.ID).ToArray();
+                    var dbSubscriberId = dbSubscriber.Select(d => d.ID).ToArray();
+                    var bills = db.Bills.Where(b => dbSubscriberId.Contains(b.SubscriptionID) && b.PaymentTypeID == (short)RadiusR.DB.Enums.PaymentType.None).OrderBy(b => b.ID).ToArray();
                     var results = bills.Select(b => new BillListResponse.BillInfo()
                     {
+                        SubscriberNo = b.Subscription.SubscriberNo,
                         ServiceName = string.Empty,
                         ID = b.ID,
                         IssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(b.IssueDate),
@@ -532,14 +536,14 @@ namespace RadiusR.API.CustomerWebService
                         }
 
                     }
-                    var totalCredits = dbSubscriber.SubscriptionCredits.Select(sc => sc.Amount).DefaultIfEmpty(0m).Sum();
+                    var totalCredits = dbSubscriber.SelectMany(db => db.SubscriptionCredits).Select(sc => sc.Amount).DefaultIfEmpty(0m).Sum();
                     return new PartnerServiceBillListResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                         BillListResponse = new BillListResponse()
                         {
                             Bills = results,
-                            SubscriberName = dbSubscriber.ValidDisplayName,
+                            SubscriberName = dbSubscriber.FirstOrDefault().ValidDisplayName,
                             TotalCredits = totalCredits
                         }
                     };

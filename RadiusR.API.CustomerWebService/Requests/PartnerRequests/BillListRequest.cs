@@ -12,7 +12,7 @@ namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
     public class BillListRequest : RequestBase
     {
         [DataMember]
-        public string SubscriberNo { get; set; }
+        public string CustomerCode { get; set; }
     }
     [DataContract]
     public partial class PartnerServiceBillListRequest : BaseRequest<BillListRequest, SHA256>

@@ -15,5 +15,7 @@ namespace RadiusR.API.CustomerWebService
     {
         [OperationContract]
         CustomerServiceExistingCustomerRegisterResponse ExistingCustomerRegister(CustomerServiceExistingCustomerRegisterRequest request);
+        [OperationContract]
+        CustomerServiceAppLogResponse AppLog(CustomerServiceAppLogRequest request);
     }
 }

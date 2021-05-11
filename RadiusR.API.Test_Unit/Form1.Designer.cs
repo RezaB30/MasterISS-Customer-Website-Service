@@ -53,6 +53,8 @@ namespace RadiusR.API.Test_Unit
             this.bill_subscriberNoText = new System.Windows.Forms.TextBox();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.button8 = new System.Windows.Forms.Button();
+            this.customerCode_Text = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -155,6 +157,8 @@ namespace RadiusR.API.Test_Unit
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage3.Controls.Add(this.label2);
+            this.tabPage3.Controls.Add(this.customerCode_Text);
             this.tabPage3.Controls.Add(this.button2);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -165,9 +169,9 @@ namespace RadiusR.API.Test_Unit
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(341, 201);
+            this.button2.Location = new System.Drawing.Point(320, 201);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 28);
+            this.button2.Size = new System.Drawing.Size(170, 25);
             this.button2.TabIndex = 0;
             this.button2.Text = "GetBillList";
             this.button2.UseVisualStyleBackColor = true;
@@ -317,6 +321,22 @@ namespace RadiusR.API.Test_Unit
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
+            // customerCode_Text
+            // 
+            this.customerCode_Text.Location = new System.Drawing.Point(320, 175);
+            this.customerCode_Text.Name = "customerCode_Text";
+            this.customerCode_Text.Size = new System.Drawing.Size(170, 20);
+            this.customerCode_Text.TabIndex = 1;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(317, 159);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(173, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "TCK  Tel No veya Abone Numarası";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -330,6 +350,7 @@ namespace RadiusR.API.Test_Unit
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage5.ResumeLayout(false);
             this.tabPage6.ResumeLayout(false);
@@ -367,6 +388,8 @@ namespace RadiusR.API.Test_Unit
         private System.Windows.Forms.TextBox bill_subscriberNoText;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.TextBox customerCode_Text;
+        private System.Windows.Forms.Label label2;
     }
 }
 
