@@ -36,6 +36,18 @@ namespace RadiusR.API.CustomerWebService
 
             return password;
         }
+        public string GetAgentUserPassword(string username)
+        {
+            if (username != RadiusR.DB.CustomerWebsiteSettings.WebsiteServicesUsername)
+            {
+                Errorslogger.LogException(username, new Exception("username is not found"));
+                // log wrong username
+                return "";
+            }
+            var password = RadiusR.DB.CustomerWebsiteSettings.WebsiteServicesPassword;
+
+            return password;
+        }
         //public TimeSpan Duration()
         //{
         //    //add CacheDuration

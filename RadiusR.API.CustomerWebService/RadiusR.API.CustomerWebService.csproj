@@ -115,8 +115,8 @@
     <Reference Include="RadiusR.API.MobilExpress.DBAdapter, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.API.MobilExpress.DBAdapter.1.0.1\lib\net472\RadiusR.API.MobilExpress.DBAdapter.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.1.4.0-alpha01\lib\net472\RadiusR.DB.dll</HintPath>
+    <Reference Include="RadiusR.DB, Version=1.4.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.1.4.0-alpha06\lib\net472\RadiusR.DB.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.2\lib\net472\RadiusR.DB.DomainsCache.dll</HintPath>
@@ -124,11 +124,11 @@
     <Reference Include="RadiusR.DB.TelekomOperations, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.1.1\lib\net472\RadiusR.DB.TelekomOperations.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.4\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities, Version=1.1.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.5-alpha1\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.7\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.8-alpha1\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.FileManagement, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.FileManagement.1.1.6\lib\net472\RadiusR.FileManagement.dll</HintPath>
@@ -249,6 +249,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AgentWebService.svc" />
     <Content Include="GenericCustomerService.svc" />
     <Content Include="NetspeedCustomerService.svc" />
     <Content Include="PartnerService.svc" />
@@ -259,6 +260,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AgentWebService.svc.cs">
+      <DependentUpon>AgentWebService.svc</DependentUpon>
+    </Compile>
     <Compile Include="CommonResponse.cs" />
     <Compile Include="Enums\AgentErrorCodes.cs" />
     <Compile Include="Enums\ErrorCodes.cs" />
@@ -270,6 +274,7 @@
     <Compile Include="GenericCustomerService.svc.cs">
       <DependentUpon>GenericCustomerService.svc</DependentUpon>
     </Compile>
+    <Compile Include="IAgentWebService.cs" />
     <Compile Include="IGenericCustomerService.cs" />
     <Compile Include="INetspeedCustomerService.cs" />
     <Compile Include="IPartnerService.cs" />
@@ -305,6 +310,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Requests\AgentRequests\AuthenticationRequest.cs" />
+    <Compile Include="Requests\AgentRequests\ListFromIDRequest.cs" />
+    <Compile Include="Requests\AgentRequests\NewCustomerRegisterRequest.cs" />
+    <Compile Include="Requests\AgentRequests\AgentSubscriptionsRequest.cs" />
+    <Compile Include="Requests\AgentRequests\PaginationRequest.cs" />
+    <Compile Include="Requests\AgentRequests\ParameterlessRequest.cs" />
+    <Compile Include="Requests\AgentRequests\PaymentRequest.cs" />
+    <Compile Include="Requests\AgentRequests\RequestBase.cs" />
+    <Compile Include="Requests\AgentRequests\SMSCodeRequest.cs" />
+    <Compile Include="Requests\AgentRequests\SubscriptionCredentialSMSRequest.cs" />
     <Compile Include="Requests\AppLogRequest.cs" />
     <Compile Include="Requests\ChangeClientInfoConfirmRequest.cs" />
     <Compile Include="Requests\ChangeClientInfoRequest.cs" />
@@ -371,6 +386,15 @@
     <Compile Include="Requests\Support\SupportTypesRequest.cs" />
     <Compile Include="Requests\Support\SaveSupportAttachmentRequest.cs" />
     <Compile Include="Requests\Payment\VPOSFormRequest.cs" />
+    <Compile Include="Responses\AgentResponses\AuthenticationResponse.cs" />
+    <Compile Include="Responses\AgentResponses\KeyValueListResponse.cs" />
+    <Compile Include="Responses\AgentResponses\NameValuePair.cs" />
+    <Compile Include="Responses\AgentResponses\NewCustomerRegisterResponse.cs" />
+    <Compile Include="Responses\AgentResponses\AgentSubscriptionsResponse.cs" />
+    <Compile Include="Responses\AgentResponses\PaginationResponse.cs" />
+    <Compile Include="Responses\AgentResponses\PaymentResponse.cs" />
+    <Compile Include="Responses\AgentResponses\SMSCodeResponse.cs" />
+    <Compile Include="Responses\AgentResponses\SubscriptionCredentialSMSResponse.cs" />
     <Compile Include="Responses\AppLogResponse.cs" />
     <Compile Include="Responses\ChangeClientInfoConfirmResponse.cs" />
     <Compile Include="Responses\ChangeClientInfoResponse.cs" />
