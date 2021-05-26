@@ -33,3 +33,7 @@ v 1.0.7 2021-05-11
 - added AppLog function for MobileAppLog
 - changed data type of GetCustomerSupportListResponse from IEnumarable to array
 - changed request type of SupportList
+v 1.0.7.1 2021-05-21 (Partner web service changelog)
+- added new request parameter(SubscriberNo) to GetPartnerClientAttachments
+v 1.0.7.2 2021-05-22 (Partner web service changelog)
+- added new function 'GetSubscriptionState'

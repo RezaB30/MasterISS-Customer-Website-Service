@@ -260,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonResponse.cs" />
+    <Compile Include="Enums\AgentErrorCodes.cs" />
     <Compile Include="Enums\ErrorCodes.cs" />
     <Compile Include="Enums\PartnerCreditType.cs" />
     <Compile Include="Enums\PartnerErrorCodes.cs" />
@@ -322,6 +323,7 @@
     <Compile Include="Requests\PartnerRequests\PartnerClientAttachmentsRequest.cs" />
     <Compile Include="Requests\PartnerRequests\PartnerClientFormsRequest.cs" />
     <Compile Include="Requests\PartnerRequests\PartnerSubscriptionsRequest.cs" />
+    <Compile Include="Requests\PartnerRequests\PartnerSubscriptionStateRequest.cs" />
     <Compile Include="Requests\PartnerRequests\RequestBase.cs" />
     <Compile Include="Requests\PartnerRequests\PaymentRequest.cs" />
     <Compile Include="Requests\PartnerRequests\SavePartnerClientAttachmentRequest.cs" />

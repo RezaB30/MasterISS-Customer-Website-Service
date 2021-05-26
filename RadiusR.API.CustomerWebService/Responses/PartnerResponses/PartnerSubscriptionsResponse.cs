@@ -29,4 +29,11 @@ namespace RadiusR.API.CustomerWebService.Responses.PartnerResponses
         [DataMember]
         public PartnerSubscriptionsResponse[] PartnerSubscriptionList { get { return Data; } set { Data = value; } }
     }
+    [DataContract]
+    public partial class PartnerServiceSubscriptionStateResponse : BaseResponse<PartnerSubscriptionsResponse, SHA256>
+    {
+        public PartnerServiceSubscriptionStateResponse(string passwordHash, BaseRequest<SHA256> baseRequest) : base(passwordHash, baseRequest) { }
+        [DataMember]
+        public PartnerSubscriptionsResponse PartnerSubscriptionState { get { return Data; } set { Data = value; } }
+    }
 }

@@ -222,18 +222,7 @@ namespace RadiusR.API.CustomerWebService
                             DisplayName = dbPartner.Title,
                             SetupServiceUser = dbPartner.CustomerSetupUser?.Username,
                             SetupServiceHash = dbPartner.CustomerSetupUser?.Password,
-                            PhoneNo = dbPartner.PhoneNo,
-                            WorkAreas = dbPartner.WorkAreas?.Select(wa => new AuthenticationResponse.WorkAreaResult()
-                            {
-                                WorkAreaId = wa.ID,
-                                DistrictID = wa.DistrictID,
-                                DistrictName = wa.DistrictName,
-                                NeighbourhoodID = wa.NeighbourhoodID,
-                                NeighbourhoodName = wa.NeighbourhoodName,
-                                ProvinceID = wa.ProvinceID,
-                                ProvinceName = wa.ProvinceName,
-                                RuralCode = wa.RuralCode
-                            }).ToArray()
+                            PhoneNo = dbPartner.PhoneNo,                            
                         },
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                     };
@@ -2048,6 +2037,11 @@ namespace RadiusR.API.CustomerWebService
                             ClientAttachmentList = null
                         };
                     }
+                    if (!string.IsNullOrEmpty(request.ClientAttachmentsParameters.SubscriberNo))
+                    {
+                        var subscriber = db.Subscriptions.Where(s => s.SubscriberNo == request.ClientAttachmentsParameters.SubscriberNo).FirstOrDefault();
+                        request.ClientAttachmentsParameters.SubscriptionId = subscriber == null ? null : subscriber.ID;
+                    }
                     if (request.ClientAttachmentsParameters.SubscriptionId == null)
                     {
                         return new PartnerServiceClientAttachmentsResponse(passwordHash, request)
@@ -2280,6 +2274,69 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+        public PartnerServiceSubscriptionStateResponse GetSubscriptionState(PartnerServiceSubscriptionStateRequest request)
+        {
+            var password = new ServiceSettings().GetPartnerUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new PartnerServiceSubscriptionStateResponse(password, request)
+                    {
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                        PartnerSubscriptionState = null
+                    };
+                }
+                using (var db = new RadiusR.DB.RadiusREntities())
+                {
+                    var partner = db.Partners.Where(p => p.Email == request.SubscriptionStateParameters.UserEmail).FirstOrDefault();
+                    if (partner == null)
+                    {
+                        return new PartnerServiceSubscriptionStateResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            PartnerSubscriptionState = null
+                        };
+                    }
+                    var subscription = db.Subscriptions.Where(s => s.SubscriberNo == request.SubscriptionStateParameters.SubscriberNo).FirstOrDefault();
+                    if (subscription == null)
+                    {
+                        return new PartnerServiceSubscriptionStateResponse(passwordHash, request)
+                        {
+                            PartnerSubscriptionState = null,
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
+                        };
+                    }
+                    return new PartnerServiceSubscriptionStateResponse(passwordHash, request)
+                    {
+                        PartnerSubscriptionState = new PartnerSubscriptionsResponse()
+                        {
+                            DisplayName = subscription.ValidDisplayName,
+                            MembershipDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(subscription.MembershipDate),
+                            SubscriberNo = subscription.SubscriberNo,
+                            CustomerState = new NameValuePair()
+                            {
+                                Name = new LocalizedList<RadiusR.DB.Enums.CustomerState, RadiusR.Localization.Lists.CustomerState>().GetDisplayText(subscription.State, CreateCulture(request.Culture)),
+                                Value = subscription.State
+                            }
+                        },
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new PartnerServiceSubscriptionStateResponse(passwordHash, request)
+                {
+                    PartnerSubscriptionState = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
         #region private
         private int TotalPageCount(int? TotalRow, int? itemPerPage)
         {
@@ -2318,6 +2375,8 @@ namespace RadiusR.API.CustomerWebService
         {
             return Localization.ErrorMessages.ResourceManager.GetString(LocalizationValueName, CreateCulture(cultureName));
         }
+
+
         #endregion
 
     }

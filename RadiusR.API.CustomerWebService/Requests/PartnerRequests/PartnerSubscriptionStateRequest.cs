@@ -9,17 +9,15 @@ using System.Web;
 namespace RadiusR.API.CustomerWebService.Requests.PartnerRequests
 {
     [DataContract]
-    public class PartnerClientAttachmentsRequest : RequestBase
+    public class PartnerSubscriptionStateRequest : RequestBase
     {
-        [DataMember]
-        public long? SubscriptionId { get; set; }
         [DataMember]
         public string SubscriberNo { get; set; }
     }
     [DataContract]
-    public partial class PartnerServiceClientAttachmentsRequest : BaseRequest<PartnerClientAttachmentsRequest, SHA256>
+    public partial class PartnerServiceSubscriptionStateRequest : BaseRequest<PartnerSubscriptionStateRequest, SHA256>
     {
         [DataMember]
-        public PartnerClientAttachmentsRequest ClientAttachmentsParameters { get { return Data; } set { Data = value; } }
+        public PartnerSubscriptionStateRequest SubscriptionStateParameters { get { return Data; } set { Data = value; } }
     }
 }
