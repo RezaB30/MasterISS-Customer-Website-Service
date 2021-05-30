@@ -222,7 +222,7 @@ namespace RadiusR.API.CustomerWebService
                             DisplayName = dbPartner.Title,
                             SetupServiceUser = dbPartner.CustomerSetupUser?.Username,
                             SetupServiceHash = dbPartner.CustomerSetupUser?.Password,
-                            PhoneNo = dbPartner.PhoneNo,                            
+                            PhoneNo = dbPartner.PhoneNo,
                         },
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                     };
@@ -499,7 +499,7 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                     var dbSubscriberId = dbSubscriber.Select(d => d.ID).ToArray();
-                    var bills = db.Bills.Where(b => dbSubscriberId.Contains(b.SubscriptionID) && b.PaymentTypeID == (short)RadiusR.DB.Enums.PaymentType.None).OrderBy(b => b.ID).ToArray();
+                    var bills = db.Bills.Where(b => dbSubscriberId.Contains(b.SubscriptionID) && b.BillStatusID == (short)RadiusR.DB.Enums.BillState.Unpaid).OrderBy(b => b.ID).ToArray();
                     var results = bills.Select(b => new BillListResponse.BillInfo()
                     {
                         SubscriberNo = b.Subscription.SubscriberNo,

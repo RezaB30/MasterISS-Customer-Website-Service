@@ -11,7 +11,7 @@ namespace RadiusR.API.CustomerWebService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IAgentWebService" in both code and config file together.
     [ServiceContract]
-    public interface IAgentWebService
+    public interface IAgentWebService : RadiusR.API.TelekomInfrastructureService.ITelekomInfrastructureService
     {
         [OperationContract]
         string GetKeyFragment(string username);
@@ -43,5 +43,10 @@ namespace RadiusR.API.CustomerWebService
         AgentServicePaymentResponse PayBills(AgentServicePaymentRequest request);
         [OperationContract]
         AgentServiceCredentialSMSResponse SendCredentialSMS(AgentServiceCredentialSMSRequest request);
+        [OperationContract]
+        AgentServiceIDCardValidationResponse IDCardValidation(AgentServiceIDCardValidationRequest request);
+        [OperationContract]
+        AgentServiceBillListResponse GetBills(AgentServiceBillListRequest request);
+
     }
 }
