@@ -1,0 +1,630 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActivateAutomaticPayment" xml:space="preserve">
+    <value>Activate Automatic Payment</value>
+  </data>
+  <data name="AddCard" xml:space="preserve">
+    <value>Add Card</value>
+  </data>
+  <data name="AddNote" xml:space="preserve">
+    <value>Add Note</value>
+  </data>
+  <data name="AddressCode" xml:space="preserve">
+    <value>Address Code</value>
+  </data>
+  <data name="AddressInfrastructureQuery" xml:space="preserve">
+    <value>Address Infrastructure Query</value>
+  </data>
+  <data name="Agent" xml:space="preserve">
+    <value>Agent</value>
+  </data>
+  <data name="AllSupportRequests" xml:space="preserve">
+    <value>All Support Requests</value>
+  </data>
+  <data name="AutomaticPayment" xml:space="preserve">
+    <value>Automatic Payment</value>
+  </data>
+  <data name="AutomaticPaymentSubscriptions" xml:space="preserve">
+    <value>Automatic Payment Subscriptions</value>
+  </data>
+  <data name="AvailabilityMaxSpeed" xml:space="preserve">
+    <value>Max Speed</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BackToSite" xml:space="preserve">
+    <value>Back To Site</value>
+  </data>
+  <data name="BankRedirectWaitMessage" xml:space="preserve">
+    <value>Redirecting to the bank, please wait...</value>
+  </data>
+  <data name="BillsAndPayments" xml:space="preserve">
+    <value>Bills and Payments</value>
+  </data>
+  <data name="CallMe" xml:space="preserve">
+    <value>Call Me</value>
+  </data>
+  <data name="CallMeRequestCompleted" xml:space="preserve">
+    <value>Your call me request has been received.</value>
+  </data>
+  <data name="CallMeTitle" xml:space="preserve">
+    <value>We will call you so that we can offer you the appropriate internet tariff.</value>
+  </data>
+  <data name="CallYou" xml:space="preserve">
+    <value>Let's Call You</value>
+  </data>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
+  </data>
+  <data name="Captcha" xml:space="preserve">
+    <value>Captcha</value>
+  </data>
+  <data name="CaptchaError" xml:space="preserve">
+    <value>Captcha does not match.</value>
+  </data>
+  <data name="CardholderName" xml:space="preserve">
+    <value>Cardholder Name</value>
+  </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>Card Number</value>
+  </data>
+  <data name="Cards" xml:space="preserve">
+    <value>Saved Credit Cards</value>
+  </data>
+  <data name="CardWithActiveAutoPayment" xml:space="preserve">
+    <value>This credit card has active automatic payments. To remove this please cancel the automatic payment.</value>
+  </data>
+  <data name="ChooseApartment" xml:space="preserve">
+    <value>Please Choose Apartment</value>
+  </data>
+  <data name="ChooseBuilding" xml:space="preserve">
+    <value>Please Choose Building</value>
+  </data>
+  <data name="ChooseDistrict" xml:space="preserve">
+    <value>Please Choose District</value>
+  </data>
+  <data name="ChooseNeighborhood" xml:space="preserve">
+    <value>Please Choose Neighborhood</value>
+  </data>
+  <data name="ChooseProvince" xml:space="preserve">
+    <value>Please Choose Province</value>
+  </data>
+  <data name="ChooseRegion" xml:space="preserve">
+    <value>Please Choose Region</value>
+  </data>
+  <data name="ChooseStreet" xml:space="preserve">
+    <value>Please Choose Street</value>
+  </data>
+  <data name="ClientName" xml:space="preserve">
+    <value>Full Name/Company Title</value>
+  </data>
+  <data name="ClientNotFound" xml:space="preserve">
+    <value>Invalid input. Please try again.</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="ConfirmMessage" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="ConnectionStatus" xml:space="preserve">
+    <value>Connection Status</value>
+  </data>
+  <data name="CopyrightText" xml:space="preserve">
+    <value>© Netspeed İnternet A.Ş &amp;nbsp;|&amp;nbsp; &lt;a href="https://www.netspeed.com.tr" title="Netspeed" target="_blank"&gt;www.netspeed.com.tr&lt;/a&gt;</value>
+  </data>
+  <data name="CustomerName" xml:space="preserve">
+    <value>Fullname</value>
+  </data>
+  <data name="CVV" xml:space="preserve">
+    <value>CVV</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DeactivateAutomaticPayment" xml:space="preserve">
+    <value>Deactivate Automatic Payment</value>
+  </data>
+  <data name="DescribeSupportRequest" xml:space="preserve">
+    <value>Describe support request.</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="DiscountAmount" xml:space="preserve">
+    <value>Discount amount</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="DownloadNoiseMargin" xml:space="preserve">
+    <value>Download Noise Margin</value>
+  </data>
+  <data name="DownloadUploadMargin" xml:space="preserve">
+    <value>Upload Noise Margin</value>
+  </data>
+  <data name="EArchiveMailBody" xml:space="preserve">
+    <value>Your {0} dated invoice is attached. We wish you a nice day.</value>
+  </data>
+  <data name="EArchiveMailSubject" xml:space="preserve">
+    <value>Invoice information with date {0}</value>
+  </data>
+  <data name="EArchivePDF" xml:space="preserve">
+    <value>E-Archive PDF</value>
+  </data>
+  <data name="EArchivePDFFileName" xml:space="preserve">
+    <value>E-Archive PDF</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End Date</value>
+  </data>
+  <data name="ErrorPleaseContact" xml:space="preserve">
+    <value>An error occurred during operation, please contact our support.</value>
+  </data>
+  <data name="ExpirationDate" xml:space="preserve">
+    <value>Expiration Date</value>
+  </data>
+  <data name="ExpirationDateMonth" xml:space="preserve">
+    <value>Month</value>
+  </data>
+  <data name="ExpirationDateMonthPlaceHolder" xml:space="preserve">
+    <value>mm</value>
+  </data>
+  <data name="ExpirationDateYear" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="ExpirationDateYearPlaceHolder" xml:space="preserve">
+    <value>yy</value>
+  </data>
+  <data name="ExtendPacket" xml:space="preserve">
+    <value>Extend Packet</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>Fullname</value>
+  </data>
+  <data name="FUPDownload" xml:space="preserve">
+    <value>Daily Download</value>
+  </data>
+  <data name="FUPUpload" xml:space="preserve">
+    <value>Daily Upload</value>
+  </data>
+  <data name="GeneralError" xml:space="preserve">
+    <value>An error occured. Please contact our support team.</value>
+  </data>
+  <data name="GeneralState" xml:space="preserve">
+    <value>General State</value>
+  </data>
+  <data name="Go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="HasActiveRequest" xml:space="preserve">
+    <value>You have an active support request. Can not send a new one.</value>
+  </data>
+  <data name="InquireAgain" xml:space="preserve">
+    <value>Inquire Again</value>
+  </data>
+  <data name="InstallationAddress" xml:space="preserve">
+    <value>Installation Address</value>
+  </data>
+  <data name="InternalError" xml:space="preserve">
+    <value>Internal Error</value>
+  </data>
+  <data name="InternalErrorDescription" xml:space="preserve">
+    <value>An error occurred while processing your request.</value>
+  </data>
+  <data name="InternetPassword" xml:space="preserve">
+    <value>Internet Access Password</value>
+  </data>
+  <data name="InternetUsername" xml:space="preserve">
+    <value>Internet Access Username</value>
+  </data>
+  <data name="InvalidTokenKey" xml:space="preserve">
+    <value>Invalid token!</value>
+  </data>
+  <data name="IsMarkedRequestSolved" xml:space="preserve">
+    <value>Should your request be marked as my problem solved?</value>
+  </data>
+  <data name="IssueDate" xml:space="preserve">
+    <value>Issue Date</value>
+  </data>
+  <data name="Last3PeriodsUsage" xml:space="preserve">
+    <value>Last 3 Periods Usage Report</value>
+  </data>
+  <data name="LastPaymentDate" xml:space="preserve">
+    <value>Last Payment Date</value>
+  </data>
+  <data name="LearnAddressCode" xml:space="preserve">
+    <value>Learn Your Address Code</value>
+  </data>
+  <data name="LineState" xml:space="preserve">
+    <value>LINE STATE</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginCustomerCode" xml:space="preserve">
+    <value>GSM No or TCK No</value>
+  </data>
+  <data name="LoginSMSPassword" xml:space="preserve">
+    <value>Sent SMS Password</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="MaskedCardNo" xml:space="preserve">
+    <value>Card No</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="MissedCount" xml:space="preserve">
+    <value>Missed</value>
+  </data>
+  <data name="MyDocuments" xml:space="preserve">
+    <value>My Documents</value>
+  </data>
+  <data name="NewNotification" xml:space="preserve">
+    <value>You have a new notification</value>
+  </data>
+  <data name="NewRequest" xml:space="preserve">
+    <value>New Support Request</value>
+  </data>
+  <data name="NewRequestDescription" xml:space="preserve">
+    <value>You can request support and follow up.</value>
+  </data>
+  <data name="NewSupportRequest" xml:space="preserve">
+    <value>How can we help you?</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="NonFUPDownload" xml:space="preserve">
+    <value>Nightly Download</value>
+  </data>
+  <data name="NonFUPUpload" xml:space="preserve">
+    <value>Nightly Upload</value>
+  </data>
+  <data name="NotAvailable" xml:space="preserve">
+    <value>Not Available</value>
+  </data>
+  <data name="NotAvailableDescription" xml:space="preserve">
+    <value>We are updating... Please retry in 10 minutes.</value>
+  </data>
+  <data name="NotValid" xml:space="preserve">
+    <value>Please enter a valid {0}.</value>
+  </data>
+  <data name="OpenRequestAgain" xml:space="preserve">
+    <value>Open Request Again</value>
+  </data>
+  <data name="OperationSMS" xml:space="preserve">
+    <value>Your customer website operation password is {0}.</value>
+  </data>
+  <data name="Optional" xml:space="preserve">
+    <value>Optional</value>
+  </data>
+  <data name="PasswordSMS" xml:space="preserve">
+    <value>Your customer website password is {0}.</value>
+  </data>
+  <data name="PayAll" xml:space="preserve">
+    <value>Pay All</value>
+  </data>
+  <data name="Payed" xml:space="preserve">
+    <value>Payed</value>
+  </data>
+  <data name="Payment" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="PaymentSelection" xml:space="preserve">
+    <value>Please select how you want to pay.</value>
+  </data>
+  <data name="PaymentType" xml:space="preserve">
+    <value>Payment Type</value>
+  </data>
+  <data name="PaymentWithCardNotAvailable" xml:space="preserve">
+    <value>Could not retrieve credit cards. Please try again later.</value>
+  </data>
+  <data name="PayNow" xml:space="preserve">
+    <value>Pay Now</value>
+  </data>
+  <data name="PayWithOtherCards" xml:space="preserve">
+    <value>Pay with another card</value>
+  </data>
+  <data name="PersonalInfo" xml:space="preserve">
+    <value>Personal Info</value>
+  </data>
+  <data name="PhoneNo" xml:space="preserve">
+    <value>Phone No</value>
+  </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Processing...Please Wait...</value>
+  </data>
+  <data name="PortState" xml:space="preserve">
+    <value>Port State</value>
+  </data>
+  <data name="POSSuccessMessage" xml:space="preserve">
+    <value>Payment successful.</value>
+  </data>
+  <data name="ProblemSolved" xml:space="preserve">
+    <value>Problem Is Solved</value>
+  </data>
+  <data name="Processing" xml:space="preserve">
+    <value>Processing</value>
+  </data>
+  <data name="PSTN" xml:space="preserve">
+    <value>PSTN</value>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Send Query</value>
+  </data>
+  <data name="QuotaPakages" xml:space="preserve">
+    <value>Quota Pakages</value>
+  </data>
+  <data name="Redirecting" xml:space="preserve">
+    <value>Redirecting...</value>
+  </data>
+  <data name="RedirectPageTitle" xml:space="preserve">
+    <value>&lt;div&gt;You have an active subscription.&lt;/div&gt; You can submit your request through the &lt;span&gt;Customer Service &lt;/span&gt;. You are being redirected to the Customer Service ...</value>
+  </data>
+  <data name="ReferenceNo" xml:space="preserve">
+    <value>Reference No</value>
+  </data>
+  <data name="RemainingCount" xml:space="preserve">
+    <value>Remaining</value>
+  </data>
+  <data name="RemainingFUP" xml:space="preserve">
+    <value>REMAINING FUP</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="RemoveCard" xml:space="preserve">
+    <value>Remove Card</value>
+  </data>
+  <data name="SelectionSupportSubType" xml:space="preserve">
+    <value>Please select support description type</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="SendSupportRequest" xml:space="preserve">
+    <value>Send Support Request</value>
+  </data>
+  <data name="ServiceName" xml:space="preserve">
+    <value>Service Name</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="Service_Services" xml:space="preserve">
+    <value>Service(s)</value>
+  </data>
+  <data name="ShowAll" xml:space="preserve">
+    <value>Show All</value>
+  </data>
+  <data name="SiteTitle" xml:space="preserve">
+    <value>Online Services</value>
+  </data>
+  <data name="SMSPasswordWrong" xml:space="preserve">
+    <value>Invalid input. Please check your password.</value>
+  </data>
+  <data name="SMSWarningMessage" xml:space="preserve">
+    <value>Your password is sent via SMS. This password can be used for {0} hours.</value>
+  </data>
+  <data name="SpecialOffers" xml:space="preserve">
+    <value>My Special Offers</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="State" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SubscriberNo" xml:space="preserve">
+    <value>Subscriber No</value>
+  </data>
+  <data name="SubscriberNotFound" xml:space="preserve">
+    <value>Subscriber not found!</value>
+  </data>
+  <data name="SubscriberState" xml:space="preserve">
+    <value>Subscriber State</value>
+  </data>
+  <data name="SubscriptionInformationTitle" xml:space="preserve">
+    <value>You can see your other subscriptions from here.</value>
+  </data>
+  <data name="SupportAndRequests" xml:space="preserve">
+    <value>Support and Requests</value>
+  </data>
+  <data name="SupportDetails" xml:space="preserve">
+    <value>Support Details</value>
+  </data>
+  <data name="SupportRequestApproval" xml:space="preserve">
+    <value>Support Request Approval</value>
+  </data>
+  <data name="SupportRequestMessage" xml:space="preserve">
+    <value>Write your message.</value>
+  </data>
+  <data name="SVUID" xml:space="preserve">
+    <value>Query No</value>
+  </data>
+  <data name="TariffAndTraffic" xml:space="preserve">
+    <value>Tariff and Trafic</value>
+  </data>
+  <data name="ThisPeriod" xml:space="preserve">
+    <value>This Period</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="TotalCount" xml:space="preserve">
+    <value>Earned</value>
+  </data>
+  <data name="TotalDiscountCount" xml:space="preserve">
+    <value>Total (Discount Quantity)</value>
+  </data>
+  <data name="TotalDownload" xml:space="preserve">
+    <value>Total Downoald</value>
+  </data>
+  <data name="TotalFUP" xml:space="preserve">
+    <value>TOTAL FUP</value>
+  </data>
+  <data name="TotalUpload" xml:space="preserve">
+    <value>TotalUpload</value>
+  </data>
+  <data name="TTSubscriberNo" xml:space="preserve">
+    <value>Service No</value>
+  </data>
+  <data name="UnpaidBillsMessage" xml:space="preserve">
+    <value>You have &lt;span class="bold"&gt;{0}&lt;/span&gt; unpaid invoices with total of &lt;span class="bold"&gt;{1}&lt;/span&gt;. If you wish, you can pay immediately with your credit card.</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="UploadNoiseMargin" xml:space="preserve">
+    <value>Upload Noise Margin</value>
+  </data>
+  <data name="UsedCount" xml:space="preserve">
+    <value>Used</value>
+  </data>
+  <data name="ViewAllBills" xml:space="preserve">
+    <value>View All Bills</value>
+  </data>
+  <data name="WelcomeMessageHeader" xml:space="preserve">
+    <value>DEAR &lt;span class="welcome-message"&gt;{0}&lt;/span&gt; WELCOME</value>
+  </data>
+  <data name="WelcomeMessageText" xml:space="preserve">
+    <value>In {0} Online Services, you can pay your invoice instantly with a credit card and you can perform more transactions 24/7 fast and safely.</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+</root>

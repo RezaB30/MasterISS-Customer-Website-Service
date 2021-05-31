@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadiusR.API.Test_Unit", "Ra
 		{50EE8943-7FBF-4D2A-AC59-2139B0AD4A21} = {50EE8943-7FBF-4D2A-AC59-2139B0AD4A21}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadiusR.API.CustomerWebApi", "RadiusR.API.CustomerWebApi\RadiusR.API.CustomerWebApi.csproj", "{BA2903AE-D849-4E4A-AE36-346AC870D053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +32,10 @@ Global
 		{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2054AF4-E1BD-4F51-8F6B-EC3ABDEAE085}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA2903AE-D849-4E4A-AE36-346AC870D053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA2903AE-D849-4E4A-AE36-346AC870D053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA2903AE-D849-4E4A-AE36-346AC870D053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA2903AE-D849-4E4A-AE36-346AC870D053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
