@@ -19,7 +19,8 @@ namespace RadiusR.API.CustomerWebService.Responses.AgentResponses
 
         [DataMember]
         public BillInfo[] Bills { get; set; }
-
+        [DataMember]
+        public string[] PrePaidSubscriptions { get; set; }
         [DataContract]
         public class BillInfo
         {
@@ -37,7 +38,7 @@ namespace RadiusR.API.CustomerWebService.Responses.AgentResponses
             public string DueDate { get; set; }
 
             [DataMember]
-            public decimal Total { get; set; }
+            public decimal Total { get; set; }            
         }
     }
     [DataContract]

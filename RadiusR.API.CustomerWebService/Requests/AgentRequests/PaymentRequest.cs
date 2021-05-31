@@ -13,6 +13,8 @@ namespace RadiusR.API.CustomerWebService.Requests.AgentRequests
     {
         [DataMember]
         public long[] BillIDs { get; set; }
+        [DataMember]
+        public string PrePaidSubscription { get; set; }
     }
     [DataContract]
     public partial class AgentServicePaymentRequest : BaseRequest<PaymentRequest, SHA256>

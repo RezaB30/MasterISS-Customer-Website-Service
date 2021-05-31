@@ -901,18 +901,46 @@ namespace RadiusR.API.CustomerWebService
                 {
                     return new AgentServicePaymentResponse(passwordHash, request)
                     {
-                        PaymentResponse = null,
+                        PaymentResponse = false,
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request)
                     };
                 }
                 using (RadiusREntities db = new RadiusREntities())
                 {
                     var dbAgent = db.Agents.FirstOrDefault(p => p.Email == request.PaymentRequest.UserEmail);
+                    if (dbAgent == null)
+                    {
+                        return new AgentServicePaymentResponse(passwordHash, request)
+                        {
+                            PaymentResponse = false,
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
+                    if (!string.IsNullOrEmpty(request.PaymentRequest.PrePaidSubscription))
+                    {
+                        var dbSubscription = db.Subscriptions.FirstOrDefault(s=>s.SubscriberNo == request.PaymentRequest.PrePaidSubscription);
+                        var payResponse = RadiusR.DB.Utilities.Billing.ExtendPackage.ExtendClientPackage(db, dbSubscription, 1, PaymentType.Cash, BillPayment.AccountantType.Admin);
+                        db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.ExtendPackage(null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, 1));
+                        db.SaveChanges();
+                        if (payResponse == BillPayment.ResponseType.Success)
+                        {
+                            return new AgentServicePaymentResponse(passwordHash, request)
+                            {
+                                PaymentResponse = true,
+                                ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                            };
+                        }
+                        return new AgentServicePaymentResponse(passwordHash, request)
+                        {
+                            PaymentResponse = false,
+                            ResponseMessage = CommonResponse.FailedResponse(request.Culture),
+                        };
+                    }
                     if (request.PaymentRequest.BillIDs == null || request.PaymentRequest.BillIDs.Count() <= 0)
                     {
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = null,
+                            PaymentResponse = false,
                             ResponseMessage = CommonResponse.BillsNotFoundException(request.Culture)
                         };
                     }
@@ -926,7 +954,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = null,
+                            PaymentResponse = false,
                             ResponseMessage = CommonResponse.BillsNotFoundException(request.Culture)
                         };
                     }
@@ -942,13 +970,13 @@ namespace RadiusR.API.CustomerWebService
                         {
                             return new AgentServicePaymentResponse(passwordHash, request)
                             {
-                                PaymentResponse = null,
+                                PaymentResponse = false,
                                 ResponseMessage = CommonResponse.NotEnoughCredit(request.Culture)
                             };
                         }
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = null,
+                            PaymentResponse = false,
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture)
                         };
                     }
@@ -972,7 +1000,7 @@ namespace RadiusR.API.CustomerWebService
                     return new AgentServicePaymentResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                        PaymentResponse = dbBills.Select(b => b.ID).ToArray()
+                        PaymentResponse = true, //dbBills.Select(b => b.ID).ToArray()
                     };
                 }
             }
@@ -981,7 +1009,7 @@ namespace RadiusR.API.CustomerWebService
                 Errorslogger.LogException(request.Username, ex);
                 return new AgentServicePaymentResponse(passwordHash, request)
                 {
-                    PaymentResponse = null,
+                    PaymentResponse = false,
                     ResponseMessage = CommonResponse.InternalException(request.Username)
                 };
             }
@@ -1179,11 +1207,13 @@ namespace RadiusR.API.CustomerWebService
 
                     }
                     var totalCredits = dbSubscriber.SelectMany(db => db.SubscriptionCredits).Select(sc => sc.Amount).DefaultIfEmpty(0m).Sum();
+                    var prePaidSubscriber = dbSubscriber.Where(s => s.Service.BillingType == (short)RadiusR.DB.Enums.BillType.PrePaid).Select(s => s.SubscriberNo).ToArray();
                     return new AgentServiceBillListResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                         BillListResponse = new BillListResponse()
                         {
+                            PrePaidSubscriptions = prePaidSubscriber,
                             Bills = results,
                             SubscriberName = dbSubscriber.FirstOrDefault().ValidDisplayName,
                             TotalCredits = totalCredits
