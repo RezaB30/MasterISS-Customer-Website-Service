@@ -918,7 +918,7 @@ namespace RadiusR.API.CustomerWebService
                     }
                     if (!string.IsNullOrEmpty(request.PaymentRequest.PrePaidSubscription))
                     {
-                        var dbSubscription = db.Subscriptions.FirstOrDefault(s=>s.SubscriberNo == request.PaymentRequest.PrePaidSubscription);
+                        var dbSubscription = db.Subscriptions.FirstOrDefault(s => s.SubscriberNo == request.PaymentRequest.PrePaidSubscription);
                         var payResponse = RadiusR.DB.Utilities.Billing.ExtendPackage.ExtendClientPackage(db, dbSubscription, 1, PaymentType.Cash, BillPayment.AccountantType.Admin);
                         db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.ExtendPackage(null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, 1));
                         db.SaveChanges();
@@ -1207,13 +1207,14 @@ namespace RadiusR.API.CustomerWebService
 
                     }
                     var totalCredits = dbSubscriber.SelectMany(db => db.SubscriptionCredits).Select(sc => sc.Amount).DefaultIfEmpty(0m).Sum();
-                    var prePaidSubscriber = dbSubscriber.Where(s => s.Service.BillingType == (short)RadiusR.DB.Enums.BillType.PrePaid).Select(s => s.SubscriberNo).ToArray();
+                    var prePaidSubscriber = dbSubscriber.Where(s => s.Service.BillingType == (short)RadiusR.DB.Enums.BillType.PrePaid)
+                        .Select(s => new BillListResponse.PrePaidSubscriptionInfo() { SubscriberNo = s.SubscriberNo, ServiceName = s.Service.Name, Total = s.Service.Price }).ToArray();
                     return new AgentServiceBillListResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                         BillListResponse = new BillListResponse()
                         {
-                            PrePaidSubscriptions = prePaidSubscriber,
+                            PrePaidSubscriptionInfoes = prePaidSubscriber,
                             Bills = results,
                             SubscriberName = dbSubscriber.FirstOrDefault().ValidDisplayName,
                             TotalCredits = totalCredits

@@ -40,3 +40,6 @@ v 1.0.7.2 2021-05-22 (Partner web service changelog)
 v 2.0.0 2021-05-26 (AgentWebService)
 - added new web service for agents
 v 2.1.0 2021-05-30 (New branch for AgentWebService)
+---- Agent Web Service Branch Version History ----
+v 2.1.1 2021-05-31
+- changed get bills and pay bills functions for pre paid subscriptions
