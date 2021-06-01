@@ -26,8 +26,8 @@ namespace RadiusR.API.CustomerWebService
         }
         public static ServiceResponse UnauthorizedResponse(BaseRequest<SHA1> request)
         {
-            WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
-            Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
+            Logger Errorslogger = LogManager.GetLogger("Errors");
+            Errorslogger.Error(new Exception("unauthorize error"));
             return new ServiceResponse()
             {
                 ErrorCode = (int)ErrorCodes.AuthenticationFailed,
@@ -237,8 +237,8 @@ namespace RadiusR.API.CustomerWebService
         }
         public static ServiceResponse PartnerUnauthorizedResponse(BaseRequest<SHA256> request)
         {
-            WebServiceLogger Errorslogger = new WebServiceLogger("PartnerErrors");
-            Errorslogger.LogException(request.Username, new Exception("unauthorize error"));
+            Logger Errorslogger = LogManager.GetLogger("PartnerErrors");
+            Errorslogger.Error(new Exception("unauthorize error"));
             return new ServiceResponse()
             {
                 ErrorCode = (int)PartnerErrorCodes.AuthenticationFailed,

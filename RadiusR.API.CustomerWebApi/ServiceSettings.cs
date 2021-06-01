@@ -11,12 +11,12 @@ namespace RadiusR.API.CustomerWebService
 {
     public class ServiceSettings
     {
-        WebServiceLogger Errorslogger = new WebServiceLogger("Errors");
+        Logger Errorslogger = LogManager.GetLogger("Errors");
         public string GetUserPassword(string username)
         {
             if (username != RadiusR.DB.CustomerWebsiteSettings.WebsiteServicesUsername)
             {
-                Errorslogger.LogException(username, new Exception("username is not found"));
+                Errorslogger.Error(new Exception("username is not found"));
                 // log wrong username
                 return "";
             }
@@ -28,7 +28,7 @@ namespace RadiusR.API.CustomerWebService
         {
             if (username != RadiusR.DB.CustomerWebsiteSettings.WebsiteServicesUsername)
             {
-                Errorslogger.LogException(username, new Exception("username is not found"));
+                Errorslogger.Error(new Exception("username is not found"));
                 // log wrong username
                 return "";
             }
@@ -40,7 +40,7 @@ namespace RadiusR.API.CustomerWebService
         {
             if (username != RadiusR.DB.CustomerWebsiteSettings.WebsiteServicesUsername)
             {
-                Errorslogger.LogException(username, new Exception("username is not found"));
+                Errorslogger.Error(new Exception("username is not found"));
                 // log wrong username
                 return "";
             }
