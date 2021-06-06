@@ -1413,6 +1413,7 @@ namespace RadiusR.API.CustomerWebService
                     var getCustomerTasks = db.CustomerSetupTasks.Where(task => task.SubscriptionID == subscription.ID).ToArray();
                     var customerTasks = getCustomerTasks?.Select(task => new CustomerSetupTaskResponse()
                     {
+                        ID = task.ID,
                         ValidDisplayName = task.Subscription.Customer.ValidDisplayName,
                         Allowance = task.Allowance,
                         CompletionDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(task.CompletionDate),
