@@ -33,6 +33,23 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             //        return null;
             //    }
             //}
+        //    public static class ServiceUtilities<T>
+        //{
+        //    private static readonly string url = "http://10.184.3.63:9190/";
+        //    public static T GetWebService(object request, string webServiceName)
+        //    {
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            httpClient.BaseAddress = new Uri(url);
+        //            httpClient.DefaultRequestHeaders.Accept.Clear();
+        //            httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //            var reqUri = webServiceName.ToLower() == "getkeyfragment" ? $"api/Client/{webServiceName}?username={request}" : $"api/Client/{webServiceName}";
+        //            var response = httpClient.PostAsJsonAsync(reqUri, request).Result;
+        //            var result = response.Content.ReadAsStringAsync().Result;
+        //            return JsonConvert.DeserializeObject<T>(result);
+        //        }
+        //    }
+        //}
             return RedirectToAction("Index", "Help", new { area = "" });
         }
         public class Customer
