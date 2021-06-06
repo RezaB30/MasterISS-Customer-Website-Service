@@ -18,6 +18,8 @@ namespace RadiusR.API.CustomerWebService.Requests.AgentRequests
     [DataContract]
     public partial class AgentServiceBillReceiptRequest : BaseRequest<BillReceiptRequest, SHA256>
     {
+        [DataMember]
         public BillReceiptRequest BillReceiptParameters { get { return Data; } set { Data = value; } }
     }
+
 }
