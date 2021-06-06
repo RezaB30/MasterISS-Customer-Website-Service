@@ -1410,7 +1410,8 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
                         };
                     }
-                    var customerTasks = db.CustomerSetupTasks?.Where(task => task.SubscriptionID == subscription.ID).Select(task => new CustomerSetupTaskResponse()
+                    var getCustomerTasks = db.CustomerSetupTasks.Where(task => task.SubscriptionID == subscription.ID).ToArray();
+                    var customerTasks = getCustomerTasks?.Select(task => new CustomerSetupTaskResponse()
                     {
                         ValidDisplayName = task.Subscription.Customer.ValidDisplayName,
                         Allowance = task.Allowance,

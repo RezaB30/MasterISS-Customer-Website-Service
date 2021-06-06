@@ -127,11 +127,11 @@
     <Reference Include="RadiusR.DB.TelekomOperations, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.1.1\lib\net472\RadiusR.DB.TelekomOperations.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities, Version=1.1.5.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.5-alpha3\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities, Version=1.1.5.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.5\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.8-alpha1\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.8.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.8\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.FileManagement, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.FileManagement.1.1.6\lib\net472\RadiusR.FileManagement.dll</HintPath>

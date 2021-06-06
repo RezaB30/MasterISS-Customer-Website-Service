@@ -102,8 +102,8 @@
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.7.6\lib\net45\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB, Version=1.4.0.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.1.4.0\lib\net472\RadiusR.DB.dll</HintPath>
+    <Reference Include="RadiusR.DB, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.1.4.1\lib\net472\RadiusR.DB.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.2\lib\net472\RadiusR.DB.DomainsCache.dll</HintPath>
@@ -111,20 +111,20 @@
     <Reference Include="RadiusR.DB.TelekomOperations, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.1.1\lib\net472\RadiusR.DB.TelekomOperations.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities, Version=1.1.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.5-alpha2\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities, Version=1.1.5.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.5\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.8-alpha1\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.8.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.8\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.FileManagement, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.FileManagement.1.1.6\lib\net472\RadiusR.FileManagement.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.1.0.8\lib\net472\RadiusR.Localization.dll</HintPath>
+    <Reference Include="RadiusR.Localization, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.1.0.9\lib\net472\RadiusR.Localization.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization.Lists, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.12\lib\net472\RadiusR.Localization.Lists.dll</HintPath>
+    <Reference Include="RadiusR.Localization.Lists, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.13\lib\net472\RadiusR.Localization.Lists.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.Scheduler.SMS, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.Scheduler.SMS.1.0.2\lib\net472\RadiusR.Scheduler.SMS.dll</HintPath>
