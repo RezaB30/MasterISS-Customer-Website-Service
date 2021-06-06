@@ -1502,15 +1502,6 @@ namespace RadiusR.API.CustomerWebService
                             AgentClientForms = null
                         };
                     }
-                    var subscription = dbAgent.Subscriptions.FirstOrDefault(s => s.ID == request.ClientFormsParameters.SubscriptionId);
-                    if (subscription == null)
-                    {
-                        return new AgentServiceClientFormsResponse(passwordHash, request)
-                        {
-                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
-                            AgentClientForms = null
-                        };
-                    }
                     if (request.ClientFormsParameters.SubscriptionId == null)
                     {
                         return new AgentServiceClientFormsResponse(passwordHash, request)
@@ -1519,6 +1510,15 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
                         };
                     }
+                    var subscription = dbAgent.Subscriptions.FirstOrDefault(s => s.ID == request.ClientFormsParameters.SubscriptionId);
+                    if (subscription == null)
+                    {
+                        return new AgentServiceClientFormsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
+                            AgentClientForms = null
+                        };
+                    }                    
                     var formType = GeneralPDFFormTypes.ContractForm;
                     var subscriptionId = request.ClientFormsParameters.SubscriptionId.Value;
                     if (request.ClientFormsParameters.FormType.HasValue)
