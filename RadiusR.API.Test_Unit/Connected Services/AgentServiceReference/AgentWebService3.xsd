@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" />
+  <xs:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd6" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="AgentServiceAuthenticationResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q1="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q1:BaseResponseOfAuthenticationResponseSHA2568F1FUdyT">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AuthenticationResponse" nillable="true" type="tns:AuthenticationResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceAuthenticationResponse" nillable="true" type="tns:AgentServiceAuthenticationResponse" />
+  <xs:complexType name="AuthenticationResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AgentId" type="xs:int" />
+      <xs:element minOccurs="0" name="DisplayName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="IsAuthenticated" type="xs:boolean" />
+      <xs:element minOccurs="0" name="PhoneNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SetupServiceHash" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SetupServiceUser" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AuthenticationResponse" nillable="true" type="tns:AuthenticationResponse" />
+  <xs:complexType name="AgentServiceNewCustomerRegisterResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q2="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q2:BaseResponseOfArrayOfKeyValueOfstringstringSHA256PGu3YCeQ">
+        <xs:sequence>
+          <xs:element xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="NewCustomerRegisterResponse" nillable="true" type="q3:ArrayOfKeyValueOfstringstring" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceNewCustomerRegisterResponse" nillable="true" type="tns:AgentServiceNewCustomerRegisterResponse" />
+  <xs:complexType name="AgentServiceSMSCodeResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q4="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q4:BaseResponseOfSMSCodeResponseSHA2568F1FUdyT">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="SMSCodeResponse" nillable="true" type="tns:SMSCodeResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceSMSCodeResponse" nillable="true" type="tns:AgentServiceSMSCodeResponse" />
+  <xs:complexType name="SMSCodeResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Code" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SMSCodeResponse" nillable="true" type="tns:SMSCodeResponse" />
+  <xs:complexType name="AgentServiceSubscriptionsResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q5="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q5:BaseResponseOfArrayOfAgentSubscriptionsResponseSHA2568F1FUdyT">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AgentSubscriptionList" nillable="true" type="tns:ArrayOfAgentSubscriptionsResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceSubscriptionsResponse" nillable="true" type="tns:AgentServiceSubscriptionsResponse" />
+  <xs:complexType name="ArrayOfAgentSubscriptionsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="AgentSubscriptionsResponse" nillable="true" type="tns:AgentSubscriptionsResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfAgentSubscriptionsResponse" nillable="true" type="tns:ArrayOfAgentSubscriptionsResponse" />
+  <xs:complexType name="AgentSubscriptionsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomerState" nillable="true" type="tns:NameValuePair" />
+      <xs:element minOccurs="0" name="DisplayName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExpirationDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID" type="xs:long" />
+      <xs:element minOccurs="0" name="MembershipDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SubscriberNo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="AgentSubscriptionsResponse" nillable="true" type="tns:AgentSubscriptionsResponse" />
+  <xs:complexType name="NameValuePair">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Value" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="NameValuePair" nillable="true" type="tns:NameValuePair" />
+  <xs:complexType name="AgentServiceKeyValueListResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q6="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q6:BaseResponseOfArrayOfKeyValueItemSHA2568F1FUdyT">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="KeyValueItemResponse" nillable="true" type="tns:ArrayOfKeyValueItem" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceKeyValueListResponse" nillable="true" type="tns:AgentServiceKeyValueListResponse" />
+  <xs:complexType name="ArrayOfKeyValueItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="KeyValueItem" nillable="true" type="tns:KeyValueItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfKeyValueItem" nillable="true" type="tns:ArrayOfKeyValueItem" />
+  <xs:complexType name="KeyValueItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Key" type="xs:long" />
+      <xs:element minOccurs="0" name="Value" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="KeyValueItem" nillable="true" type="tns:KeyValueItem" />
+  <xs:complexType name="AgentServicePaymentResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q7="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q7:BaseResponseOfbooleanSHA256Miy85_SUl">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="PaymentResponse" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServicePaymentResponse" nillable="true" type="tns:AgentServicePaymentResponse" />
+  <xs:complexType name="AgentServiceCredentialSMSResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q8="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q8:BaseResponseOfbooleanSHA256Miy85_SUl">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CredentialSMSResponse" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceCredentialSMSResponse" nillable="true" type="tns:AgentServiceCredentialSMSResponse" />
+  <xs:complexType name="AgentServiceIDCardValidationResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q9="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q9:BaseResponseOfbooleanSHA256Miy85_SUl">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="IDCardValidationResponse" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceIDCardValidationResponse" nillable="true" type="tns:AgentServiceIDCardValidationResponse" />
+  <xs:complexType name="AgentServiceBillListResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q10="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q10:BaseResponseOfBillListResponseSHA2568F1FUdyT">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="BillListResponse" nillable="true" type="tns:BillListResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceBillListResponse" nillable="true" type="tns:AgentServiceBillListResponse" />
+  <xs:complexType name="BillListResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Bills" nillable="true" type="tns:ArrayOfBillListResponse.BillInfo" />
+      <xs:element minOccurs="0" name="PrePaidSubscriptionInfoes" nillable="true" type="tns:ArrayOfBillListResponse.PrePaidSubscriptionInfo" />
+      <xs:element minOccurs="0" name="SubscriberName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TotalCredits" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BillListResponse" nillable="true" type="tns:BillListResponse" />
+  <xs:complexType name="ArrayOfBillListResponse.BillInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BillListResponse.BillInfo" nillable="true" type="tns:BillListResponse.BillInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBillListResponse.BillInfo" nillable="true" type="tns:ArrayOfBillListResponse.BillInfo" />
+  <xs:complexType name="BillListResponse.BillInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DueDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ID" type="xs:long" />
+      <xs:element minOccurs="0" name="IssueDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ServiceName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SubscriberNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Total" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BillListResponse.BillInfo" nillable="true" type="tns:BillListResponse.BillInfo" />
+  <xs:complexType name="ArrayOfBillListResponse.PrePaidSubscriptionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="BillListResponse.PrePaidSubscriptionInfo" nillable="true" type="tns:BillListResponse.PrePaidSubscriptionInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfBillListResponse.PrePaidSubscriptionInfo" nillable="true" type="tns:ArrayOfBillListResponse.PrePaidSubscriptionInfo" />
+  <xs:complexType name="BillListResponse.PrePaidSubscriptionInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ServiceName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SubscriberNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Total" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="BillListResponse.PrePaidSubscriptionInfo" nillable="true" type="tns:BillListResponse.PrePaidSubscriptionInfo" />
+  <xs:complexType name="AgentServiceAddWorkOrderResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q11="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q11:BaseResponseOfbooleanSHA256Miy85_SUl">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="AddWorkOrderResult" type="xs:boolean" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceAddWorkOrderResponse" nillable="true" type="tns:AgentServiceAddWorkOrderResponse" />
+  <xs:complexType name="AgentServiceServiceOperatorsResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q12="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q12:BaseResponseOfArrayOfNameValuePairSHA2568F1FUdyT">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="ServiceOperators" nillable="true" type="tns:ArrayOfNameValuePair" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceServiceOperatorsResponse" nillable="true" type="tns:AgentServiceServiceOperatorsResponse" />
+  <xs:complexType name="ArrayOfNameValuePair">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="NameValuePair" nillable="true" type="tns:NameValuePair" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfNameValuePair" nillable="true" type="tns:ArrayOfNameValuePair" />
+  <xs:complexType name="AgentServiceCustomerSetupTaskResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension xmlns:q13="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" base="q13:BaseResponseOfArrayOfCustomerSetupTaskResponseSHA2568F1FUdyT">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="CustomerTaskList" nillable="true" type="tns:ArrayOfCustomerSetupTaskResponse" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="AgentServiceCustomerSetupTaskResponse" nillable="true" type="tns:AgentServiceCustomerSetupTaskResponse" />
+  <xs:complexType name="ArrayOfCustomerSetupTaskResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CustomerSetupTaskResponse" nillable="true" type="tns:CustomerSetupTaskResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCustomerSetupTaskResponse" nillable="true" type="tns:ArrayOfCustomerSetupTaskResponse" />
+  <xs:complexType name="CustomerSetupTaskResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Allowance" nillable="true" type="xs:decimal" />
+      <xs:element minOccurs="0" name="AllowanceState" nillable="true" type="tns:NameValuePair" />
+      <xs:element minOccurs="0" name="CompletionDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerTaskUpdates" nillable="true" type="tns:ArrayOfCustomerSetupTaskResponse.TaskUpdates" />
+      <xs:element minOccurs="0" name="Details" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="HasModem" type="xs:boolean" />
+      <xs:element minOccurs="0" name="ID" type="xs:long" />
+      <xs:element minOccurs="0" name="ModemName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SetupUserID" type="xs:int" />
+      <xs:element minOccurs="0" name="SubscriptionID" type="xs:long" />
+      <xs:element minOccurs="0" name="TaskIssueDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TaskStatus" nillable="true" type="tns:NameValuePair" />
+      <xs:element minOccurs="0" name="TaskType" nillable="true" type="tns:NameValuePair" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CustomerSetupTaskResponse" nillable="true" type="tns:CustomerSetupTaskResponse" />
+  <xs:complexType name="ArrayOfCustomerSetupTaskResponse.TaskUpdates">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="CustomerSetupTaskResponse.TaskUpdates" nillable="true" type="tns:CustomerSetupTaskResponse.TaskUpdates" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCustomerSetupTaskResponse.TaskUpdates" nillable="true" type="tns:ArrayOfCustomerSetupTaskResponse.TaskUpdates" />
+  <xs:complexType name="CustomerSetupTaskResponse.TaskUpdates">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Date" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="FaultCode" nillable="true" type="tns:NameValuePair" />
+      <xs:element minOccurs="0" name="ID" type="xs:long" />
+      <xs:element minOccurs="0" name="ReservationDate" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="CustomerSetupTaskResponse.TaskUpdates" nillable="true" type="tns:CustomerSetupTaskResponse.TaskUpdates" />
+</xs:schema>

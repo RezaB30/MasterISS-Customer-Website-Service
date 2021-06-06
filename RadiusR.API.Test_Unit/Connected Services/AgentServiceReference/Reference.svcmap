@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="bd29c811-87c9-404b-8c09-99ca122f8f21" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:56365/AgentWebService.svc?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="AgentWebService.wsdl" MetadataType="Wsdl" ID="c53f9179-6532-42da-a617-e8e6c5893b65" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?wsdl" />
+    <MetadataFile FileName="AgentWebService.xsd" MetadataType="Schema" ID="cc445cd1-cfc0-439c-9693-c36580d8a2af" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?xsd=xsd0" />
+    <MetadataFile FileName="AgentWebService1.xsd" MetadataType="Schema" ID="14402df3-2fcc-4064-8028-6da7d9cf0422" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?xsd=xsd1" />
+    <MetadataFile FileName="AgentWebService2.xsd" MetadataType="Schema" ID="6637851f-79aa-4a8c-8a86-c20c8af42f46" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?xsd=xsd3" />
+    <MetadataFile FileName="AgentWebService3.xsd" MetadataType="Schema" ID="5352aed2-a800-488e-aced-a8e061ffdb8e" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?xsd=xsd5" />
+    <MetadataFile FileName="AgentWebService4.xsd" MetadataType="Schema" ID="72a28a75-1081-4098-b973-0f0543d18691" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?xsd=xsd2" />
+    <MetadataFile FileName="AgentWebService5.xsd" MetadataType="Schema" ID="3017281b-0644-4a3a-bb67-b651e429d143" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?xsd=xsd4" />
+    <MetadataFile FileName="AgentWebService6.xsd" MetadataType="Schema" ID="510b3806-ff44-40f6-a0e3-59f0cef4ff58" SourceId="1" SourceUrl="http://localhost:56365/AgentWebService.svc?xsd=xsd6" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

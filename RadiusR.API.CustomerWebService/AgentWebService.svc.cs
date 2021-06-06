@@ -5,6 +5,7 @@ using RadiusR.DB.Enums;
 using RadiusR.DB.ModelExtentions;
 using RadiusR.DB.Utilities.Billing;
 using RadiusR.DB.Utilities.ComplexOperations.Subscriptions.Registration;
+using RadiusR.DB.Utilities.Extentions;
 using RadiusR.SMS;
 using RadiusR.SystemLogs;
 using RezaB.API.WebService;
@@ -13,6 +14,7 @@ using RezaB.Data.Localization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
@@ -149,19 +151,24 @@ namespace RadiusR.API.CustomerWebService
                     return new AgentServiceSubscriptionsResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                        AgentSubscriptionList = agentSubscriptions?.Select(ps => new AgentSubscriptionsResponse()
+                        AgentSubscriptionList = new AgentSubscriptionsResponse()
                         {
-                            ID = ps.ID,
-                            CustomerState = new NameValuePair()
+                            TotalPageCount = TotalPageCount(agentSubscriptions.Count(), request.SubscriptionsRequestParameters.Pagination.ItemPerPage),
+                            AgentSubscriptionList = agentSubscriptions?.OrderByDescending(ps => ps.MembershipDate)
+                            .Skip((request.SubscriptionsRequestParameters.Pagination.PageNo.Value * request.SubscriptionsRequestParameters.Pagination.ItemPerPage.Value)).Take(request.SubscriptionsRequestParameters.Pagination.ItemPerPage.Value).Select(ps => new AgentSubscriptionsResponse.AgentSubscriptions()
                             {
-                                Value = ps.State,
-                                Name = new LocalizedList<CustomerState, RadiusR.Localization.Lists.CustomerState>().GetDisplayText(ps.State, CreateCulture(request.Culture))
-                            },
-                            DisplayName = ps.ValidDisplayName,
-                            MembershipDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(ps.MembershipDate),
-                            ExpirationDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(ps.RadiusAuthorization.ExpirationDate),
-                            SubscriberNo = ps.SubscriberNo
-                        }).ToArray()
+                                ID = ps.ID,
+                                CustomerState = new NameValuePair()
+                                {
+                                    Value = ps.State,
+                                    Name = new LocalizedList<CustomerState, RadiusR.Localization.Lists.CustomerState>().GetDisplayText(ps.State, CreateCulture(request.Culture))
+                                },
+                                DisplayName = ps.ValidDisplayName,
+                                MembershipDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(ps.MembershipDate),
+                                ExpirationDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(ps.RadiusAuthorization.ExpirationDate),
+                                SubscriberNo = ps.SubscriberNo
+                            }).ToArray()
+                        }
                     };
                 }
             }
@@ -920,7 +927,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         var dbSubscription = db.Subscriptions.FirstOrDefault(s => s.SubscriberNo == request.PaymentRequest.PrePaidSubscription);
                         var payResponse = RadiusR.DB.Utilities.Billing.ExtendPackage.ExtendClientPackage(db, dbSubscription, 1, PaymentType.Cash, BillPayment.AccountantType.Admin);
-                        db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.ExtendPackage(null, dbSubscription.ID, SystemLogInterface.CustomerWebsite, request.Username, 1));
+                        db.SystemLogs.Add(RadiusR.SystemLogs.SystemLogProcessor.ExtendPackage(null, dbSubscription.ID, SystemLogInterface.PartnerWebService, request.Username, 1));
                         db.SaveChanges();
                         if (payResponse == BillPayment.ResponseType.Success)
                         {
@@ -936,6 +943,7 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture),
                         };
                     }
+                    //billing
                     if (request.PaymentRequest.BillIDs == null || request.PaymentRequest.BillIDs.Count() <= 0)
                     {
                         return new AgentServicePaymentResponse(passwordHash, request)
@@ -959,7 +967,7 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                     // pay bills                    
-                    var paymentResults = db.PayBills(dbBills, DB.Enums.PaymentType.Partner, BillPayment.AccountantType.Admin, gateway: new BillPaymentGateway()
+                    var paymentResults = db.PayBills(dbBills, DB.Enums.PaymentType.Cash, BillPayment.AccountantType.Admin, gateway: new BillPaymentGateway()
                     {
                         PaymentAgent = dbAgent
                     });
@@ -987,7 +995,7 @@ namespace RadiusR.API.CustomerWebService
                     var billGroups = dbBills.GroupBy(bill => bill.Subscription).ToArray();
                     foreach (var group in billGroups)
                     {
-                        db.SystemLogs.Add(SystemLogProcessor.BillPayment(group.Select(bill => bill.ID), null, group.Key.ID, RadiusR.DB.Enums.SystemLogInterface.PartnerWebService, request.PaymentRequest.UserEmail, RadiusR.DB.Enums.PaymentType.Partner, gatewayName));
+                        db.SystemLogs.Add(SystemLogProcessor.BillPayment(group.Select(bill => bill.ID), null, group.Key.ID, RadiusR.DB.Enums.SystemLogInterface.PartnerWebService, request.PaymentRequest.UserEmail, RadiusR.DB.Enums.PaymentType.Cash, gatewayName));
                         // send SMS
                         db.SMSArchives.AddSafely(SMSClient.SendSubscriberSMS(group.Key, RadiusR.DB.Enums.SMSType.PaymentDone, new Dictionary<string, object>()
                         {
@@ -1232,6 +1240,589 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+        public AgentServiceAddWorkOrderResponse AddWorkOrder(AgentServiceAddWorkOrderRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceAddWorkOrderResponse(passwordHash, request)
+                    {
+                        AddWorkOrderResult = false,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var dbAgent = db.Agents.FirstOrDefault(a => a.Email == request.AddWorkOrder.UserEmail);
+                    if (dbAgent == null)
+                    {
+                        return new AgentServiceAddWorkOrderResponse(passwordHash, request)
+                        {
+                            AddWorkOrderResult = false,
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var subscription = dbAgent.Subscriptions.FirstOrDefault(s => s.ID == request.AddWorkOrder.SubscriptionId);
+                    if (subscription == null)
+                    {
+                        return new AgentServiceAddWorkOrderResponse(passwordHash, request)
+                        {
+                            AddWorkOrderResult = false,
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var setupUser = db.CustomerSetupUsers.Find(request.AddWorkOrder.SetupUserId);
+                    if (setupUser == null)
+                    {
+                        return new AgentServiceAddWorkOrderResponse(passwordHash, request)
+                        {
+                            AddWorkOrderResult = false,
+                            ResponseMessage = CommonResponse.FailedResponse(request.Culture, "Setup User Not Found")
+                        };
+                    }
+                    request.AddWorkOrder.HasModem = !request.AddWorkOrder.HasModem.HasValue ? false : request.AddWorkOrder.HasModem;
+                    request.AddWorkOrder.ModemName = request.AddWorkOrder.HasModem.GetValueOrDefault(false) ? request.AddWorkOrder.ModemName : null;
+                    var dbWorkOrder = new CustomerSetupTask()
+                    {
+                        SubscriptionID = subscription.ID,
+                        Details = request.AddWorkOrder.Description,
+                        HasModem = request.AddWorkOrder.HasModem.GetValueOrDefault(false),
+                        ModemName = request.AddWorkOrder.ModemName,
+                        SetupUserID = request.AddWorkOrder.SetupUserId,
+                        TaskType = request.AddWorkOrder.TaskType,
+                        XDSLType = request.AddWorkOrder.XDSLType,
+                        TaskIssueDate = DateTime.Now,
+                        TaskStatus = (short)RadiusR.DB.Enums.CustomerSetup.TaskStatuses.New,
+                        Allowance = setupUser.Partners.Any() ? setupUser.Partners.First().SetupAllowance : (decimal?)null,
+                        AllowanceState = (short)PartnerAllowanceState.OnHold
+                    };
+                    db.CustomerSetupTasks.Add(dbWorkOrder);
+
+                    db.SaveChanges();
+                    db.SystemLogs.Add(SystemLogProcessor.AddWorkOrder(dbWorkOrder.ID, null, subscription.ID, SystemLogInterface.MasterISS, null));
+                    db.SaveChanges();
+                    return new AgentServiceAddWorkOrderResponse(passwordHash, request)
+                    {
+                        AddWorkOrderResult = true,
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceAddWorkOrderResponse(passwordHash, request)
+                {
+                    AddWorkOrderResult = false,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture)
+                };
+            }
+        }
+        public AgentServiceServiceOperatorsResponse ServiceOperators(AgentServiceServiceOperatorsRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceServiceOperatorsResponse(passwordHash, request)
+                    {
+                        ServiceOperators = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var dbAgent = db.Agents.FirstOrDefault(a => a.Email == request.ServiceOperatorsParameters.UserEmail);
+                    if (dbAgent == null)
+                    {
+                        return new AgentServiceServiceOperatorsResponse(passwordHash, request)
+                        {
+                            ServiceOperators = null,
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var subscription = dbAgent.Subscriptions.FirstOrDefault(s => s.ID == request.ServiceOperatorsParameters.SubscriptionId);
+                    if (subscription == null)
+                    {
+                        return new AgentServiceServiceOperatorsResponse(passwordHash, request)
+                        {
+                            ServiceOperators = null,
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var serviceOperators = db.CustomerSetupUsers.ActiveUsers().ValidAgents(dbAgent.ID).OrderBy(user => user.Name).Select(user => new NameValuePair { Value = user.ID, Name = user.Name }).ToArray();
+                    return new AgentServiceServiceOperatorsResponse(passwordHash, request)
+                    {
+                        ServiceOperators = serviceOperators,
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceServiceOperatorsResponse(passwordHash, request)
+                {
+                    ServiceOperators = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture)
+                };
+            }
+        }
+        public AgentServiceCustomerSetupTaskResponse GetCustomerTasks(AgentServiceCustomerSetupTaskRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceCustomerSetupTaskResponse(passwordHash, request)
+                    {
+                        CustomerTaskList = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var dbAgent = db.Agents.FirstOrDefault(a => a.Email == request.CustomerTaskParameters.UserEmail);
+                    if (dbAgent == null)
+                    {
+                        return new AgentServiceCustomerSetupTaskResponse(passwordHash, request)
+                        {
+                            CustomerTaskList = null,
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var subscription = dbAgent.Subscriptions.FirstOrDefault(s => s.ID == request.CustomerTaskParameters.SubscriptionId);
+                    if (subscription == null)
+                    {
+                        return new AgentServiceCustomerSetupTaskResponse(passwordHash, request)
+                        {
+                            CustomerTaskList = null,
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var customerTasks = db.CustomerSetupTasks?.Where(task => task.SubscriptionID == subscription.ID).Select(task => new CustomerSetupTaskResponse()
+                    {
+                        ValidDisplayName = task.Subscription.Customer.ValidDisplayName,
+                        Allowance = task.Allowance,
+                        CompletionDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(task.CompletionDate),
+                        Details = task.Details,
+                        HasModem = task.HasModem,
+                        SubscriptionID = task.SubscriptionID,
+                        TaskType = new NameValuePair()
+                        {
+                            Value = task.TaskType,
+                            Name = new LocalizedList<RadiusR.DB.Enums.CustomerSetup.TaskTypes, RadiusR.Localization.Lists.CustomerSetup.TaskType>()
+                            .GetDisplayText(task.TaskType, CreateCulture(request.Culture))
+                        },
+                        AllowanceState = new NameValuePair()
+                        {
+                            Value = task.AllowanceState,
+                            Name = new LocalizedList<RadiusR.DB.Enums.PartnerAllowanceState, RadiusR.Localization.Lists.PartnerAllowanceState>()
+                            .GetDisplayText(task.AllowanceState, CreateCulture(request.Culture))
+                        },
+                        TaskStatus = new NameValuePair()
+                        {
+                            Value = task.TaskStatus,
+                            Name = new LocalizedList<RadiusR.DB.Enums.CustomerSetup.TaskStatuses, RadiusR.Localization.Lists.CustomerSetup.TaskStatuses>()
+                            .GetDisplayText(task.TaskStatus, CreateCulture(request.Culture))
+                        },
+                        ModemName = task.ModemName,
+                        SetupUser = new NameValuePair()
+                        {
+                            Name = db.CustomerSetupUsers.Find(task.SetupUserID) == null ? string.Empty : db.CustomerSetupUsers.Find(task.SetupUserID).Name,
+                            Value = task.SetupUserID
+                        },
+                        TaskIssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(task.TaskIssueDate),
+                        CustomerTaskUpdates = task.CustomerSetupStatusUpdates.Count() == 0 ? null : task.CustomerSetupStatusUpdates.Select(u => new CustomerSetupTaskResponse.TaskUpdates()
+                        {
+                            Date = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(u.Date),
+                            Description = u.Description,
+                            FaultCode = new NameValuePair()
+                            {
+                                Value = u.FaultCode,
+                                Name = new LocalizedList<RadiusR.DB.Enums.CustomerSetup.FaultCodes, RadiusR.Localization.Lists.CustomerSetup.FaultCodes>()
+                            .GetDisplayText(u.FaultCode, CreateCulture(request.Culture))
+                            },
+                            ReservationDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(u.ReservationDate),
+                            ID = u.ID
+                        }).ToArray()
+                    }).ToArray();
+                    return new AgentServiceCustomerSetupTaskResponse(passwordHash, request)
+                    {
+                        CustomerTaskList = customerTasks,
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceCustomerSetupTaskResponse(passwordHash, request)
+                {
+                    CustomerTaskList = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture)
+                };
+            }
+        }
+        public AgentServiceClientFormsResponse GetAgentClientForms(AgentServiceClientFormsRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceClientFormsResponse(passwordHash, request)
+                    {
+                        AgentClientForms = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var dbAgent = db.Agents.Where(p => p.Email == request.ClientFormsParameters.UserEmail).FirstOrDefault();
+                    if (dbAgent == null)
+                    {
+                        return new AgentServiceClientFormsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            AgentClientForms = null
+                        };
+                    }
+                    var subscription = dbAgent.Subscriptions.FirstOrDefault(s => s.ID == request.ClientFormsParameters.SubscriptionId);
+                    if (subscription == null)
+                    {
+                        return new AgentServiceClientFormsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
+                            AgentClientForms = null
+                        };
+                    }
+                    if (request.ClientFormsParameters.SubscriptionId == null)
+                    {
+                        return new AgentServiceClientFormsResponse(passwordHash, request)
+                        {
+                            AgentClientForms = null,
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var formType = GeneralPDFFormTypes.ContractForm;
+                    var subscriptionId = request.ClientFormsParameters.SubscriptionId.Value;
+                    if (request.ClientFormsParameters.FormType.HasValue)
+                    {
+                        formType = (GeneralPDFFormTypes)request.ClientFormsParameters.FormType.Value;
+                    }
+                    switch (formType)
+                    {
+                        case GeneralPDFFormTypes.ContractForm:
+                            {
+                                var createdPDF = RadiusR.PDFForms.PDFWriter.GetContractPDF(db, subscriptionId);
+                                byte[] content = null;
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    createdPDF.Result.CopyTo(memoryStream);
+                                    content = memoryStream.ToArray();
+                                }
+                                return new AgentServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    AgentClientForms = new AgentClientFormsResponse()
+                                    {
+                                        FileContent = content,
+                                        FileName = new LocalizedList<GeneralPDFFormTypes, RadiusR.Localization.Lists.GeneralPDFFormTypes>()
+                                        .GetDisplayText((int)GeneralPDFFormTypes.ContractForm, CreateCulture(request.Culture)),
+                                        FormType = (int)GeneralPDFFormTypes.ContractForm,
+                                        MIMEType = "application/pdf"
+                                    }
+                                };
+                            }
+                        case GeneralPDFFormTypes.TransitionForm:
+                            {
+                                var createdPDF = RadiusR.PDFForms.PDFWriter.GetTransitionPDF(db, subscriptionId);
+                                byte[] content = null;
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    createdPDF.Result.CopyTo(memoryStream);
+                                    content = memoryStream.ToArray();
+                                }
+                                return new AgentServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    AgentClientForms = new AgentClientFormsResponse()
+                                    {
+                                        FileContent = content,
+                                        FileName = new LocalizedList<GeneralPDFFormTypes, RadiusR.Localization.Lists.GeneralPDFFormTypes>()
+                                        .GetDisplayText((int)GeneralPDFFormTypes.TransitionForm, CreateCulture(request.Culture)),
+                                        FormType = (int)GeneralPDFFormTypes.TransitionForm,
+                                        MIMEType = "application/pdf"
+                                    }
+                                };
+                            }
+                        case GeneralPDFFormTypes.PSTNtoNakedForm:
+                            {
+                                var createdPDF = RadiusR.PDFForms.PDFWriter.GetPSTNtoNakedPDF(db, subscriptionId);
+                                byte[] content = null;
+                                using (var memoryStream = new MemoryStream())
+                                {
+                                    createdPDF.Result.CopyTo(memoryStream);
+                                    content = memoryStream.ToArray();
+                                }
+                                return new AgentServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    AgentClientForms = new AgentClientFormsResponse()
+                                    {
+                                        FileContent = content,
+                                        FileName = new LocalizedList<GeneralPDFFormTypes, RadiusR.Localization.Lists.GeneralPDFFormTypes>()
+                                        .GetDisplayText((int)GeneralPDFFormTypes.PSTNtoNakedForm, CreateCulture(request.Culture)),
+                                        FormType = (int)GeneralPDFFormTypes.PSTNtoNakedForm,
+                                        MIMEType = "application/pdf"
+                                    }
+                                };
+                            }
+                        default:
+                            {
+                                return new AgentServiceClientFormsResponse(passwordHash, request)
+                                {
+                                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                                    AgentClientForms = null
+                                };
+                            }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceClientFormsResponse(passwordHash, request)
+                {
+                    AgentClientForms = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public AgentServiceSaveClientAttachmentResponse SaveClientAttachment(AgentServiceSaveClientAttachmentRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceSaveClientAttachmentResponse(password, request)
+                    {
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                        SaveClientAttachmentResult = false
+                    };
+                }
+                if (request.SaveClientAttachmentParameters == null || request.SaveClientAttachmentParameters.SubscriptionId == null)
+                {
+                    return new AgentServiceSaveClientAttachmentResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
+                        SaveClientAttachmentResult = false
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var dbAgent = db.Agents.FirstOrDefault(a => a.Email == request.SaveClientAttachmentParameters.UserEmail);
+                    if (dbAgent == null)
+                    {
+                        return new AgentServiceSaveClientAttachmentResponse(passwordHash, request)
+                        {
+                            SaveClientAttachmentResult = false,
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
+                    var subscription = dbAgent.Subscriptions.FirstOrDefault(s => s.ID == request.SaveClientAttachmentParameters.SubscriptionId);
+                    if (subscription == null)
+                    {
+                        return new AgentServiceSaveClientAttachmentResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
+                            SaveClientAttachmentResult = false
+                        };
+                    }
+                }
+                var fileManager = new RadiusR.FileManagement.MasterISSFileManager();
+                var fileStream = new MemoryStream(request.SaveClientAttachmentParameters.FileContent);
+                var saveAttachment = fileManager.SaveClientAttachment(
+                    request.SaveClientAttachmentParameters.SubscriptionId.Value,
+                    new FileManagement.SpecialFiles.FileManagerClientAttachmentWithContent(fileStream,
+                    new FileManagement.SpecialFiles.FileManagerClientAttachment((FileManagement.SpecialFiles.ClientAttachmentTypes)request.SaveClientAttachmentParameters.AttachmentType,
+                    request.SaveClientAttachmentParameters.FileExtention)));
+                if (saveAttachment.InternalException != null)
+                {
+                    return new AgentServiceSaveClientAttachmentResponse(passwordHash, request)
+                    {
+                        SaveClientAttachmentResult = false,
+                        ResponseMessage = CommonResponse.FailedResponse(request.Culture, saveAttachment.InternalException.Message)
+                    };
+                }
+                return new AgentServiceSaveClientAttachmentResponse(passwordHash, request)
+                {
+                    SaveClientAttachmentResult = saveAttachment.Result,
+                    ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                };
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceSaveClientAttachmentResponse(passwordHash, request)
+                {
+                    SaveClientAttachmentResult = false,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public AgentServiceBillReceiptResponse GetBillReceipt(AgentServiceBillReceiptRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceBillReceiptResponse(passwordHash, request)
+                    {
+                        BillReceiptResult = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var dbAgent = db.Agents.Where(p => p.Email == request.BillReceiptParameters.UserEmail).FirstOrDefault();
+                    if (dbAgent == null)
+                    {
+                        return new  AgentServiceBillReceiptResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            BillReceiptResult= null
+                        };
+                    }
+                    if (request.BillReceiptParameters.BillId == null)
+                    {
+                        return new AgentServiceBillReceiptResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
+                            BillReceiptResult = null
+                        };
+                    }
+                    var bill = db.Bills.Find(request.BillReceiptParameters.BillId);
+                    if (bill == null)
+                    {
+                        return new AgentServiceBillReceiptResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
+                            BillReceiptResult = null
+                        };
+                    }
+                    var dbSubscription = bill.Subscription;
+                    var createdPDF = RadiusR.PDFForms.PDFWriter.GetBillReceiptPDF(db,dbSubscription.ID,bill.ID);
+                    byte[] content = null;
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        createdPDF.Result.CopyTo(memoryStream);
+                        content = memoryStream.ToArray();
+                    }
+                    return new AgentServiceBillReceiptResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        BillReceiptResult = new BillReceiptResponse()
+                        {
+                            FileContent = content,
+                            FileName = new LocalizedList<PDFFormType, RadiusR.Localization.Lists.PDFFormType>()
+                            .GetDisplayText((int)PDFFormType.BillReceipt, CreateCulture(request.Culture)),
+                            MIMEType = "application/pdf"
+                        }
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceBillReceiptResponse(passwordHash, request)
+                {
+                    BillReceiptResult = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
+        public AgentServiceRelatedPaymentsResponse GetRelatedPayments(AgentServiceRelatedPaymentsRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceRelatedPaymentsResponse(passwordHash, request)
+                    {
+                        RelatedPayments = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request),
+                    };
+                }
+                using (var db = new RadiusREntities())
+                {
+                    var dbAgent = db.Agents.Where(p => p.Email == request.RelatedPaymentsParameters.UserEmail).FirstOrDefault();
+                    if (dbAgent == null)
+                    {
+                        return new AgentServiceRelatedPaymentsResponse(passwordHash, request)
+                        {
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
+                            RelatedPayments = null
+                        };
+                    }
+                    var relatedPayments = dbAgent.AgentRelatedPayments.ToList();
+                    var itemPerPage = request.RelatedPaymentsParameters.Pagination.ItemPerPage;
+                    var pageNo = request.RelatedPaymentsParameters.Pagination.PageNo;
+                    return new AgentServiceRelatedPaymentsResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        RelatedPayments = new RelatedPaymentsResponse()
+                        {
+                            TotalPageCount = TotalPageCount(relatedPayments.Count(), request.RelatedPaymentsParameters.Pagination.ItemPerPage),
+                            RelatedPaymentList = relatedPayments?.OrderByDescending(p => p.Bill.PayDate).Skip(pageNo.Value * itemPerPage.Value).Take(itemPerPage.Value).Select(p => new RelatedPaymentsResponse.RelatedPayments()
+                            {
+                                BillID = p.BillID,
+                                Cost = p.Bill.GetPayableCost(),
+                                Description = string.Join(",", p.Bill.BillFees?.Select(bf => bf.Description)),
+                                ValidDisplayName = p.Bill.Subscription.Customer.ValidDisplayName,
+                                IssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(p.Bill.IssueDate),
+                                PayDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(p.Bill.PayDate),
+                                SubscriberNo = p.Bill.Subscription.SubscriberNo,
+                            }).ToArray()
+                        }
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceRelatedPaymentsResponse(passwordHash, request)
+                {
+                    RelatedPayments = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture, ex),
+                };
+            }
+        }
         #region
         private CultureInfo CreateCulture(string cultureName)
         {
@@ -1245,12 +1836,19 @@ namespace RadiusR.API.CustomerWebService
         }
         private int TotalPageCount(int? TotalRow, int? itemPerPage)
         {
-            itemPerPage = itemPerPage ?? 10;
-            var count = !TotalRow.HasValue ? 0 : (TotalRow % itemPerPage) == 0 ?
-                        (TotalRow / itemPerPage) :
-                        (TotalRow / itemPerPage) + 1;
+            int? count = 0;
+            try
+            {
+                itemPerPage = itemPerPage ?? 10;
+                count = !TotalRow.HasValue ? 0 : (TotalRow % itemPerPage) == 0 ?
+                            (TotalRow / itemPerPage) :
+                            (TotalRow / itemPerPage) + 1;
+            }
+            catch { }
+
             return count ?? 0;
         }
+        
         #endregion
 
     }

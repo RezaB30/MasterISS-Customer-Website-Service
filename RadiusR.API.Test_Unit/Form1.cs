@@ -289,6 +289,25 @@ namespace RadiusR.API.Test_Unit
             FirestoreDb db = FirestoreDb.Create("xamarinfirebasens");
             MessageBox.Show("OK");
         }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            AgentServiceReference.AgentWebServiceClient client = new AgentServiceReference.AgentWebServiceClient();
+            var setting = new GenericServiceSettings();
+            var response = client.ServiceOperators(new AgentServiceReference.AgentServiceServiceOperatorsRequest()
+            {
+                Culture = setting.Culture,
+                Hash = setting.Hash,
+                Rand = setting.Rand,
+                Username = setting.Username,
+                ServiceOperatorsParameters = new AgentServiceReference.ServiceOperatorsRequest()
+                {
+                    SubscriptionId = 52077,
+                    UserEmail = "2e7109638b3945908@sarnettelekom.com.tr"
+                }
+            });
+            var result = response;
+        }
     }
     public class GenericServiceSettings
     {
@@ -300,10 +319,10 @@ namespace RadiusR.API.Test_Unit
         {
             Culture = Thread.CurrentThread.CurrentUICulture.Name;
             Rand = Guid.NewGuid().ToString("N");
-            Username = "netspeed-services";
-            Password = "BWzQGencrDqW9qxT";
+            Username = "sarnet-services";
+            Password = "12345678";
         }
-        PartnerServiceReference.PartnerServiceClient client = new PartnerServiceReference.PartnerServiceClient();
+        AgentServiceReference.AgentWebServiceClient client = new AgentServiceReference.AgentWebServiceClient();
         public string Hash { get { return HashUtilities.CalculateHash<SHA256>(Username + Rand + HashUtilities.CalculateHash<SHA256>(Password) + client.GetKeyFragment(Username)); } }
     }
     public static class HashUtilities

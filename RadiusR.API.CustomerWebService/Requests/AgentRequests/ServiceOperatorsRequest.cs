@@ -9,15 +9,15 @@ using System.Web;
 namespace RadiusR.API.CustomerWebService.Requests.AgentRequests
 {
     [DataContract]
-    public class AgentSubscriptionsRequest : RequestBase
+    public class ServiceOperatorsRequest : RequestBase
     {
         [DataMember]
-        public PaginationRequest Pagination { get; set; }
+        public long SubscriptionId { get; set; }
     }
     [DataContract]
-    public partial class AgentServiceSubscriptionsRequest : BaseRequest<AgentSubscriptionsRequest, SHA256>
+    public partial class AgentServiceServiceOperatorsRequest : BaseRequest<ServiceOperatorsRequest, SHA256>
     {
         [DataMember]
-        public AgentSubscriptionsRequest SubscriptionsRequestParameters { get { return Data; } set { Data = value; } }
+        public ServiceOperatorsRequest ServiceOperatorsParameters { get { return Data; } set { Data = value; } }
     }
 }

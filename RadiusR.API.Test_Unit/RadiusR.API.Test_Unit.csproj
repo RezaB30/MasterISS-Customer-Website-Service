@@ -221,6 +221,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connected Services\AgentServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="Connected Services\PartnerServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -246,6 +251,73 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="Connected Services\AgentServiceReference\AgentWebService.wsdl" />
+    <None Include="Connected Services\AgentServiceReference\AgentWebService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\AgentWebService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\AgentWebService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\AgentWebService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\AgentWebService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\AgentWebService5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\AgentWebService6.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceAddWorkOrderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceAuthenticationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceBillListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceCredentialSMSResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceCustomerSetupTaskResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceIDCardValidationResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceKeyValueListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceNewCustomerRegisterResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServicePaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceServiceOperatorsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceSMSCodeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceSubscriptionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.CustomerServiceAddressDetailsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.CustomerServiceNameValuePair.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.CustomerServiceServiceAvailabilityResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\PartnerServiceReference\PartnerService.wsdl" />
     <None Include="Connected Services\PartnerServiceReference\PartnerService.xsd">
       <SubType>Designer</SubType>
@@ -334,6 +406,12 @@
     <None Include="Connected Services\PartnerServiceReference\RadiusR.API.Test_Unit.PartnerServiceReference.PartnerServiceSubUserResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\AgentServiceReference\configuration91.svcinfo" />
+    <None Include="Connected Services\AgentServiceReference\configuration.svcinfo" />
+    <None Include="Connected Services\AgentServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Connection.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -357,6 +435,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\AgentServiceReference\" />
     <WCFMetadataStorage Include="Connected Services\PartnerServiceReference\" />
   </ItemGroup>
   <ItemGroup>

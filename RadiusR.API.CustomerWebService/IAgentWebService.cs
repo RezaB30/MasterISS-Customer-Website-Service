@@ -47,6 +47,19 @@ namespace RadiusR.API.CustomerWebService
         AgentServiceIDCardValidationResponse IDCardValidation(AgentServiceIDCardValidationRequest request);
         [OperationContract]
         AgentServiceBillListResponse GetBills(AgentServiceBillListRequest request);
-
+        [OperationContract]
+        AgentServiceAddWorkOrderResponse AddWorkOrder(AgentServiceAddWorkOrderRequest request);
+        [OperationContract]
+        AgentServiceServiceOperatorsResponse ServiceOperators(AgentServiceServiceOperatorsRequest request);
+        [OperationContract]
+        AgentServiceCustomerSetupTaskResponse GetCustomerTasks(AgentServiceCustomerSetupTaskRequest request);
+        [OperationContract]
+        AgentServiceClientFormsResponse GetAgentClientForms(AgentServiceClientFormsRequest request);
+        [OperationContract]
+        AgentServiceSaveClientAttachmentResponse SaveClientAttachment(AgentServiceSaveClientAttachmentRequest request);
+        [OperationContract]
+        AgentServiceBillReceiptResponse GetBillReceipt(AgentServiceBillReceiptRequest request);
+        [OperationContract]
+        AgentServiceRelatedPaymentsResponse GetRelatedPayments(AgentServiceRelatedPaymentsRequest request);
     }
 }

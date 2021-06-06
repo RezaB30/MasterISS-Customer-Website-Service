@@ -115,17 +115,20 @@
     <Reference Include="RadiusR.API.MobilExpress.DBAdapter, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.API.MobilExpress.DBAdapter.1.0.1\lib\net472\RadiusR.API.MobilExpress.DBAdapter.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB, Version=1.4.0.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.1.4.0\lib\net472\RadiusR.DB.dll</HintPath>
+    <Reference Include="RadiusR.DB, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.1.4.1\lib\net472\RadiusR.DB.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.DB.DomainsCache, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.DomainsCache.1.1.2\lib\net472\RadiusR.DB.DomainsCache.dll</HintPath>
     </Reference>
+    <Reference Include="RadiusR.DB.Localization, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Localization.1.0.2\lib\net472\RadiusR.DB.Localization.dll</HintPath>
+    </Reference>
     <Reference Include="RadiusR.DB.TelekomOperations, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.TelekomOperations.1.1.1\lib\net472\RadiusR.DB.TelekomOperations.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.DB.Utilities, Version=1.1.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.5-alpha2\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
+    <Reference Include="RadiusR.DB.Utilities, Version=1.1.5.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.DB.Utilities.1.1.5-alpha3\lib\net472\RadiusR.DB.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.DB.Utilities.ComplexOperations, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.DB.Utilities.ComplexOperations.1.1.8-alpha1\lib\net472\RadiusR.DB.Utilities.ComplexOperations.dll</HintPath>
@@ -133,14 +136,14 @@
     <Reference Include="RadiusR.FileManagement, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.FileManagement.1.1.6\lib\net472\RadiusR.FileManagement.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.1.0.8\lib\net472\RadiusR.Localization.dll</HintPath>
+    <Reference Include="RadiusR.Localization, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.1.0.9\lib\net472\RadiusR.Localization.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.Localization.Lists, Version=1.0.12.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.12\lib\net472\RadiusR.Localization.Lists.dll</HintPath>
+    <Reference Include="RadiusR.Localization.Lists, Version=1.0.13.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.Localization.Lists.1.0.13\lib\net472\RadiusR.Localization.Lists.dll</HintPath>
     </Reference>
-    <Reference Include="RadiusR.PDFForms, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\RadiusR.PDFForms.1.0.2\lib\net472\RadiusR.PDFForms.dll</HintPath>
+    <Reference Include="RadiusR.PDFForms, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RadiusR.PDFForms.1.0.3\lib\net472\RadiusR.PDFForms.dll</HintPath>
     </Reference>
     <Reference Include="RadiusR.Scheduler.SMS, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RadiusR.Scheduler.SMS.1.0.2\lib\net472\RadiusR.Scheduler.SMS.dll</HintPath>
@@ -310,16 +313,23 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Requests\AgentRequests\AddWorkOrderRequest.cs" />
     <Compile Include="Requests\AgentRequests\AuthenticationRequest.cs" />
     <Compile Include="Requests\AgentRequests\BillListRequest.cs" />
+    <Compile Include="Requests\AgentRequests\BillReceiptRequest.cs" />
+    <Compile Include="Requests\AgentRequests\CustomerSetupTaskRequest.cs" />
     <Compile Include="Requests\AgentRequests\IDCardValidationRequest.cs" />
     <Compile Include="Requests\AgentRequests\ListFromIDRequest.cs" />
     <Compile Include="Requests\AgentRequests\NewCustomerRegisterRequest.cs" />
     <Compile Include="Requests\AgentRequests\AgentSubscriptionsRequest.cs" />
     <Compile Include="Requests\AgentRequests\PaginationRequest.cs" />
     <Compile Include="Requests\AgentRequests\ParameterlessRequest.cs" />
+    <Compile Include="Requests\AgentRequests\AgentClientFormsRequest.cs" />
     <Compile Include="Requests\AgentRequests\PaymentRequest.cs" />
+    <Compile Include="Requests\AgentRequests\RelatedPaymentsRequest.cs" />
     <Compile Include="Requests\AgentRequests\RequestBase.cs" />
+    <Compile Include="Requests\AgentRequests\SaveAgentClientAttachmentRequest.cs" />
+    <Compile Include="Requests\AgentRequests\ServiceOperatorsRequest.cs" />
     <Compile Include="Requests\AgentRequests\SMSCodeRequest.cs" />
     <Compile Include="Requests\AgentRequests\SubscriptionCredentialSMSRequest.cs" />
     <Compile Include="Requests\AppLogRequest.cs" />
@@ -388,15 +398,22 @@
     <Compile Include="Requests\Support\SupportTypesRequest.cs" />
     <Compile Include="Requests\Support\SaveSupportAttachmentRequest.cs" />
     <Compile Include="Requests\Payment\VPOSFormRequest.cs" />
+    <Compile Include="Responses\AgentResponses\AddWorkOrderResponse.cs" />
     <Compile Include="Responses\AgentResponses\AuthenticationResponse.cs" />
     <Compile Include="Responses\AgentResponses\BillListResponse.cs" />
+    <Compile Include="Responses\AgentResponses\BillReceiptResponse.cs" />
+    <Compile Include="Responses\AgentResponses\CustomerSetupTaskResponse.cs" />
     <Compile Include="Responses\AgentResponses\IDCardValidationResponse.cs" />
     <Compile Include="Responses\AgentResponses\KeyValueListResponse.cs" />
     <Compile Include="Responses\AgentResponses\NameValuePair.cs" />
     <Compile Include="Responses\AgentResponses\NewCustomerRegisterResponse.cs" />
     <Compile Include="Responses\AgentResponses\AgentSubscriptionsResponse.cs" />
     <Compile Include="Responses\AgentResponses\PaginationResponse.cs" />
+    <Compile Include="Responses\AgentResponses\AgentClientFormsResponse.cs" />
     <Compile Include="Responses\AgentResponses\PaymentResponse.cs" />
+    <Compile Include="Responses\AgentResponses\RelatedPaymentsResponse.cs" />
+    <Compile Include="Responses\AgentResponses\SavePartnerClientAttachmentResponse.cs" />
+    <Compile Include="Responses\AgentResponses\ServiceOperatorsResponse.cs" />
     <Compile Include="Responses\AgentResponses\SMSCodeResponse.cs" />
     <Compile Include="Responses\AgentResponses\SubscriptionCredentialSMSResponse.cs" />
     <Compile Include="Responses\AppLogResponse.cs" />

@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="AgentWebService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="WSHttpBinding_IAgentWebService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <wsaw:UsingAddressing />
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.TelekomInfrastructureService" />
+      <xsd:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/RezaB.API.WebService" />
+      <xsd:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.AgentRequests" />
+      <xsd:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" />
+      <xsd:import schemaLocation="http://localhost:56365/AgentWebService.svc?xsd=xsd6" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAgentWebService_GetProvinces_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvinces" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetProvinces_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvincesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetProvinceDistricts_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvinceDistricts" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetProvinceDistricts_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProvinceDistrictsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetDistrictRuralRegions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistrictRuralRegions" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetDistrictRuralRegions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetDistrictRuralRegionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetRuralRegionNeighbourhoods_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRuralRegionNeighbourhoods" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetRuralRegionNeighbourhoods_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRuralRegionNeighbourhoodsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetNeighbourhoodStreets_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNeighbourhoodStreets" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetNeighbourhoodStreets_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNeighbourhoodStreetsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetStreetBuildings_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetStreetBuildings" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetStreetBuildings_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetStreetBuildingsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetBuildingApartments_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBuildingApartments" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetBuildingApartments_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBuildingApartmentsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetApartmentAddress_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetApartmentAddress" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetApartmentAddress_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetApartmentAddressResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_ServiceAvailability_InputMessage">
+    <wsdl:part name="parameters" element="tns:ServiceAvailability" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_ServiceAvailability_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ServiceAvailabilityResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetKeyFragment_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetKeyFragment" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetKeyFragment_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetKeyFragmentResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_Authenticate_InputMessage">
+    <wsdl:part name="parameters" element="tns:Authenticate" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_Authenticate_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AuthenticateResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_NewCustomerRegister_InputMessage">
+    <wsdl:part name="parameters" element="tns:NewCustomerRegister" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_NewCustomerRegister_OutputMessage">
+    <wsdl:part name="parameters" element="tns:NewCustomerRegisterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_SendConfirmationSMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendConfirmationSMS" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_SendConfirmationSMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendConfirmationSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetAgentSubscriptions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgentSubscriptions" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetAgentSubscriptions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgentSubscriptionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetCultures_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCultures" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetCultures_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCulturesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetTCKTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTCKTypes" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetTCKTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTCKTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetCustomerTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerTypes" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetCustomerTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetSexes_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSexes" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetSexes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSexesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetNationalities_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetNationalities" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetNationalities_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetNationalitiesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetProfessions_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfessions" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetProfessions_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetProfessionsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetAgentTariffs_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgentTariffs" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetAgentTariffs_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetAgentTariffsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetPaymentDays_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPaymentDays" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetPaymentDays_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPaymentDaysResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_PayBills_InputMessage">
+    <wsdl:part name="parameters" element="tns:PayBills" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_PayBills_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PayBillsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_SendCredentialSMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendCredentialSMS" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_SendCredentialSMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendCredentialSMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_IDCardValidation_InputMessage">
+    <wsdl:part name="parameters" element="tns:IDCardValidation" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_IDCardValidation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:IDCardValidationResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetBills_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetBills" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetBills_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetBillsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_AddWorkOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddWorkOrder" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_AddWorkOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddWorkOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_ServiceOperators_InputMessage">
+    <wsdl:part name="parameters" element="tns:ServiceOperators" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_ServiceOperators_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ServiceOperatorsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetCustomerTasks_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerTasks" />
+  </wsdl:message>
+  <wsdl:message name="IAgentWebService_GetCustomerTasks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetCustomerTasksResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IAgentWebService">
+    <wsdl:operation name="GetProvinces">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinces" message="tns:IAgentWebService_GetProvinces_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvincesResponse" message="tns:IAgentWebService_GetProvinces_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProvinceDistricts">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinceDistricts" message="tns:IAgentWebService_GetProvinceDistricts_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetProvinceDistrictsResponse" message="tns:IAgentWebService_GetProvinceDistricts_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDistrictRuralRegions">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetDistrictRuralRegions" message="tns:IAgentWebService_GetDistrictRuralRegions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetDistrictRuralRegionsResponse" message="tns:IAgentWebService_GetDistrictRuralRegions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRuralRegionNeighbourhoods">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetRuralRegionNeighbourhoods" message="tns:IAgentWebService_GetRuralRegionNeighbourhoods_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetRuralRegionNeighbourhoodsResponse" message="tns:IAgentWebService_GetRuralRegionNeighbourhoods_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighbourhoodStreets">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetNeighbourhoodStreets" message="tns:IAgentWebService_GetNeighbourhoodStreets_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetNeighbourhoodStreetsResponse" message="tns:IAgentWebService_GetNeighbourhoodStreets_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetStreetBuildings">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetStreetBuildings" message="tns:IAgentWebService_GetStreetBuildings_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetStreetBuildingsResponse" message="tns:IAgentWebService_GetStreetBuildings_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBuildingApartments">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetBuildingApartments" message="tns:IAgentWebService_GetBuildingApartments_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetBuildingApartmentsResponse" message="tns:IAgentWebService_GetBuildingApartments_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetApartmentAddress">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetApartmentAddress" message="tns:IAgentWebService_GetApartmentAddress_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/GetApartmentAddressResponse" message="tns:IAgentWebService_GetApartmentAddress_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ServiceAvailability">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/ServiceAvailability" message="tns:IAgentWebService_ServiceAvailability_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ITelekomInfrastructureService/ServiceAvailabilityResponse" message="tns:IAgentWebService_ServiceAvailability_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetKeyFragment">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetKeyFragment" message="tns:IAgentWebService_GetKeyFragment_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetKeyFragmentResponse" message="tns:IAgentWebService_GetKeyFragment_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Authenticate">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/Authenticate" message="tns:IAgentWebService_Authenticate_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/AuthenticateResponse" message="tns:IAgentWebService_Authenticate_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="NewCustomerRegister">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/NewCustomerRegister" message="tns:IAgentWebService_NewCustomerRegister_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/NewCustomerRegisterResponse" message="tns:IAgentWebService_NewCustomerRegister_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendConfirmationSMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/SendConfirmationSMS" message="tns:IAgentWebService_SendConfirmationSMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/SendConfirmationSMSResponse" message="tns:IAgentWebService_SendConfirmationSMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgentSubscriptions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetAgentSubscriptions" message="tns:IAgentWebService_GetAgentSubscriptions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetAgentSubscriptionsResponse" message="tns:IAgentWebService_GetAgentSubscriptions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCultures">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetCultures" message="tns:IAgentWebService_GetCultures_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetCulturesResponse" message="tns:IAgentWebService_GetCultures_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTCKTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetTCKTypes" message="tns:IAgentWebService_GetTCKTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetTCKTypesResponse" message="tns:IAgentWebService_GetTCKTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetCustomerTypes" message="tns:IAgentWebService_GetCustomerTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetCustomerTypesResponse" message="tns:IAgentWebService_GetCustomerTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSexes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetSexes" message="tns:IAgentWebService_GetSexes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetSexesResponse" message="tns:IAgentWebService_GetSexes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetNationalities">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetNationalities" message="tns:IAgentWebService_GetNationalities_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetNationalitiesResponse" message="tns:IAgentWebService_GetNationalities_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetProfessions">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetProfessions" message="tns:IAgentWebService_GetProfessions_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetProfessionsResponse" message="tns:IAgentWebService_GetProfessions_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetAgentTariffs">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetAgentTariffs" message="tns:IAgentWebService_GetAgentTariffs_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetAgentTariffsResponse" message="tns:IAgentWebService_GetAgentTariffs_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPaymentDays">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetPaymentDays" message="tns:IAgentWebService_GetPaymentDays_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetPaymentDaysResponse" message="tns:IAgentWebService_GetPaymentDays_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PayBills">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/PayBills" message="tns:IAgentWebService_PayBills_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/PayBillsResponse" message="tns:IAgentWebService_PayBills_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendCredentialSMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/SendCredentialSMS" message="tns:IAgentWebService_SendCredentialSMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/SendCredentialSMSResponse" message="tns:IAgentWebService_SendCredentialSMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="IDCardValidation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/IDCardValidation" message="tns:IAgentWebService_IDCardValidation_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/IDCardValidationResponse" message="tns:IAgentWebService_IDCardValidation_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetBills">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetBills" message="tns:IAgentWebService_GetBills_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetBillsResponse" message="tns:IAgentWebService_GetBills_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddWorkOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/AddWorkOrder" message="tns:IAgentWebService_AddWorkOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/AddWorkOrderResponse" message="tns:IAgentWebService_AddWorkOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ServiceOperators">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/ServiceOperators" message="tns:IAgentWebService_ServiceOperators_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/ServiceOperatorsResponse" message="tns:IAgentWebService_ServiceOperators_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerTasks">
+      <wsdl:input wsaw:Action="http://tempuri.org/IAgentWebService/GetCustomerTasks" message="tns:IAgentWebService_GetCustomerTasks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IAgentWebService/GetCustomerTasksResponse" message="tns:IAgentWebService_GetCustomerTasks_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WSHttpBinding_IAgentWebService" type="tns:IAgentWebService">
+    <wsp:PolicyReference URI="#WSHttpBinding_IAgentWebService_policy" />
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="GetProvinces">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetProvinces" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProvinceDistricts">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetProvinceDistricts" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDistrictRuralRegions">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetDistrictRuralRegions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRuralRegionNeighbourhoods">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetRuralRegionNeighbourhoods" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNeighbourhoodStreets">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetNeighbourhoodStreets" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetStreetBuildings">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetStreetBuildings" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBuildingApartments">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetBuildingApartments" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetApartmentAddress">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/GetApartmentAddress" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServiceAvailability">
+      <soap12:operation soapAction="http://tempuri.org/ITelekomInfrastructureService/ServiceAvailability" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetKeyFragment">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetKeyFragment" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authenticate">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/Authenticate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NewCustomerRegister">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/NewCustomerRegister" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendConfirmationSMS">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/SendConfirmationSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgentSubscriptions">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetAgentSubscriptions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCultures">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetCultures" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTCKTypes">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetTCKTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerTypes">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetCustomerTypes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSexes">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetSexes" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetNationalities">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetNationalities" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetProfessions">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetProfessions" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetAgentTariffs">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetAgentTariffs" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPaymentDays">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetPaymentDays" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PayBills">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/PayBills" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendCredentialSMS">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/SendCredentialSMS" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="IDCardValidation">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/IDCardValidation" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetBills">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetBills" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddWorkOrder">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/AddWorkOrder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ServiceOperators">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/ServiceOperators" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetCustomerTasks">
+      <soap12:operation soapAction="http://tempuri.org/IAgentWebService/GetCustomerTasks" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AgentWebService">
+    <wsdl:port name="WSHttpBinding_IAgentWebService" binding="tns:WSHttpBinding_IAgentWebService">
+      <soap12:address location="http://localhost:56365/AgentWebService.svc/AgentWebService.svc" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>http://localhost:56365/AgentWebService.svc/AgentWebService.svc</wsa10:Address>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
