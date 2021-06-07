@@ -1518,7 +1518,7 @@ namespace RadiusR.API.CustomerWebService
                             ResponseMessage = CommonResponse.PartnerSubscriberNotFoundResponse(request.Culture),
                             AgentClientForms = null
                         };
-                    }                    
+                    }
                     var formType = GeneralPDFFormTypes.ContractForm;
                     var subscriptionId = request.ClientFormsParameters.SubscriptionId.Value;
                     if (request.ClientFormsParameters.FormType.HasValue)
@@ -1710,10 +1710,10 @@ namespace RadiusR.API.CustomerWebService
                     var dbAgent = db.Agents.Where(p => p.Email == request.BillReceiptParameters.UserEmail).FirstOrDefault();
                     if (dbAgent == null)
                     {
-                        return new  AgentServiceBillReceiptResponse(passwordHash, request)
+                        return new AgentServiceBillReceiptResponse(passwordHash, request)
                         {
                             ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture),
-                            BillReceiptResult= null
+                            BillReceiptResult = null
                         };
                     }
                     if (request.BillReceiptParameters.BillId == null)
@@ -1734,7 +1734,7 @@ namespace RadiusR.API.CustomerWebService
                         };
                     }
                     var dbSubscription = bill.Subscription;
-                    var createdPDF = RadiusR.PDFForms.PDFWriter.GetBillReceiptPDF(db,dbSubscription.ID,bill.ID);
+                    var createdPDF = RadiusR.PDFForms.PDFWriter.GetBillReceiptPDF(db, dbSubscription.ID, bill.ID, CreateCulture(request.Culture));
                     byte[] content = null;
                     using (var memoryStream = new MemoryStream())
                     {
@@ -1791,7 +1791,10 @@ namespace RadiusR.API.CustomerWebService
                             RelatedPayments = null
                         };
                     }
-                    var relatedPayments = dbAgent.AgentRelatedPayments.ToList();
+                    var agentSubscriptionBills = dbAgent.Subscriptions.SelectMany(s => s.Bills).ToArray();
+                    var relatedPayments = agentSubscriptionBills
+                        .Where(b => b.BillStatusID == (short)BillState.Paid).OrderByDescending(b => b.PayDate).ToList();
+                    //var relatedPayments = dbAgent.AgentRelatedPayments.ToList();
                     var itemPerPage = request.RelatedPaymentsParameters.Pagination.ItemPerPage;
                     var pageNo = request.RelatedPaymentsParameters.Pagination.PageNo;
                     return new AgentServiceRelatedPaymentsResponse(passwordHash, request)
@@ -1800,15 +1803,15 @@ namespace RadiusR.API.CustomerWebService
                         RelatedPayments = new RelatedPaymentsResponse()
                         {
                             TotalPageCount = TotalPageCount(relatedPayments.Count(), request.RelatedPaymentsParameters.Pagination.ItemPerPage),
-                            RelatedPaymentList = relatedPayments?.OrderByDescending(p => p.Bill.PayDate).Skip(pageNo.Value * itemPerPage.Value).Take(itemPerPage.Value).Select(p => new RelatedPaymentsResponse.RelatedPayments()
+                            RelatedPaymentList = relatedPayments?.OrderByDescending(p => p.PayDate).Skip(pageNo.Value * itemPerPage.Value).Take(itemPerPage.Value).Select(p => new RelatedPaymentsResponse.RelatedPayments()
                             {
-                                BillID = p.BillID,
-                                Cost = p.Bill.GetPayableCost(),
-                                Description = string.Join(",", p.Bill.BillFees?.Select(bf => bf.Description)),
-                                ValidDisplayName = p.Bill.Subscription.Customer.ValidDisplayName,
-                                IssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(p.Bill.IssueDate),
-                                PayDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(p.Bill.PayDate),
-                                SubscriberNo = p.Bill.Subscription.SubscriberNo,
+                                BillID = p.ID,
+                                Cost = p.GetPayableCost(),
+                                Description = string.Join(",", p.BillFees?.Select(bf => bf.Description)),
+                                ValidDisplayName = p.Subscription.Customer.ValidDisplayName,
+                                IssueDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateString(p.IssueDate),
+                                PayDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(p.PayDate),
+                                SubscriberNo = p.Subscription.SubscriberNo,
                             }).ToArray()
                         }
                     };
@@ -1850,7 +1853,7 @@ namespace RadiusR.API.CustomerWebService
 
             return count ?? 0;
         }
-        
+
         #endregion
 
     }
