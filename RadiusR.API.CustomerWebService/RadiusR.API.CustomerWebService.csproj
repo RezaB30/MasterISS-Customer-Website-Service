@@ -329,6 +329,7 @@
     <Compile Include="Requests\AgentRequests\RelatedPaymentsRequest.cs" />
     <Compile Include="Requests\AgentRequests\RequestBase.cs" />
     <Compile Include="Requests\AgentRequests\SaveAgentClientAttachmentRequest.cs" />
+    <Compile Include="Requests\AgentRequests\SearchFilter.cs" />
     <Compile Include="Requests\AgentRequests\ServiceOperatorsRequest.cs" />
     <Compile Include="Requests\AgentRequests\SMSCodeRequest.cs" />
     <Compile Include="Requests\AgentRequests\SubscriptionCredentialSMSRequest.cs" />

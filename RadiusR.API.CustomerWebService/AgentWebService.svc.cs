@@ -147,7 +147,9 @@ namespace RadiusR.API.CustomerWebService
                             AgentSubscriptionList = null
                         };
                     }
-                    var agentSubscriptions = dbAgent.Subscriptions.ToList();
+                    var searchFilter = request.SubscriptionsRequestParameters.SearchFilter.CustomerCode;
+                    var agentSubscriptions = string.IsNullOrEmpty(searchFilter) ? dbAgent.Subscriptions.ToList()
+                        : dbAgent.Subscriptions.Where(s => s.ValidDisplayName.Contains(searchFilter) || s.SubscriberNo.Contains(searchFilter)).ToList();
                     return new AgentServiceSubscriptionsResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
@@ -1794,6 +1796,8 @@ namespace RadiusR.API.CustomerWebService
                     var agentSubscriptionBills = dbAgent.Subscriptions.SelectMany(s => s.Bills).ToArray();
                     var relatedPayments = agentSubscriptionBills
                         .Where(b => b.BillStatusID == (short)BillState.Paid).OrderByDescending(b => b.PayDate).ToList();
+                    relatedPayments = string.IsNullOrEmpty(request.RelatedPaymentsParameters.SearchFilter.CustomerCode) ? relatedPayments
+                        : relatedPayments.Where(r => r.Subscription.Customer.ValidDisplayName.Contains(request.RelatedPaymentsParameters.SearchFilter.CustomerCode) || r.Subscription.SubscriberNo.Contains(request.RelatedPaymentsParameters.SearchFilter.CustomerCode)).ToList();
                     //var relatedPayments = dbAgent.AgentRelatedPayments.ToList();
                     var itemPerPage = request.RelatedPaymentsParameters.Pagination.ItemPerPage;
                     var pageNo = request.RelatedPaymentsParameters.Pagination.PageNo;

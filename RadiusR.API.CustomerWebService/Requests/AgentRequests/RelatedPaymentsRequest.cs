@@ -13,6 +13,8 @@ namespace RadiusR.API.CustomerWebService.Requests.AgentRequests
     {
         [DataMember]
         public PaginationRequest Pagination { get; set; }
+        [DataMember]
+        public SearchFilter SearchFilter { get; set; }
     }
     [DataContract]
     public partial class AgentServiceRelatedPaymentsRequest : BaseRequest<RelatedPaymentsRequest, SHA256>
