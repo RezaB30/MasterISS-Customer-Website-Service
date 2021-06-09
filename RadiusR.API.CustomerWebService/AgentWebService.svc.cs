@@ -910,7 +910,7 @@ namespace RadiusR.API.CustomerWebService
                 {
                     return new AgentServicePaymentResponse(passwordHash, request)
                     {
-                        PaymentResponse = false,
+                        PaymentResponse = null,
                         ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request)
                     };
                 }
@@ -921,7 +921,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = false,
+                            PaymentResponse = null,
                             ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
                         };
                     }
@@ -933,15 +933,16 @@ namespace RadiusR.API.CustomerWebService
                         db.SaveChanges();
                         if (payResponse == BillPayment.ResponseType.Success)
                         {
+                            var lastBill = dbSubscription.Bills.OrderByDescending(b => b.PayDate).FirstOrDefault();
                             return new AgentServicePaymentResponse(passwordHash, request)
                             {
-                                PaymentResponse = true,
+                                PaymentResponse = lastBill == null ? new long[] { } : new long[] { lastBill.ID },
                                 ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
                             };
                         }
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = false,
+                            PaymentResponse = null,
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture),
                         };
                     }
@@ -950,7 +951,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = false,
+                            PaymentResponse = null,
                             ResponseMessage = CommonResponse.BillsNotFoundException(request.Culture)
                         };
                     }
@@ -964,7 +965,7 @@ namespace RadiusR.API.CustomerWebService
                     {
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = false,
+                            PaymentResponse = null,
                             ResponseMessage = CommonResponse.BillsNotFoundException(request.Culture)
                         };
                     }
@@ -980,13 +981,13 @@ namespace RadiusR.API.CustomerWebService
                         {
                             return new AgentServicePaymentResponse(passwordHash, request)
                             {
-                                PaymentResponse = false,
+                                PaymentResponse = null,
                                 ResponseMessage = CommonResponse.NotEnoughCredit(request.Culture)
                             };
                         }
                         return new AgentServicePaymentResponse(passwordHash, request)
                         {
-                            PaymentResponse = false,
+                            PaymentResponse = null,
                             ResponseMessage = CommonResponse.FailedResponse(request.Culture)
                         };
                     }
@@ -1010,7 +1011,7 @@ namespace RadiusR.API.CustomerWebService
                     return new AgentServicePaymentResponse(passwordHash, request)
                     {
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
-                        PaymentResponse = true, //dbBills.Select(b => b.ID).ToArray()
+                        PaymentResponse = request.PaymentRequest.BillIDs, //dbBills.Select(b => b.ID).ToArray()
                     };
                 }
             }
@@ -1019,7 +1020,7 @@ namespace RadiusR.API.CustomerWebService
                 Errorslogger.LogException(request.Username, ex);
                 return new AgentServicePaymentResponse(passwordHash, request)
                 {
-                    PaymentResponse = false,
+                    PaymentResponse = null,
                     ResponseMessage = CommonResponse.InternalException(request.Username)
                 };
             }
