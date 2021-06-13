@@ -1218,7 +1218,7 @@ namespace RadiusR.API.CustomerWebService
 
                     }
                     var totalCredits = dbSubscriber.SelectMany(db => db.SubscriptionCredits).Select(sc => sc.Amount).DefaultIfEmpty(0m).Sum();
-                    var prePaidSubscriber = dbSubscriber.Where(s => s.Service.BillingType == (short)RadiusR.DB.Enums.BillType.PrePaid)
+                    var prePaidSubscriber = dbSubscriber.Where(s => s.Service.BillingType == (short)RadiusR.DB.Enums.BillType.PrePaid && s.State == (short)RadiusR.DB.Enums.CustomerState.Active)
                         .Select(s => new BillListResponse.PrePaidSubscriptionInfo() { SubscriberNo = s.SubscriberNo, ServiceName = s.Service.Name, Total = s.Service.Price }).ToArray();
                     return new AgentServiceBillListResponse(passwordHash, request)
                     {

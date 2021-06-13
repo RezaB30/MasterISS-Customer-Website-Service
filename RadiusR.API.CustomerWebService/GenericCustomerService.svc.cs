@@ -4202,7 +4202,7 @@ namespace RadiusR.API.CustomerWebService
                     if (dbCustomers.Count() > 0 && dbClient != null)
                     {
                         // if need to send a new password
-                        if (string.IsNullOrEmpty(dbClient.OnlinePassword) || !dbClient.OnlinePasswordExpirationDate.HasValue)
+                        if (string.IsNullOrEmpty(dbClient.OnlinePassword) /* || !dbClient.OnlinePasswordExpirationDate.HasValue*/)
                         {
                             var dbClients = db.Subscriptions.Where(sub => (sub.Customer.CustomerIDCard.TCKNo == request.AuthenticationWithPasswordParameters.CustomerCode) || sub.Customer.ContactPhoneNo == request.AuthenticationWithPasswordParameters.CustomerCode).ToList();
                             var PassiveSubscriptions = dbClients.Where(s => s.State == (short)CustomerState.Cancelled && !s.Bills.Where(b => b.BillStatusID == (short)BillState.Unpaid).Any()).ToList();
