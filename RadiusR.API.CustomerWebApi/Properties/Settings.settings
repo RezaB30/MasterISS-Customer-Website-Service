@@ -8,5 +8,8 @@
     <Setting Name="EArchiveDisplayAddress" Type="System.String" Scope="Application">
       <Value Profile="(Default)">noreply@netspeed.com.tr</Value>
     </Setting>
+    <Setting Name="WebApiPageHash" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">BWzQGencrDqW9qxT</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

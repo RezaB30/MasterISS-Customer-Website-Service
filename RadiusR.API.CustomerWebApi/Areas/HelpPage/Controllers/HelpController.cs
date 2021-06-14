@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Http;
 using System.Web.Mvc;
 using RadiusR.API.CustomerWebApi.Areas.HelpPage.ModelDescriptions;
@@ -25,14 +28,27 @@ namespace RadiusR.API.CustomerWebApi.Areas.HelpPage.Controllers
 
         public HttpConfiguration Configuration { get; private set; }
 
-        public ActionResult Index()
+        public ActionResult Index(string token)
         {
+            //hash = 
+            SHA256 algorithm = (SHA256)HashAlgorithm.Create(typeof(SHA256).Name);
+            var calculatedHash = string.Join(string.Empty, algorithm.ComputeHash(Encoding.UTF8.GetBytes(Properties.Settings.Default.WebApiPageHash)).Select(b => b.ToString("x2")));
+            if (token != calculatedHash && Session["token"] == null)
+            {
+                return Content(System.Net.HttpStatusCode.Unauthorized.ToString());
+            }
+            //
+            Session["token"] = true;
             ViewBag.DocumentationProvider = Configuration.Services.GetDocumentationProvider();
             return View(Configuration.Services.GetApiExplorer().ApiDescriptions);
         }
 
         public ActionResult Api(string apiId)
         {
+            if (Session["token"] == null)
+            {
+                return Content(System.Net.HttpStatusCode.Unauthorized.ToString());
+            }
             if (!String.IsNullOrEmpty(apiId))
             {
                 HelpPageApiModel apiModel = Configuration.GetHelpPageApiModel(apiId);

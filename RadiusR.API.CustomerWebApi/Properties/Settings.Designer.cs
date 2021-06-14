@@ -40,5 +40,14 @@ namespace RadiusR.API.CustomerWebApi.Properties {
                 return ((string)(this["EArchiveDisplayAddress"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("BWzQGencrDqW9qxT")]
+        public string WebApiPageHash {
+            get {
+                return ((string)(this["WebApiPageHash"]));
+            }
+        }
     }
 }
