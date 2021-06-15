@@ -61,5 +61,7 @@ namespace RadiusR.API.CustomerWebService
         AgentServiceBillReceiptResponse GetBillReceipt(AgentServiceBillReceiptRequest request);
         [OperationContract]
         AgentServiceRelatedPaymentsResponse GetRelatedPayments(AgentServiceRelatedPaymentsRequest request);
+        [OperationContract]
+        AgentServiceAuthenticationResponse GetAgentInfo(AgentServiceParameterlessRequest request);
     }
 }

@@ -56,3 +56,4 @@ v 2.2.1 2021-06-07
 - fixed culture for bill receipt
 v 2.2.2 2021-06-08
 - added search filter
+- added new function GetAgentInfo

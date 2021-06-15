@@ -1833,6 +1833,75 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+        public AgentServiceAuthenticationResponse GetAgentInfo(AgentServiceParameterlessRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceAuthenticationResponse(passwordHash, request)
+                    {
+                        AuthenticationResponse = new AuthenticationResponse()
+                        {
+                            IsAuthenticated = false
+                        },
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request)
+                    };
+                }
+
+                using (RadiusREntities db = new RadiusREntities())
+                {
+                    var dbAgents = db.Agents.FirstOrDefault(p => p.Email == request.ParameterlessRequest.UserEmail);
+                    if (dbAgents == null)
+                    {
+                        return new AgentServiceAuthenticationResponse(passwordHash, request)
+                        {
+                            AuthenticationResponse = new AuthenticationResponse()
+                            {
+                                IsAuthenticated = false
+                            },
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
+                    if (!dbAgents.IsEnabled)
+                    {
+                        return new AgentServiceAuthenticationResponse(passwordHash, request)
+                        {
+                            AuthenticationResponse = new AuthenticationResponse()
+                            {
+                                IsAuthenticated = false
+                            },
+                            ResponseMessage = CommonResponse.PartnerIsNotActive(request.Culture)
+                        };
+                    }
+                    return new AgentServiceAuthenticationResponse(passwordHash, request)
+                    {
+                        AuthenticationResponse = new AuthenticationResponse()
+                        {
+                            IsAuthenticated = true,
+                            AgentId = dbAgents.ID,
+                            DisplayName = dbAgents.CompanyTitle,
+                            PhoneNo = dbAgents.PhoneNo,
+                            SetupServiceHash = dbAgents.CustomerSetupUser.Password,
+                            SetupServiceUser = dbAgents.CustomerSetupUser.Username
+                        },
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture)
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceAuthenticationResponse(passwordHash, request)
+                {
+                    AuthenticationResponse = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture)
+                };
+            }
+        }
         #region
         private CultureInfo CreateCulture(string cultureName)
         {
@@ -1857,7 +1926,7 @@ namespace RadiusR.API.CustomerWebService
             catch { }
 
             return count ?? 0;
-        }
+        }        
 
         #endregion
 
