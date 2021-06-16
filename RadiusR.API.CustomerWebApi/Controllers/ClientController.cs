@@ -39,6 +39,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace RadiusR.API.CustomerWebApi.Controllers
 {
@@ -55,7 +56,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -162,7 +163,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -257,7 +258,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -314,7 +315,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -396,7 +397,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"unauthorize error. User : {request.Username}");
@@ -484,7 +485,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"CanHaveQuotaSale unauthorize error. User : {request.Username}");
@@ -549,7 +550,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($" unauthorize error. User : {request.Username}");
@@ -640,7 +641,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
                     if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
@@ -744,7 +745,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 using (RadiusREntities db = new RadiusREntities())
                 {
                     if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
@@ -845,7 +846,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -946,7 +947,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
                     if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
@@ -1032,7 +1033,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"unauthorize error. User : {request.Username}");
@@ -1082,7 +1083,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
                     if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
@@ -1171,7 +1172,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
                     if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
@@ -1257,7 +1258,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 var currentSubId = request.SubscriptionParameters.SubscriptionId;
                 if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
@@ -1332,7 +1333,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     using (RadiusREntities db = new RadiusREntities())
@@ -1423,7 +1424,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"GetSupportDetailMessages unauthorize error. User : {request.Username}");
@@ -1518,7 +1519,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"GetSupportList unauthorize error. User : {request.Username}");
@@ -1591,7 +1592,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     using (var db = new RadiusR.DB.RadiusREntities())
@@ -1651,7 +1652,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     using (var db = new RadiusR.DB.RadiusREntities())
@@ -1708,7 +1709,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"GetVPOSForm unauthorize error. User : {request.Username}");
@@ -1776,7 +1777,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"PayBills unauthorize error. User : {request.Username}");
@@ -1912,7 +1913,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"unauthorize error. User : {request.Username}");
@@ -1954,7 +1955,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     //Errorslogger.Error($"QuotaPackageList unauthorize error. User : {request.Username}");
@@ -2009,7 +2010,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2120,7 +2121,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2204,7 +2205,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2330,7 +2331,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2386,7 +2387,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2453,7 +2454,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2553,7 +2554,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2787,7 +2788,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2863,7 +2864,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -2913,7 +2914,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3023,7 +3024,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3100,7 +3101,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3158,7 +3159,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3250,7 +3251,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3295,7 +3296,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3377,7 +3378,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3429,7 +3430,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3482,7 +3483,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3534,7 +3535,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3589,7 +3590,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3642,7 +3643,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3693,7 +3694,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3757,7 +3758,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3809,7 +3810,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3905,7 +3906,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -3971,7 +3972,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -4044,7 +4045,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServicGetSupportAttachmentListResponse(password, request)
@@ -4107,7 +4108,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceGetSupportAttachmentResponse(password, request)
@@ -4177,7 +4178,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
         //    var passwordHash = HashUtilities.GetHexString<SHA1>(password);
         //    try
         //    {
-        //        CustomerInComingInfo.Trace(request);
+        //        CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
         //        if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
         //        {
         //            return new CustomerServiceSaveSupportAttachmentResponse(password, request)
@@ -4236,7 +4237,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceCustomerAuthenticationWithPasswordResponse(passwordHash, request)
@@ -4326,7 +4327,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceHasClientPreRegisterResponse(passwordHash, request)
@@ -4385,7 +4386,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceSaveClientAttachmentResponse(password, request)
@@ -4441,7 +4442,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceGetClientPDFFormResponse(password, request)
@@ -4508,7 +4509,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 using (var db = new RadiusR.DB.RadiusREntities())
                 {
                     if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
@@ -4610,7 +4611,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
         //    var passwordHash = HashUtilities.GetHexString<SHA1>(password);
         //    try
         //    {
-        //        CustomerInComingInfo.Trace(request);
+        //        CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
         //        if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
         //        {
         //            return new CustomerServiceChangeClientInfoResponse(passwordHash, request)
@@ -4659,7 +4660,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
         //    var passwordHash = HashUtilities.GetHexString<SHA1>(password);
         //    try
         //    {
-        //        CustomerInComingInfo.Trace(request);
+        //        CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
         //        if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
         //        {
         //            return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
@@ -4725,7 +4726,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceChangeClientInfoConfirmResponse(passwordHash, request)
@@ -4790,7 +4791,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     return new CustomerServiceSubscriberListResponse(passwordHash, request)
@@ -4840,7 +4841,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
@@ -4878,7 +4879,7 @@ namespace RadiusR.API.CustomerWebApi.Controllers
             var passwordHash = HashUtilities.GetHexString<SHA1>(password);
             try
             {
-                CustomerInComingInfo.Trace(request);
+                CustomerInComingInfo.Trace(JsonConvert.SerializeObject(request));
                 if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
                 {
                     ErrorsLogger.Error(new Exception("unauthorize error"));
