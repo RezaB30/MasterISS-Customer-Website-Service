@@ -314,6 +314,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Requests\AgentRequests\AddWorkOrderRequest.cs" />
+    <Compile Include="Requests\AgentRequests\AgentAllowanceRequest.cs" />
     <Compile Include="Requests\AgentRequests\AuthenticationRequest.cs" />
     <Compile Include="Requests\AgentRequests\BillListRequest.cs" />
     <Compile Include="Requests\AgentRequests\BillReceiptRequest.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Requests\Support\SaveSupportAttachmentRequest.cs" />
     <Compile Include="Requests\Payment\VPOSFormRequest.cs" />
     <Compile Include="Responses\AgentResponses\AddWorkOrderResponse.cs" />
+    <Compile Include="Responses\AgentResponses\AgentAllowanceResponse.cs" />
     <Compile Include="Responses\AgentResponses\AuthenticationResponse.cs" />
     <Compile Include="Responses\AgentResponses\BillListResponse.cs" />
     <Compile Include="Responses\AgentResponses\BillReceiptResponse.cs" />

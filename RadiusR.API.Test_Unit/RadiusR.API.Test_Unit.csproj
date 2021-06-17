@@ -276,10 +276,19 @@
     <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceAddWorkOrderResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceAllowanceResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceAuthenticationResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceBillListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceBillReceiptResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceClientFormsResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceCredentialSMSResponse.datasource">
@@ -298,6 +307,12 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServicePaymentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceRelatedPaymentsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceSaveClientAttachmentResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\AgentServiceReference\RadiusR.API.Test_Unit.AgentServiceReference.AgentServiceServiceOperatorsResponse.datasource">

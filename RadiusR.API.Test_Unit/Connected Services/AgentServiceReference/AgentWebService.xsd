@@ -409,4 +409,88 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="GetAgentClientForms">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q57="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.AgentRequests" minOccurs="0" name="request" nillable="true" type="q57:AgentServiceClientFormsRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAgentClientFormsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q58="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" minOccurs="0" name="GetAgentClientFormsResult" nillable="true" type="q58:AgentServiceClientFormsResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveClientAttachment">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q59="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.AgentRequests" minOccurs="0" name="request" nillable="true" type="q59:AgentServiceSaveClientAttachmentRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SaveClientAttachmentResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q60="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" minOccurs="0" name="SaveClientAttachmentResult" nillable="true" type="q60:AgentServiceSaveClientAttachmentResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBillReceipt">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q61="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.AgentRequests" minOccurs="0" name="request" nillable="true" type="q61:AgentServiceBillReceiptRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetBillReceiptResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q62="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" minOccurs="0" name="GetBillReceiptResult" nillable="true" type="q62:AgentServiceBillReceiptResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRelatedPayments">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q63="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.AgentRequests" minOccurs="0" name="request" nillable="true" type="q63:AgentServiceRelatedPaymentsRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetRelatedPaymentsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q64="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" minOccurs="0" name="GetRelatedPaymentsResult" nillable="true" type="q64:AgentServiceRelatedPaymentsResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAgentInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q65="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.AgentRequests" minOccurs="0" name="request" nillable="true" type="q65:AgentServiceParameterlessRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAgentInfoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q66="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" minOccurs="0" name="GetAgentInfoResult" nillable="true" type="q66:AgentServiceAuthenticationResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAgentAllowances">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q67="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Requests.AgentRequests" minOccurs="0" name="request" nillable="true" type="q67:AgentServiceAllowanceRequest" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAgentAllowancesResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q68="http://schemas.datacontract.org/2004/07/RadiusR.API.CustomerWebService.Responses.AgentResponses" minOccurs="0" name="GetAgentAllowancesResult" nillable="true" type="q68:AgentServiceAllowanceResponse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

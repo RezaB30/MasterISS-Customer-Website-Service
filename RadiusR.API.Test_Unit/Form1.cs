@@ -308,6 +308,29 @@ namespace RadiusR.API.Test_Unit
             });
             var result = response;
         }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            AgentServiceReference.AgentWebServiceClient client = new AgentServiceReference.AgentWebServiceClient();
+            var setting = new GenericServiceSettings();
+            var response = client.GetAgentAllowances(new AgentServiceReference.AgentServiceAllowanceRequest()
+            {
+                Culture = setting.Culture,
+                Hash = setting.Hash,
+                Rand = setting.Rand,
+                Username = setting.Username,
+                AllowanceParameters = new AgentServiceReference.AgentAllowanceRequest()
+                {
+                    Pagination = new AgentServiceReference.PaginationRequest()
+                    {
+                        ItemPerPage = 20,
+                        PageNo = 5
+                    },
+                    UserEmail = "fd0e6f79ac904ebfa@sarnettelekom.com.tr"
+                }
+            });
+            var result = response;
+        }
     }
     public class GenericServiceSettings
     {

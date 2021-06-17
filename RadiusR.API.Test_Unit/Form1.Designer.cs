@@ -57,6 +57,8 @@ namespace RadiusR.API.Test_Unit
             this.button8 = new System.Windows.Forms.Button();
             this.tabPage10 = new System.Windows.Forms.TabPage();
             this.button9 = new System.Windows.Forms.Button();
+            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.button10 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -68,6 +70,7 @@ namespace RadiusR.API.Test_Unit
             this.tabPage8.SuspendLayout();
             this.tabPage9.SuspendLayout();
             this.tabPage10.SuspendLayout();
+            this.tabPage11.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -82,6 +85,7 @@ namespace RadiusR.API.Test_Unit
             this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Controls.Add(this.tabPage9);
             this.tabControl1.Controls.Add(this.tabPage10);
+            this.tabControl1.Controls.Add(this.tabPage11);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -362,6 +366,27 @@ namespace RadiusR.API.Test_Unit
             this.button9.UseVisualStyleBackColor = true;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
+            // tabPage11
+            // 
+            this.tabPage11.BackColor = System.Drawing.Color.LightGray;
+            this.tabPage11.Controls.Add(this.button10);
+            this.tabPage11.Location = new System.Drawing.Point(4, 22);
+            this.tabPage11.Name = "tabPage11";
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(862, 495);
+            this.tabPage11.TabIndex = 10;
+            this.tabPage11.Text = "tabPage11";
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(339, 172);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(137, 32);
+            this.button10.TabIndex = 0;
+            this.button10.Text = "Get Agent Allowances";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -384,6 +409,7 @@ namespace RadiusR.API.Test_Unit
             this.tabPage8.PerformLayout();
             this.tabPage9.ResumeLayout(false);
             this.tabPage10.ResumeLayout(false);
+            this.tabPage11.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -418,6 +444,8 @@ namespace RadiusR.API.Test_Unit
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TabPage tabPage10;
         private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.Button button10;
     }
 }
 

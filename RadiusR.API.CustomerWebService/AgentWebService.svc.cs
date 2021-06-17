@@ -1902,6 +1902,72 @@ namespace RadiusR.API.CustomerWebService
                 };
             }
         }
+        public AgentServiceAllowanceResponse GetAgentAllowances(AgentServiceAllowanceRequest request)
+        {
+            var password = new ServiceSettings().GetAgentUserPassword(request.Username);
+            var passwordHash = HashUtilities.GetHexString<SHA256>(password);
+            try
+            {
+                InComingInfoLogger.LogIncomingMessage(request);
+                if (!request.HasValidHash(passwordHash, Properties.Settings.Default.CacheDuration))
+                {
+                    return new AgentServiceAllowanceResponse(passwordHash, request)
+                    {
+                        AgentAllowances = null,
+                        ResponseMessage = CommonResponse.PartnerUnauthorizedResponse(request)
+                    };
+                }
+                using (RadiusREntities db = new RadiusREntities())
+                {
+                    var dbAgents = db.Agents.FirstOrDefault(p => p.Email == request.AllowanceParameters.UserEmail);
+                    if (dbAgents == null)
+                    {
+                        return new AgentServiceAllowanceResponse(passwordHash, request)
+                        {
+                            AgentAllowances = null,
+                            ResponseMessage = CommonResponse.PartnerNotFoundResponse(request.Culture)
+                        };
+                    }
+                    if (!dbAgents.IsEnabled)
+                    {
+                        return new AgentServiceAllowanceResponse(passwordHash, request)
+                        {
+                            AgentAllowances = null,
+                            ResponseMessage = CommonResponse.PartnerIsNotActive(request.Culture)
+                        };
+                    }
+                    var pagination = request.AllowanceParameters.Pagination;
+                    var baseQuery = dbAgents.AgentCollections.OrderByDescending(ac => ac.CreationDate).AsQueryable();
+                    var takeCollections = baseQuery.Skip(pagination.PageNo.Value * pagination.ItemPerPage.Value).Take(pagination.ItemPerPage.Value).ToArray();
+                    return new AgentServiceAllowanceResponse(passwordHash, request)
+                    {
+                        ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
+                        AgentAllowances = new AgentAllowanceResponse()
+                        {
+                            TotalPageCount = baseQuery.Count(),
+                            Collections = takeCollections.Select(c => new AgentAllowanceResponse.Collection()
+                            {
+                                CollectionID = c.ID,
+                                CompanyTitle = c.Agent.CompanyTitle,
+                                CreationDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(c.CreationDate),
+                                PaymentDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(c.PaymentDate),
+                                PaymentStatus = c.PaymentDate != null,
+                                AllowanceAmount = c.Bills.SelectMany(b => b.BillFees.Where(bf => bf.FeeTypeID == (short)RadiusR.DB.Enums.FeeType.Tariff)).Select(bf => bf.CurrentCost - (bf.Discount != null ? bf.Discount.Amount : 0m)).DefaultIfEmpty(0m).Sum()
+                            }).ToArray()
+                        }
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Errorslogger.LogException(request.Username, ex);
+                return new AgentServiceAllowanceResponse(passwordHash, request)
+                {
+                    AgentAllowances = null,
+                    ResponseMessage = CommonResponse.InternalException(request.Culture)
+                };
+            }
+        }
         #region
         private CultureInfo CreateCulture(string cultureName)
         {
@@ -1926,7 +1992,7 @@ namespace RadiusR.API.CustomerWebService
             catch { }
 
             return count ?? 0;
-        }        
+        }
 
         #endregion
 
