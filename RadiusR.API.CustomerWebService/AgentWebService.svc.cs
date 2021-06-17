@@ -1944,7 +1944,7 @@ namespace RadiusR.API.CustomerWebService
                         ResponseMessage = CommonResponse.SuccessResponse(request.Culture),
                         AgentAllowances = new AgentAllowanceResponse()
                         {
-                            TotalPageCount = baseQuery.Count(),
+                            TotalPageCount = TotalPageCount(baseQuery.Count(), request.AllowanceParameters.Pagination.ItemPerPage),
                             Collections = takeCollections.Select(c => new AgentAllowanceResponse.Collection()
                             {
                                 CollectionID = c.ID,
@@ -1952,7 +1952,7 @@ namespace RadiusR.API.CustomerWebService
                                 CreationDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(c.CreationDate),
                                 PaymentDate = RezaB.API.WebService.DataTypes.ServiceTypeConverter.GetDateTimeString(c.PaymentDate),
                                 PaymentStatus = c.PaymentDate != null,
-                                AllowanceAmount = c.Bills.SelectMany(b => b.BillFees.Where(bf => bf.FeeTypeID == (short)RadiusR.DB.Enums.FeeType.Tariff)).Select(bf => bf.CurrentCost - (bf.Discount != null ? bf.Discount.Amount : 0m)).DefaultIfEmpty(0m).Sum()
+                                AllowanceAmount = Math.Abs(c.Bills.Where(b => b.AgentCollection.ID == c.ID).Select(b => b.AgentRelatedPayments.Select(arp => arp.Allowance).DefaultIfEmpty(0m).Sum()).DefaultIfEmpty(0m).Sum()) //c.Bills.SelectMany(b => b.BillFees.Where(bf => bf.FeeTypeID == (short)RadiusR.DB.Enums.FeeType.Tariff)).Select(bf => bf.CurrentCost - (bf.Discount != null ? bf.Discount.Amount : 0m)).DefaultIfEmpty(0m).Sum()
                             }).ToArray()
                         }
                     };
